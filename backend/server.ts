@@ -1,20 +1,18 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-
 import mysql from "mysql2";
 
 dotenv.config({ path: "./config/.env" });
 
 const app: Express = express();
 const port: string | undefined = process.env.PORT;
-const test = "test3";
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server is running");
 });
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Serv is running at http://localhost:${port}`);
 });
 
 const db = mysql.createConnection({
@@ -24,20 +22,12 @@ const db = mysql.createConnection({
   database: `${process.env.DB_NAME}`,
 });
 
-// db.connect((err) => {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-//   console.log(
-//     `⚡️[database]: Succefully connected to database: ${process.env.DB_NAME}`
-//   );
-//   db.query(
-//     `INSERT INTO users (username, email) VALUES ("${test}", "jp2@pouet.fr");`,
-//     (err, result) => {
-//       if (err) throw err;
-//       console.log(result);
-//       console.log("test ok");
-//     }
-//   );
-// });
+db.connect((err) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(
+    `⚡️[database]: Succefully connected to database: ${process.env.DB_NAME}`
+  );
+});
