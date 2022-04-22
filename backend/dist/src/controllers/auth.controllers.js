@@ -3,24 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signIn = exports.getUsers = void 0;
+exports.signUp = void 0;
 const database_1 = require("../../config/database");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const getUsers = (req, res) => {
-    database_1.db.query("SELECT * FROM users", (err, result) => {
-        if (err) {
-            res.status(400).json({ err });
-        }
-        else {
-            res.status(200).json(result);
-        }
-    });
-};
-exports.getUsers = getUsers;
-const signIn = async (req, res) => {
+const signUp = async (req, res) => {
     try {
         const hashedPassword = await bcrypt_1.default.hash(req.body.password, 10);
-        database_1.db.query(`
+        const sqlSignIn = `
       INSERT INTO users (
         username,
         password,
@@ -35,9 +24,12 @@ const signIn = async (req, res) => {
           "${req.body.firstname}",
           "${req.body.lastname}",
           NOW());
-        `, (err, result) => {
-            if (err)
+        `;
+        database_1.db.query(sqlSignIn, (err) => {
+            if (err) {
+                console.log(err);
                 throw err;
+            }
             res.status(201).json({ message: "User added successfully" });
         });
     }
@@ -46,4 +38,4 @@ const signIn = async (req, res) => {
         res.status(400).json({ err });
     }
 };
-exports.signIn = signIn;
+exports.signUp = signUp;
