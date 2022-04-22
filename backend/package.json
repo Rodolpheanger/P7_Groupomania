@@ -2,22 +2,24 @@
   "name": "p7_anger_rodolphe",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "dist/src/app.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\""
+    "start": "node dist/src/app.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/app.js\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mysql2": "^2.3.3"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.24",
     "concurrently": "^7.1.0",
