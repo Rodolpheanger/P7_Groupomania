@@ -4,8 +4,10 @@ import CustomInput from "../Form/FormInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import * as axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const UserSchema = Yup.object().shape({
     email: Yup.string()
       .email("Format de l'email invalide")
@@ -17,7 +19,7 @@ const LoginForm = () => {
 
   const submit = (values, actions) => {
     actions.setSubmitting(false);
-    window.location = "/profil";
+    navigate("/posts");
   };
 
   return (

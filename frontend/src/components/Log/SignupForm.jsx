@@ -5,8 +5,10 @@ import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import "../../config/axios-config.js";
 import * as axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
   const UserSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, "Votre pseudo doit comporter au moins 3 caractères (max 15)")
@@ -22,9 +24,8 @@ const SignupForm = () => {
 
   const submit = async (values, actions) => {
     actions.setSubmitting(true);
-    const res = await axios.post("/api/user/signup", values);
-    console.log(res.data);
-    // window.location = "/profil";
+    await axios.post("/api/user/signup", values);
+    navigate("/posts");
   };
 
   return (
