@@ -1,14 +1,23 @@
 import { Request, Response } from "express";
-import { db } from "../../config/database";
+import {
+  reqDeleteUser,
+  reqGetUser,
+  reqGetUsers,
+  reqUpdateUser,
+} from "./users.services";
 
 export const getUsers = (req: Request, res: Response): void => {
-  const sqlGetUsers: string = "SELECT * FROM users";
-  db.query(sqlGetUsers, (err: string, docs: Object) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ err });
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+  reqGetUsers(req, res);
+};
+
+export const getUser = (req: Request, res: Response): void => {
+  reqGetUser(req, res);
+};
+
+export const updateUser = (req: Request, res: Response): void => {
+  reqUpdateUser(req, res);
+};
+
+export const deleteUser = (req: Request, res: Response): void => {
+  reqDeleteUser(req, res);
 };
