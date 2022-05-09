@@ -1,14 +1,10 @@
 import { login } from "./sign.controllers";
 import { Request, Response } from "express";
 import { db } from "../../config/database";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { hashPassword, checkPassword, createToken } from "./utils.controllers";
 
-export const addUser = (
-  req: Request,
-  res: Response,
-  hashedPassword: string
-): void => {
+export const addUser = async (req: Request, res: Response): Promise<void> => {
+  const hashedPassword = await hashPassword(req);
   const sqlSignUp: string = `
 INSERT INTO users (
   username,
@@ -32,16 +28,6 @@ INSERT INTO users (
     } else {
       login(req, res);
     }
-  });
-};
-
-const checkPassword = (req: Request, docs: any): Promise<boolean> => {
-  return bcrypt.compare(req.body.password, docs[0].password);
-};
-
-const createToken = (docs: any): string => {
-  return jwt.sign({ userId: docs[0].id }, `${process.env.JWT_SECRETKEY}`, {
-    expiresIn: "24h",
   });
 };
 
