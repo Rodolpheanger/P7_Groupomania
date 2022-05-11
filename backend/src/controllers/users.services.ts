@@ -1,30 +1,33 @@
 import { Request, Response } from "express";
+import { QueryError, QueryOptions, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
-import { hashPassword } from "./utils.controllers";
+import { hashPassword } from "../utils/password.utils";
+
+// TODO: sortir les res.status pour les mettre dans les controllers
 
 export const reqGetUsers = (req: Request, res: Response): void => {
   const sqlGetUsers: string =
     "SELECT username, email, firstname, lastname, inscription_date FROM users";
-  db.query(sqlGetUsers, (err: string, docs: Object) => {
+  db.query(sqlGetUsers, (err: QueryError, rows: RowDataPacket[]) => {
     if (err) {
       console.log(err);
       res.status(400).json({ err });
     } else {
-      res.status(200).json(docs);
+      res.status(200).json(rows);
     }
   });
 };
 
 export const reqGetUser = (req: Request, res: Response): void => {
-  const sqlGetUser: string = `SELECT username, email, firstname, lastname, inscription_date FROM users WHERE username = '${req.params.username}'`;
-  db.query(sqlGetUser, (err: string, docs: any) => {
+  const sqlGetUser: string = `SELECT username, email, firstname, lastname, inscription_date, bio FROM users WHERE username = '${req.params.username}'`;
+  db.query(sqlGetUser, (err: QueryError, rows: RowDataPacket[]) => {
     if (err) {
       console.log(err);
       res.status(400).json({ err });
-    } else if (docs.length === 0) {
+    } else if (rows.length === 0) {
       res.status(404).json({ message: "Utilisateur non trouvé" });
     } else {
-      res.status(200).json(docs);
+      res.status(200).json(rows);
     }
   });
 };
@@ -34,46 +37,54 @@ export const reqUpdateUser = async (
   res: Response
 ): Promise<void> => {
   const sqlCheckExist: string = `SELECT username FROM users WHERE username ='${req.params.username}'`;
-  db.query(sqlCheckExist, async (err: string, docs: any): Promise<void> => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ err });
-    } else if (docs.length === 0) {
-      res.status(404).json({ message: "Utilisateur non trouvé" });
-    } else {
-      const hashedPassword = await hashPassword(req);
-      const sqlUpdateUser: string = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}' WHERE username = '${req.params.username}'`;
-      db.query(sqlUpdateUser, (err: string, docs: any): void => {
-        if (err) {
-          console.log(err);
-          res.status(400).json({ err });
-        } else {
-          res.status(200).json({ message: "Profil mis à jour avec succès" });
-        }
-      });
+  db.query(
+    sqlCheckExist,
+    async (err: QueryError, rows: RowDataPacket[]): Promise<void> => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({ err });
+      } else if (rows.length === 0) {
+        res.status(404).json({ message: "Utilisateur non trouvé" });
+      } else {
+        const hashedPassword = await hashPassword(req);
+        const sqlUpdateUser: string = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE username = '${req.params.username}'`;
+        db.query(sqlUpdateUser, (err: QueryError): void => {
+          if (err) {
+            console.log(err);
+            res.status(400).json({ err });
+          } else {
+            res.status(200).json({ message: "Profil mis à jour avec succès" });
+          }
+        });
+      }
     }
-  });
+  );
 };
 
 export const reqDeleteUser = (req: Request, res: Response): void => {
   const sqlCheckExist: string = `SELECT username FROM users WHERE username ='${req.params.username}'`;
-  db.query(sqlCheckExist, async (err: string, docs: any): Promise<void> => {
-    console.log(docs);
-    if (err) {
-      console.log(err);
-      res.status(400).json({ err });
-    } else if (docs.length === 0) {
-      res.status(404).json({ message: "Utilisateur non trouvé" });
-    } else {
-      const sqlDeleteUser: string = `DELETE FROM users WHERE username = '${req.params.username}'`;
-      db.query(sqlDeleteUser, (err: string) => {
-        if (err) {
-          console.log(err);
-          res.status(400).json({ err });
-        } else {
-          res.status(200).json({ message: "Utilisateur supprimé avec succès" });
-        }
-      });
+  db.query(
+    sqlCheckExist,
+    async (err: QueryError, rows: RowDataPacket[]): Promise<void> => {
+      console.log(rows);
+      if (err) {
+        console.log(err);
+        res.status(400).json({ err });
+      } else if (rows.length === 0) {
+        res.status(404).json({ message: "Utilisateur non trouvé" });
+      } else {
+        const sqlDeleteUser: string = `DELETE FROM users WHERE username = '${req.params.username}'`;
+        db.query(sqlDeleteUser, (err: string) => {
+          if (err) {
+            console.log(err);
+            res.status(400).json({ err });
+          } else {
+            res.status(200).json({
+              message: "Utilisateur supprimé avec succès",
+            });
+          }
+        });
+      }
     }
-  });
+  );
 };
