@@ -1,15 +1,17 @@
 import { Request } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { RowDataPacket } from "mysql2";
 
 interface Payload {
-  userId: string;
+  userUid: string;
   isAdmin: boolean;
 }
 
-export const createToken = (rows: RowDataPacket[]): string => {
+export const createToken = (
+  rows: RowDataPacket[] | { uid: string; admin: number }[]
+) => {
   const payload: Payload = {
-    userId: rows[0].uid,
+    userUid: rows[0].uid,
     isAdmin: rows[0].admin,
   };
   return jwt.sign(payload, `${process.env.JWT_SECRETKEY}`, {
@@ -17,13 +19,22 @@ export const createToken = (rows: RowDataPacket[]): string => {
   });
 };
 
-const getToken = (req: Request): any => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+const getToken = (req: Request | any): string => {
+  const token: string = req.headers.authorization.split(" ")[1];
   return token;
 };
 
-export const decodeToken: any = (req: Request) => {
-  const token = getToken(req);
-  return jwt.verify(token, `${process.env.JWT_SECRETKEY}`);
+const decodeToken = (req: Request) => {
+  const token: string = getToken(req);
+  const decodedToken: string | JwtPayload = jwt.verify(
+    token,
+    `${process.env.JWT_SECRETKEY}`
+  );
+  return decodedToken;
+};
+
+export const getUserUid = (req: Request): string => {
+  const decodedToken: any = decodeToken(req);
+  const userUid: string = decodedToken.userUid;
+  return userUid;
 };

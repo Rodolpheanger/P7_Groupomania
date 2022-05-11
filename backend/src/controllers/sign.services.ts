@@ -34,7 +34,7 @@ INSERT INTO users (
 };
 
 export const logUser = (req: Request, res: Response): void => {
-  const sqlLogin: string = `SELECT uid, password FROM users WHERE email = "${req.body.email}";`;
+  const sqlLogin: string = `SELECT uid, password, admin FROM users WHERE email = "${req.body.email}";`;
   db.query(sqlLogin, async (err: QueryError, rows: RowDataPacket[]) => {
     if (err) {
       console.log(err);

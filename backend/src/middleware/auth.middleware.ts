@@ -1,13 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import { decodeToken } from "../utils/auth.utils";
+import { getUserUid } from "../utils/auth.utils";
 
-// TODO: finir ce bout de code
-
-const auth = (req: any, res: Response, next: NextFunction): void => {
+const auth = (req: Request | any, res: Response, next: NextFunction): void => {
   try {
-    const username = decodeToken.username;
-    req.auth = { username };
-  } catch {}
+    const userUid = getUserUid(req);
+    req.auth = { userUid };
+    if (req.body.uid && req.body.uid != userUid) {
+      throw "403 : Requête non autorisée !";
+    } else {
+      next();
+    }
+  } catch (err) {
+    res.status(401).json({ err: err });
+  }
 };
 
 export default auth;

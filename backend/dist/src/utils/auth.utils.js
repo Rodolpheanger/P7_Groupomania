@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decodeToken = exports.createToken = void 0;
+exports.getUserUid = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createToken = (rows) => {
     const payload = {
-        userId: rows[0].uid,
+        userUid: rows[0].uid,
         isAdmin: rows[0].admin,
     };
     return jsonwebtoken_1.default.sign(payload, `${process.env.JWT_SECRETKEY}`, {
@@ -16,12 +16,18 @@ const createToken = (rows) => {
 };
 exports.createToken = createToken;
 const getToken = (req) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    const token = req.headers.authorization.split(" ")[1];
     return token;
 };
 const decodeToken = (req) => {
     const token = getToken(req);
-    return jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRETKEY}`);
+    const decodedToken = jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRETKEY}`);
+    return decodedToken;
 };
-exports.decodeToken = decodeToken;
+const getUserUid = (req) => {
+    const decodedToken = decodeToken(req);
+    const userUid = decodedToken.userUid;
+    return userUid;
+};
+exports.getUserUid = getUserUid;
+//# sourceMappingURL=auth.utils.js.map

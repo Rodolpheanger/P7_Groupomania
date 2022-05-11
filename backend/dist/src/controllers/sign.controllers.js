@@ -22,3 +22,4 @@ const login = (req, res) => {
     }
 };
 exports.login = login;
+//# sourceMappingURL=sign.controllers.js.map

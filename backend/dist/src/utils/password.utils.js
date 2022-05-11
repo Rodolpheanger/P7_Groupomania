@@ -13,3 +13,4 @@ const checkPassword = (req, rows) => {
     return bcrypt_1.default.compare(req.body.password, rows[0].password);
 };
 exports.checkPassword = checkPassword;
+//# sourceMappingURL=password.utils.js.map

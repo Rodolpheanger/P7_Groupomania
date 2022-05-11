@@ -1,12 +1,12 @@
 import express, { Express, Request, Response } from "express";
-const app = express();
+const app: Express = express();
 import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 dotenv.config();
 import "../config/database";
 import userRoutes from "./routes/users.routes";
-const port: string | undefined = process.env.PORT;
+const port = process.env.PORT;
 
 app.use(express.json());
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));

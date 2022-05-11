@@ -34,7 +34,7 @@ INSERT INTO users (
 };
 exports.addUser = addUser;
 const logUser = (req, res) => {
-    const sqlLogin = `SELECT uid, password FROM users WHERE email = "${req.body.email}";`;
+    const sqlLogin = `SELECT uid, password, admin FROM users WHERE email = "${req.body.email}";`;
     database_1.db.query(sqlLogin, async (err, rows) => {
         if (err) {
             console.log(err);
@@ -59,3 +59,4 @@ const logUser = (req, res) => {
     });
 };
 exports.logUser = logUser;
+//# sourceMappingURL=sign.services.js.map

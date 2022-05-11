@@ -18,3 +18,4 @@ exports.db.connect((err) => {
     }
     console.log(`⚡️[database]: Succefully connected to database: ${process.env.DB_NAME}`);
 });
+//# sourceMappingURL=database.js.map

@@ -18,3 +18,4 @@ const deleteUser = (req, res) => {
     (0, users_services_1.reqDeleteUser)(req, res);
 };
 exports.deleteUser = deleteUser;
+//# sourceMappingURL=users.controllers.js.map

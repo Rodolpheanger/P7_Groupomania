@@ -87,3 +87,4 @@ const reqDeleteUser = (req, res) => {
     });
 };
 exports.reqDeleteUser = reqDeleteUser;
+//# sourceMappingURL=users.services.js.map
