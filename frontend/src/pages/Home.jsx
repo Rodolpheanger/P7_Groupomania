@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../styles/assets/img/icons/icon-above-font.png";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -11,9 +12,9 @@ const Home = () => {
   navToAuth();
 
   return (
-    <div>
+    <div className="home-wrapper">
       <h1>
-        <img src="./img/icons/icon-above-font.png" alt="Pouet" />
+        <img src={logo} alt="Logo Groupomania" />
       </h1>
     </div>
   );

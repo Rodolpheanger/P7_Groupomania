@@ -1,3 +1,8 @@
 @import "./utils/variables";
-@import "./components/button.scss";
-@import "./components/form.scss";
+@import "./utils/mixins";
+@import "./vendors/reset";
+@import "./base/base";
+@import "./pages/home";
+@import "./pages/auth";
+@import "./components/button";
+@import "./components/form";

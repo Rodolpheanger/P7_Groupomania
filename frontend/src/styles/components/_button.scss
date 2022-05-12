@@ -1,0 +1,22 @@
+.btn {
+  width: auto;
+  border-radius: 999px;
+  box-shadow: $small-shadow;
+  padding: 5px 15px;
+  color: $color-primary;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease-out;
+  background-color: $color-tertiary;
+  &:hover {
+    color: #fff;
+    background-position: 100%;
+    background-color: $color-primary;
+  }
+}
+
+.active-btn {
+  background-color: $color-secondary;
+  font-weight: bold;
+  color: white;
+}

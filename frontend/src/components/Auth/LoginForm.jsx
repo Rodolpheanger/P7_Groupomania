@@ -3,17 +3,12 @@ import { Formik, Field, ErrorMessage } from "formik";
 import CustomInput from "../Form/FormInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
-import "../../config/axios-config.js";
 import * as axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const SignupForm = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const UserSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(3, "Votre pseudo doit comporter au moins 3 caractères (max 15)")
-      .max(15, "Votre pseudo doit comporter au plus 15 caractères (min 3)")
-      .required("Ce champ est obligatoire"),
     email: Yup.string()
       .email("Format de l'email invalide")
       .required("Ce champ est obligatoire"),
@@ -22,28 +17,20 @@ const SignupForm = () => {
       .required("Ce champ est obligatoire"),
   });
 
-  const submit = async (values, actions) => {
-    actions.setSubmitting(true);
-    await axios.post("/api/user/signup", values);
+  const submit = (values, actions) => {
+    actions.setSubmitting(false);
     navigate("/posts");
   };
 
   return (
-    <div>
+    <div className="form-group">
       <Formik
         onSubmit={submit}
-        initialValues={{ username: "", email: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         validationSchema={UserSchema}
       >
         {({ handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
-            <Field
-              name="username"
-              displayname="Pseudo"
-              component={CustomInput}
-            />
-            <ErrorMessage name="username" component={CustomError} />
-            <br />
             <Field
               name="email"
               displayname="Email"
@@ -61,7 +48,7 @@ const SignupForm = () => {
             <ErrorMessage name="password" component={CustomError} />
             <br />
             <button type="submit" disabled={isSubmitting}>
-              Inscription
+              Connexion
             </button>
           </form>
         )}
@@ -70,4 +57,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;
