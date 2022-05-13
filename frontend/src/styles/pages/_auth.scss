@@ -1,20 +1,28 @@
 .auth-box {
   @include flex-centrer;
+  position: relative;
   flex-direction: column;
+  width: 350px;
+  height: 400px;
+  margin-top: 25vh;
   border: solid 1px black;
   padding: 20px;
   border-radius: 15px;
   box-shadow: $small-shadow;
-  width: 350px;
 }
 
 .auth-select-box {
   display: flex;
   justify-content: space-between;
+  position: absolute;
+  top: 35px;
   margin-bottom: 25px;
   width: 75%;
 }
 
 .form-group {
-  border: 2px solid purple;
+  position: absolute;
+  top: 100px;
+  border: 1px solid purple;
+  padding: 5px;
 }

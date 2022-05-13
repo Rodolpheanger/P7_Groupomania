@@ -43,6 +43,7 @@ const SignupForm = () => {
               component={CustomInput}
             />
             <ErrorMessage name="username" component={CustomError} />
+            <br />
             <Field
               name="email"
               displayname="Email"
@@ -50,6 +51,7 @@ const SignupForm = () => {
               type="email"
             />
             <ErrorMessage name="email" component={CustomError} />
+            <br />
             <Field
               name="password"
               displayname="Mot de passe"
@@ -57,6 +59,7 @@ const SignupForm = () => {
               type="password"
             />
             <ErrorMessage name="password" component={CustomError} />
+            <br />
             <button type="submit" disabled={isSubmitting}>
               Inscription
             </button>
