@@ -32,10 +32,7 @@ export const reqGetUser = (req: Request, res: Response): void => {
   });
 };
 
-export const reqUpdateUser = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const reqUpdateUser = (req: Request, res: Response): void => {
   const sqlCheckExist: string = `SELECT username FROM users WHERE username ='${req.params.username}'`;
   db.query(
     sqlCheckExist,
@@ -61,30 +58,28 @@ export const reqUpdateUser = async (
   );
 };
 
-export const reqDeleteUser = (req: Request, res: Response): void => {
-  const sqlCheckExist: string = `SELECT username FROM users WHERE username ='${req.params.username}'`;
-  db.query(
-    sqlCheckExist,
-    async (err: QueryError, rows: RowDataPacket[]): Promise<void> => {
-      console.log(rows);
-      if (err) {
-        console.log(err);
-        res.status(400).json({ err });
-      } else if (rows.length === 0) {
-        res.status(404).json({ message: "Utilisateur non trouvé" });
-      } else {
-        const sqlDeleteUser: string = `DELETE FROM users WHERE username = '${req.params.username}'`;
-        db.query(sqlDeleteUser, (err: string) => {
-          if (err) {
-            console.log(err);
-            res.status(400).json({ err });
-          } else {
-            res.status(200).json({
-              message: "Utilisateur supprimé avec succès",
-            });
-          }
-        });
-      }
+export const reqDeleteUser = (req: Request | any, res: Response): void => {
+  const sqlCheckExist: string = `SELECT uid FROM users WHERE username ='${req.params.username}'`;
+  db.query(sqlCheckExist, (err: QueryError, rows: RowDataPacket[]): void => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ err });
+    } else if (rows.length === 0) {
+      res.status(404).json({ message: "Utilisateur non trouvé" });
+    } else if (rows[0].uid !== req.auth) {
+      res.status(403).json({ message: "Requete non autorisée" });
+    } else {
+      const sqlDeleteUser: string = `DELETE FROM users WHERE username = '${req.params.username}'`;
+      db.query(sqlDeleteUser, (err: string) => {
+        if (err) {
+          console.log(err);
+          res.status(400).json({ err });
+        } else {
+          res.status(200).json({
+            message: "Utilisateur supprimé avec succès",
+          });
+        }
+      });
     }
-  );
+  });
 };

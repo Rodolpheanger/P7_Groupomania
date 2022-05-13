@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const auth_utils_1 = require("../utils/auth.utils");
 const auth = (req, res, next) => {
     try {
-        const userUid = (0, auth_utils_1.getUserUid)(req);
-        req.auth = { userUid };
-        if (req.body.uid && req.body.uid != userUid) {
+        const uid = (0, auth_utils_1.getUserUid)(req);
+        req.auth = uid;
+        if (req.body.uid && req.body.uid !== uid) {
             throw "403 : Requête non autorisée !";
         }
         else {

@@ -19,7 +19,8 @@
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.4",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",

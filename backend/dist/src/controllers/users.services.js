@@ -33,7 +33,7 @@ const reqGetUser = (req, res) => {
     });
 };
 exports.reqGetUser = reqGetUser;
-const reqUpdateUser = async (req, res) => {
+const reqUpdateUser = (req, res) => {
     const sqlCheckExist = `SELECT username FROM users WHERE username ='${req.params.username}'`;
     database_1.db.query(sqlCheckExist, async (err, rows) => {
         if (err) {
@@ -60,15 +60,17 @@ const reqUpdateUser = async (req, res) => {
 };
 exports.reqUpdateUser = reqUpdateUser;
 const reqDeleteUser = (req, res) => {
-    const sqlCheckExist = `SELECT username FROM users WHERE username ='${req.params.username}'`;
-    database_1.db.query(sqlCheckExist, async (err, rows) => {
-        console.log(rows);
+    const sqlCheckExist = `SELECT uid FROM users WHERE username ='${req.params.username}'`;
+    database_1.db.query(sqlCheckExist, (err, rows) => {
         if (err) {
             console.log(err);
             res.status(400).json({ err });
         }
         else if (rows.length === 0) {
             res.status(404).json({ message: "Utilisateur non trouvé" });
+        }
+        else if (rows[0].uid !== req.auth) {
+            res.status(403).json({ message: "Requete non autorisée" });
         }
         else {
             const sqlDeleteUser = `DELETE FROM users WHERE username = '${req.params.username}'`;

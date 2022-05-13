@@ -1,3 +1,4 @@
+import { userValidity } from "./../models/users.models";
 import express from "express";
 const router = express.Router();
 
@@ -11,13 +12,13 @@ import {
 import auth from "../middleware/auth.middleware";
 
 // sign
-router.post("/signup", signup);
-router.post("/login", login);
+router.post("/signup", userValidity, signup);
+router.post("/login", userValidity, login);
 
 // users
 router.get("/users", auth, getUsers);
-router.get("/:username", getUser);
-router.put("/:username", updateUser);
-router.delete("/:username", deleteUser);
+router.get("/:username", auth, getUser);
+router.put("/:username", auth, userValidity, updateUser);
+router.delete("/:username", auth, deleteUser);
 
 export default router;

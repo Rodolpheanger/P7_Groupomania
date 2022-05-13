@@ -3,9 +3,9 @@ import { getUserUid } from "../utils/auth.utils";
 
 const auth = (req: Request | any, res: Response, next: NextFunction): void => {
   try {
-    const userUid = getUserUid(req);
-    req.auth = { userUid };
-    if (req.body.uid && req.body.uid != userUid) {
+    const uid = getUserUid(req);
+    req.auth = uid;
+    if (req.body.uid && req.body.uid !== uid) {
       throw "403 : Requête non autorisée !";
     } else {
       next();

@@ -6,6 +6,7 @@ import helmet from "helmet";
 dotenv.config();
 import "../config/database";
 import userRoutes from "./routes/users.routes";
+import postRoutes from "./routes/posts.routes";
 const port = process.env.PORT;
 
 app.use(express.json());
@@ -22,7 +23,7 @@ app.use(
 
 // Mise en place des routes
 app.use("/api/user", userRoutes);
-
+app.use("/api/post", postRoutes);
 // **** Lancement du server ****
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Express + TypeScript Server is running");

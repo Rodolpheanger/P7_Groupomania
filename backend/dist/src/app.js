@@ -11,6 +11,7 @@ const helmet_1 = __importDefault(require("helmet"));
 dotenv_1.default.config();
 require("../config/database");
 const users_routes_1 = __importDefault(require("./routes/users.routes"));
+const posts_routes_1 = __importDefault(require("./routes/posts.routes"));
 const port = process.env.PORT;
 app.use(express_1.default.json());
 app.use((0, helmet_1.default)({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
@@ -22,6 +23,7 @@ app.use((0, cors_1.default)({
 }));
 // Mise en place des routes
 app.use("/api/user", users_routes_1.default);
+app.use("/api/post", posts_routes_1.default);
 // **** Lancement du server ****
 app.get("/", (req, res) => {
     res.status(200).send("Express + TypeScript Server is running");

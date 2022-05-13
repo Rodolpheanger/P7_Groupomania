@@ -7,9 +7,10 @@ exports.getUserUid = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createToken = (rows) => {
     const payload = {
-        userUid: rows[0].uid,
+        uid: rows[0].uid,
         isAdmin: rows[0].admin,
     };
+    console.log("log uid dans createToken :", payload.uid);
     return jsonwebtoken_1.default.sign(payload, `${process.env.JWT_SECRETKEY}`, {
         expiresIn: "24h",
     });
@@ -26,8 +27,8 @@ const decodeToken = (req) => {
 };
 const getUserUid = (req) => {
     const decodedToken = decodeToken(req);
-    const userUid = decodedToken.userUid;
-    return userUid;
+    const uid = decodedToken.uid;
+    return uid;
 };
 exports.getUserUid = getUserUid;
 //# sourceMappingURL=auth.utils.js.map

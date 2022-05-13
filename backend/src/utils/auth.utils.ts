@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { RowDataPacket } from "mysql2";
 
 interface Payload {
-  userUid: string;
+  uid: string;
   isAdmin: boolean;
 }
 
@@ -11,9 +11,10 @@ export const createToken = (
   rows: RowDataPacket[] | { uid: string; admin: number }[]
 ) => {
   const payload: Payload = {
-    userUid: rows[0].uid,
+    uid: rows[0].uid,
     isAdmin: rows[0].admin,
   };
+  console.log("log uid dans createToken :", payload.uid);
   return jwt.sign(payload, `${process.env.JWT_SECRETKEY}`, {
     expiresIn: "24h",
   });
@@ -35,6 +36,6 @@ const decodeToken = (req: Request) => {
 
 export const getUserUid = (req: Request): string => {
   const decodedToken: any = decodeToken(req);
-  const userUid: string = decodedToken.userUid;
-  return userUid;
+  const uid: string = decodedToken.uid;
+  return uid;
 };
