@@ -1,4 +1,4 @@
-import { userValidity } from "./../models/users.models";
+import { userValidity } from "./../middleware/user-validation.middleware";
 import express from "express";
 const router = express.Router();
 

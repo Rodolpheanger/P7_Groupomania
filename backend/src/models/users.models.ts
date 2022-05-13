@@ -1,11 +1,6 @@
-import { Request, Response, NextFunction } from "express";
 import * as yup from "yup";
 
-const errorMessage = (res: Response) => {
-  return res.status(400).json({ message: "Format des données non valide !" });
-};
-
-const userSchema = yup.object({
+export const userSchema = yup.object({
   uuid: yup.string(),
   username: yup.string().max(50, "Nom d'utilisateur trop long"),
   email: yup
@@ -22,12 +17,3 @@ const userSchema = yup.object({
   inscription_date: yup.date(),
   admin: yup.number().integer().min(0).max(1),
 });
-
-export const userValidity = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const isValid = await userSchema.isValid(req.body);
-  isValid ? next() : errorMessage(res);
-};

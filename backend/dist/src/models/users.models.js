@@ -23,12 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userValidity = void 0;
+exports.userSchema = void 0;
 const yup = __importStar(require("yup"));
-const errorMessage = (res) => {
-    return res.status(400).json({ message: "Format des données non valide !" });
-};
-const userSchema = yup.object({
+exports.userSchema = yup.object({
     uuid: yup.string(),
     username: yup.string().max(50, "Nom d'utilisateur trop long"),
     email: yup
@@ -45,9 +42,4 @@ const userSchema = yup.object({
     inscription_date: yup.date(),
     admin: yup.number().integer().min(0).max(1),
 });
-const userValidity = async (req, res, next) => {
-    const isValid = await userSchema.isValid(req.body);
-    isValid ? next() : errorMessage(res);
-};
-exports.userValidity = userValidity;
 //# sourceMappingURL=users.models.js.map

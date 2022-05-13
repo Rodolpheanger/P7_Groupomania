@@ -14,7 +14,6 @@ export const createToken = (
     uid: rows[0].uid,
     isAdmin: rows[0].admin,
   };
-  console.log("log uid dans createToken :", payload.uid);
   return jwt.sign(payload, `${process.env.JWT_SECRETKEY}`, {
     expiresIn: "24h",
   });

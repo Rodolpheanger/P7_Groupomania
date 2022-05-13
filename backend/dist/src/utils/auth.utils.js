@@ -10,7 +10,6 @@ const createToken = (rows) => {
         uid: rows[0].uid,
         isAdmin: rows[0].admin,
     };
-    console.log("log uid dans createToken :", payload.uid);
     return jsonwebtoken_1.default.sign(payload, `${process.env.JWT_SECRETKEY}`, {
         expiresIn: "24h",
     });
