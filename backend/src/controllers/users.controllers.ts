@@ -6,13 +6,25 @@ import {
   reqUpdateUser,
 } from "./users.services";
 
-export const getUsers = (req: Request, res: Response): void => {
-  reqGetUsers(req, res);
+export const getUsers = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const data = await reqGetUsers();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
 };
 
-export const getUser = (req: Request, res: Response): void => {
-  reqGetUser(req, res);
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const data = await reqGetUser(req, res);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
+  }
 };
+// res.status(404).json({ message: "Utilisateur non trouvé" });
 
 export const updateUser = (req: Request, res: Response): void => {
   reqUpdateUser(req, res);

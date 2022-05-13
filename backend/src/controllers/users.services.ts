@@ -1,36 +1,34 @@
 import { Request, Response } from "express";
-import { QueryError, QueryOptions, RowDataPacket } from "mysql2";
+import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
 
 // TODO: sortir les res.status pour les mettre dans les controllers
 
-export const reqGetUsers = (req: Request, res: Response): void => {
-  const sqlGetUsers: string =
-    "SELECT username, email, firstname, lastname, inscription_date FROM users";
-  db.query(sqlGetUsers, (err: QueryError, rows: RowDataPacket[]) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ err });
-    } else {
-      res.status(200).json(rows);
-    }
+export const reqGetUsers = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const sqlGetUsers: string =
+      "SELECT username, email, firstname, lastname, inscription_date FROM users";
+    db.query(sqlGetUsers, (err: QueryError, rows: RowDataPacket[]) => {
+      err ? reject(err) : resolve(rows);
+    });
   });
 };
 
-export const reqGetUser = (req: Request, res: Response): void => {
-  const sqlGetUser: string = `SELECT username, email, firstname, lastname, inscription_date, bio FROM users WHERE username = '${req.params.username}'`;
-  db.query(sqlGetUser, (err: QueryError, rows: RowDataPacket[]) => {
-    if (err) {
-      console.log(err);
-      res.status(400).json({ err });
-    } else if (rows.length === 0) {
-      res.status(404).json({ message: "Utilisateur non trouvé" });
-    } else {
-      res.status(200).json(rows);
-    }
+export const reqGetUser = (req: Request, res: Response): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const sqlGetUser: string = `SELECT username, email, firstname, lastname, inscription_date, bio FROM users WHERE username = '${req.params.username}'`;
+    db.query(sqlGetUser, (err: QueryError, rows: RowDataPacket[]) => {
+      if (err) {
+        reject(err);
+      } else {
+        rows.length === 0 ? reject("Utilisateur non trouvé") : resolve(rows);
+      }
+    });
   });
 };
+
+//  TODO : faire une fonction findUser pour les 2 fonctions suivantes
 
 export const reqUpdateUser = (req: Request, res: Response): void => {
   const sqlCheckExist: string = `SELECT username FROM users WHERE username ='${req.params.username}'`;

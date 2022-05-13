@@ -4,35 +4,30 @@ exports.reqDeleteUser = exports.reqUpdateUser = exports.reqGetUser = exports.req
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 // TODO: sortir les res.status pour les mettre dans les controllers
-const reqGetUsers = (req, res) => {
-    const sqlGetUsers = "SELECT username, email, firstname, lastname, inscription_date FROM users";
-    database_1.db.query(sqlGetUsers, (err, rows) => {
-        if (err) {
-            console.log(err);
-            res.status(400).json({ err });
-        }
-        else {
-            res.status(200).json(rows);
-        }
+const reqGetUsers = () => {
+    return new Promise((resolve, reject) => {
+        const sqlGetUsers = "SELECT username, email, firstname, lastname, inscription_date FROM users";
+        database_1.db.query(sqlGetUsers, (err, rows) => {
+            err ? reject(err) : resolve(rows);
+        });
     });
 };
 exports.reqGetUsers = reqGetUsers;
 const reqGetUser = (req, res) => {
-    const sqlGetUser = `SELECT username, email, firstname, lastname, inscription_date, bio FROM users WHERE username = '${req.params.username}'`;
-    database_1.db.query(sqlGetUser, (err, rows) => {
-        if (err) {
-            console.log(err);
-            res.status(400).json({ err });
-        }
-        else if (rows.length === 0) {
-            res.status(404).json({ message: "Utilisateur non trouvé" });
-        }
-        else {
-            res.status(200).json(rows);
-        }
+    return new Promise((resolve, reject) => {
+        const sqlGetUser = `SELECT username, email, firstname, lastname, inscription_date, bio FROM users WHERE username = '${req.params.username}'`;
+        database_1.db.query(sqlGetUser, (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                rows.length === 0 ? reject("Utilisateur non trouvé") : resolve(rows);
+            }
+        });
     });
 };
 exports.reqGetUser = reqGetUser;
+//  TODO : faire une fonction findUser pour les 2 fonctions suivantes
 const reqUpdateUser = (req, res) => {
     const sqlCheckExist = `SELECT username FROM users WHERE username ='${req.params.username}'`;
     database_1.db.query(sqlCheckExist, async (err, rows) => {
