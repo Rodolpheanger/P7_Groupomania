@@ -14,7 +14,7 @@ const getUsers = async (_req, res) => {
 exports.getUsers = getUsers;
 const getUser = async (req, res) => {
     try {
-        const data = await (0, users_services_1.reqGetUser)(req, res);
+        const data = await (0, users_services_1.reqGetUser)(req);
         res.status(200).json(data);
     }
     catch (err) {
@@ -24,12 +24,29 @@ const getUser = async (req, res) => {
 };
 exports.getUser = getUser;
 // res.status(404).json({ message: "Utilisateur non trouvé" });
-const updateUser = (req, res) => {
-    (0, users_services_1.reqUpdateUser)(req, res);
+const updateUser = async (req, res) => {
+    try {
+        const result = await (0, users_services_1.reqUpdateUser)(req);
+        result
+            ? res.status(200).json({ message: "Profil mis à jour avec succès" })
+            : res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ err });
+    }
 };
 exports.updateUser = updateUser;
-const deleteUser = (req, res) => {
-    (0, users_services_1.reqDeleteUser)(req, res);
+const deleteUser = async (req, res) => {
+    const result = await (0, users_services_1.reqDeleteUser)(req);
+    console.log("Log de result : ", result);
+    result === true
+        ? res.status(200).json({
+            message: "Utilisateur supprimé avec succès",
+        })
+        : result === false
+            ? res.status(404).json({ message: "Utilisateur non trouvé" })
+            : res.status(403).json({ message: result });
 };
 exports.deleteUser = deleteUser;
 //# sourceMappingURL=users.controllers.js.map

@@ -49,6 +49,7 @@ export const logUser = (req: Request, res: Response): void => {
         const token = createToken(rows);
         res.status(200).json({
           message: "Connexion réussie",
+          uid: rows[0].uid,
           token: token,
         });
       }

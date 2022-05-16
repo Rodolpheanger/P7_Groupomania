@@ -52,6 +52,7 @@ const logUser = (req, res) => {
                 const token = (0, auth_utils_1.createToken)(rows);
                 res.status(200).json({
                     message: "Connexion réussie",
+                    uid: rows[0].uid,
                     token: token,
                 });
             }

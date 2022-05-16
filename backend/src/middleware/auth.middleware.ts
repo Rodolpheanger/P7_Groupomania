@@ -11,6 +11,7 @@ const auth = (req: Request | any, res: Response, next: NextFunction): void => {
       next();
     }
   } catch (err) {
+    console.log(err);
     res.status(401).json({ err: err });
   }
 };

@@ -14,8 +14,8 @@ router.post("/signup", user_validation_middleware_1.userValidity, sign_controlle
 router.post("/login", user_validation_middleware_1.userValidity, sign_controllers_1.login);
 // users
 router.get("/users", auth_middleware_1.default, users_controllers_1.getUsers);
-router.get("/:username", auth_middleware_1.default, users_controllers_1.getUser);
-router.put("/:username", auth_middleware_1.default, user_validation_middleware_1.userValidity, users_controllers_1.updateUser);
-router.delete("/:username", auth_middleware_1.default, users_controllers_1.deleteUser);
+router.get("/:uid", auth_middleware_1.default, users_controllers_1.getUser);
+router.put("/:uid", auth_middleware_1.default, user_validation_middleware_1.userValidity, users_controllers_1.updateUser);
+router.delete("/:uid", auth_middleware_1.default, users_controllers_1.deleteUser);
 exports.default = router;
 //# sourceMappingURL=users.routes.js.map

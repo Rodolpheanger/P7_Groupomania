@@ -17,8 +17,8 @@ router.post("/login", userValidity, login);
 
 // users
 router.get("/users", auth, getUsers);
-router.get("/:username", auth, getUser);
-router.put("/:username", auth, userValidity, updateUser);
-router.delete("/:username", auth, deleteUser);
+router.get("/:uid", auth, getUser);
+router.put("/:uid", auth, userValidity, updateUser);
+router.delete("/:uid", auth, deleteUser);
 
 export default router;
