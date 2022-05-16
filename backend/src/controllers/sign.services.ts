@@ -49,7 +49,7 @@ export const logUser = (req: Request): QueryError | unknown | any => {
             resolve("WrongPassword");
           } else {
             const token = createToken(rows);
-            const result = { token, uid: rows[0].uid };
+            const result = { token, uid: rows[0].uid, admin: rows[0].admin };
             resolve(result);
           }
         }

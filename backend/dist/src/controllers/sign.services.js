@@ -52,7 +52,7 @@ const logUser = (req) => {
                     }
                     else {
                         const token = (0, auth_utils_1.createToken)(rows);
-                        const result = { token, uid: rows[0].uid };
+                        const result = { token, uid: rows[0].uid, admin: rows[0].admin };
                         resolve(result);
                     }
                 }

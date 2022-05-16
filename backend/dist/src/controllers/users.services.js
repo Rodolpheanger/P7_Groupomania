@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reqDeleteUser = exports.reqUpdateUser = exports.reqGetUser = exports.reqGetUsers = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
-// TODO: sortir les res.status pour les mettre dans les controllers
 const reqGetUsers = () => {
     return new Promise((resolve, reject) => {
         const sqlGetUsers = "SELECT uid, username, email, firstname, lastname, inscription_date FROM users";

@@ -3,8 +3,6 @@ import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
 
-// TODO: sortir les res.status pour les mettre dans les controllers
-
 export const reqGetUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
     const sqlGetUsers: string =
