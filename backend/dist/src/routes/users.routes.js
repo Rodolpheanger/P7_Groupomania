@@ -11,7 +11,7 @@ const users_controllers_1 = require("../controllers/users.controllers");
 const auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
 // sign
 router.post("/signup", user_validation_middleware_1.userValidity, sign_controllers_1.signup);
-router.post("/login", user_validation_middleware_1.userValidity, sign_controllers_1.login);
+router.post("/signin", user_validation_middleware_1.userValidity, sign_controllers_1.signin);
 // users
 router.get("/users", auth_middleware_1.default, users_controllers_1.getUsers);
 router.get("/:uid", auth_middleware_1.default, users_controllers_1.getUser);

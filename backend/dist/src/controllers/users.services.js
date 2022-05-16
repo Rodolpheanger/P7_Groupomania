@@ -43,15 +43,22 @@ const reqUpdateUser = async (req) => {
         const userExist = await checkIfUserExist(req);
         return userExist
             ? new Promise(async (resolve, reject) => {
-                const hashedPassword = await (0, password_utils_1.hashPassword)(req);
-                const sqlUpdateUser = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE uid = '${req.params.uid}'`;
-                database_1.db.query(sqlUpdateUser, (err) => {
-                    err ? reject(err) : resolve(true);
-                });
+                try {
+                    const hashedPassword = await (0, password_utils_1.hashPassword)(req);
+                    const sqlUpdateUser = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE uid = '${req.params.uid}'`;
+                    database_1.db.query(sqlUpdateUser, (err) => {
+                        err ? reject(err) : resolve(true);
+                    });
+                }
+                catch (err) {
+                    console.log(err);
+                    return err;
+                }
             })
             : false;
     }
     catch (err) {
+        console.log(err);
         return err;
     }
 };
@@ -68,7 +75,7 @@ const reqDeleteUser = async (req) => {
                         err ? reject(err) : resolve(true);
                     });
                 })
-                : "Requête non autorisée";
+                : "Forbidden";
     }
     catch (err) {
         return err;

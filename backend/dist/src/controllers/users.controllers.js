@@ -8,7 +8,8 @@ const getUsers = async (_req, res) => {
         res.status(200).json(data);
     }
     catch (err) {
-        res.status(400).json({ message: err });
+        console.log(err);
+        res.status(500).json({ message: "Erreur interne du serveur" });
     }
 };
 exports.getUsers = getUsers;
@@ -19,7 +20,7 @@ const getUser = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(400).json({ err });
+        res.status(500).json({ message: "Erreur interne du serveur" });
     }
 };
 exports.getUser = getUser;
@@ -33,20 +34,25 @@ const updateUser = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(400).json({ err });
+        res.status(500).json({ message: "Erreur interne du serveur" });
     }
 };
 exports.updateUser = updateUser;
 const deleteUser = async (req, res) => {
-    const result = await (0, users_services_1.reqDeleteUser)(req);
-    console.log("Log de result : ", result);
-    result === true
-        ? res.status(200).json({
-            message: "Utilisateur supprimé avec succès",
-        })
-        : result === false
-            ? res.status(404).json({ message: "Utilisateur non trouvé" })
-            : res.status(403).json({ message: result });
+    try {
+        const result = await (0, users_services_1.reqDeleteUser)(req);
+        result === true
+            ? res.status(200).json({
+                message: "Utilisateur supprimé avec succès",
+            })
+            : result === false
+                ? res.status(404).json({ message: "Utilisateur non trouvé" })
+                : res.status(403).json({ message: "Requête non autorisée" });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Erreur interne du serveur" });
+    }
 };
 exports.deleteUser = deleteUser;
 //# sourceMappingURL=users.controllers.js.map

@@ -1,7 +1,5 @@
-import { Request, Response } from "express";
-import { ParamsDictionary } from "express-serve-static-core";
+import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
-import { ParsedQs } from "qs";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
 
@@ -54,14 +52,20 @@ export const reqUpdateUser = async (
     const userExist = await checkIfUserExist(req);
     return userExist
       ? new Promise(async (resolve, reject) => {
-          const hashedPassword = await hashPassword(req);
-          const sqlUpdateUser: string = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE uid = '${req.params.uid}'`;
-          db.query(sqlUpdateUser, (err: QueryError): void => {
-            err ? reject(err) : resolve(true);
-          });
+          try {
+            const hashedPassword = await hashPassword(req);
+            const sqlUpdateUser: string = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE uid = '${req.params.uid}'`;
+            db.query(sqlUpdateUser, (err: QueryError): void => {
+              err ? reject(err) : resolve(true);
+            });
+          } catch (err) {
+            console.log(err);
+            return err;
+          }
         })
       : false;
   } catch (err) {
+    console.log(err);
     return err;
   }
 };
@@ -80,7 +84,7 @@ export const reqDeleteUser = async (
             err ? reject(err) : resolve(true);
           });
         })
-      : "Requête non autorisée";
+      : "Forbidden";
   } catch (err) {
     return err;
   }

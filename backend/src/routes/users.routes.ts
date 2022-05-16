@@ -2,7 +2,7 @@ import { userValidity } from "./../middleware/user-validation.middleware";
 import express from "express";
 const router = express.Router();
 
-import { signup, login } from "../controllers/sign.controllers";
+import { signup, signin } from "../controllers/sign.controllers";
 import {
   getUsers,
   getUser,
@@ -13,7 +13,7 @@ import auth from "../middleware/auth.middleware";
 
 // sign
 router.post("/signup", userValidity, signup);
-router.post("/login", userValidity, login);
+router.post("/signin", userValidity, signin);
 
 // users
 router.get("/users", auth, getUsers);
