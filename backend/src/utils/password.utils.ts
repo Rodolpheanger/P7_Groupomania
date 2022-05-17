@@ -1,14 +1,12 @@
-import { RowDataPacket } from "mysql2";
-import { Request } from "express";
 import bcrypt from "bcrypt";
 
-export const hashPassword = (req: Request): Promise<string> => {
-  return bcrypt.hash(req.body.password, 10);
+export const hashPassword = (password: string): Promise<string> => {
+  return bcrypt.hash(password, 10);
 };
 
 export const checkPassword = (
-  req: Request,
-  rows: RowDataPacket[]
+  password: string,
+  u_password: string
 ): Promise<boolean> => {
-  return bcrypt.compare(req.body.password, rows[0].password);
+  return bcrypt.compare(password, u_password);
 };

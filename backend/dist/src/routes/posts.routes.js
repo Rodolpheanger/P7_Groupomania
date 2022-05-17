@@ -9,5 +9,7 @@ const router = express_1.default.Router();
 const auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
 router.post("/new", auth_middleware_1.default, post_controllers_1.createPost);
 router.get("/posts", auth_middleware_1.default, post_controllers_1.getAllPosts);
+router.get("/author", auth_middleware_1.default, post_controllers_1.getPostsByAuthor);
+router.get("/:id", auth_middleware_1.default, post_controllers_1.getOnePost);
 exports.default = router;
 //# sourceMappingURL=posts.routes.js.map

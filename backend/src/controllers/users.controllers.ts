@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import {
-  reqDeleteUser,
-  reqGetUser,
-  reqGetUsers,
-  reqUpdateUser,
+  serviceDeleteUser,
+  serviceGetOneUser,
+  serviceGetAllUsers,
+  serviceUpdateUser,
 } from "./users.services";
 
 export const getUsers = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const data = await reqGetUsers();
+    const data = await serviceGetAllUsers();
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
@@ -18,7 +18,7 @@ export const getUsers = async (_req: Request, res: Response): Promise<void> => {
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const data = await reqGetUser(req);
+    const data = await serviceGetOneUser(req);
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ export const updateUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    const result = await reqUpdateUser(req);
+    const result = await serviceUpdateUser(req);
     result
       ? res.status(200).json({ message: "Profil mis à jour avec succès" })
       : res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -47,7 +47,7 @@ export const deleteUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    const result = await reqDeleteUser(req);
+    const result = await serviceDeleteUser(req);
     result === true
       ? res.status(200).json({
           message: "Utilisateur supprimé avec succès",

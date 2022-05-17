@@ -1,25 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logUser = exports.addUser = void 0;
+exports.serviceSignin = exports.serviceSignup = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const auth_utils_1 = require("../utils/auth.utils");
 // TODO: sortir les res.status pour les mettre dans les controllers
-const addUser = (req) => {
+const serviceSignup = (req) => {
+    const { username, password, email } = req.body;
     return new Promise(async (resolve, reject) => {
         try {
-            const hashedPassword = await (0, password_utils_1.hashPassword)(req);
+            const hashedPassword = await (0, password_utils_1.hashPassword)(password);
             const sqlSignUp = `
         INSERT INTO users (
-          username,
-          password,
-          email,
-          inscription_date,
-          uid
+          u_username,
+          u_password,
+          u_email,
+          u_inscription_date,
+          u_uid
           ) VALUES (
-            "${req.body.username}",
+            "${username}",
             "${hashedPassword}",
-            "${req.body.email}",
+            "${email}",
             NOW(),
             UUID());
           `;
@@ -33,11 +34,13 @@ const addUser = (req) => {
         }
     });
 };
-exports.addUser = addUser;
-const logUser = (req) => {
+exports.serviceSignup = serviceSignup;
+const serviceSignin = (req) => {
+    const { email, password } = req.body;
     return new Promise((resolve, reject) => {
-        const sqlLogin = `SELECT uid, password, admin FROM users WHERE email = "${req.body.email}";`;
+        const sqlLogin = `SELECT u_uid, u_password, u_isadmin FROM users WHERE u_email = "${email}";`;
         database_1.db.query(sqlLogin, async (err, rows) => {
+            const { u_password, u_uid, u_isadmin } = rows[0];
             try {
                 if (err) {
                     reject(err);
@@ -46,13 +49,17 @@ const logUser = (req) => {
                     resolve("NoUser");
                 }
                 else {
-                    const validPassword = await (0, password_utils_1.checkPassword)(req, rows);
+                    const validPassword = await (0, password_utils_1.checkPassword)(password, u_password);
                     if (!validPassword) {
                         resolve("WrongPassword");
                     }
                     else {
-                        const token = (0, auth_utils_1.createToken)(rows);
-                        const result = { token, uid: rows[0].uid, admin: rows[0].admin };
+                        const token = (0, auth_utils_1.createToken)(u_uid, u_isadmin);
+                        const result = {
+                            token,
+                            userUid: u_uid,
+                            userIsAdmin: u_isadmin,
+                        };
                         resolve(result);
                     }
                 }
@@ -64,5 +71,5 @@ const logUser = (req) => {
         });
     });
 };
-exports.logUser = logUser;
+exports.serviceSignin = serviceSignin;
 //# sourceMappingURL=sign.services.js.map

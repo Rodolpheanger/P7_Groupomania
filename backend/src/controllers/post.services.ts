@@ -1,24 +1,16 @@
-import { rejects } from "assert";
-import { query, Request } from "express";
+import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
+import { getUserId } from "../utils/user.utils";
 
-const getUserId = (req: Request | any): Promise<QueryError | number> => {
-  console.log(req.auth);
-  return new Promise((resolve, reject) => {
-    const reqGetUserId: string = `SELECT id FROM users WHERE uid = "${req.auth}"`;
-    db.query(reqGetUserId, (err: QueryError, rows: RowDataPacket[]) => {
-      console.log(rows);
-      err ? reject(err) : resolve(rows[0].id);
-    });
-  });
-};
-
-export const serviceCreatePost = async (req: Request): Promise<any> => {
+export const serviceCreatePost = async (
+  req: Request
+): Promise<QueryError | boolean | unknown> => {
+  const { content, post_img_url, title } = req.body;
   try {
     const userId = await getUserId(req);
     return new Promise((resolve, reject) => {
-      const reqCreatePost: string = `INSERT INTO posts (uid, content, post_img_url, creation_date, title, modification_date, user_id) VALUES (UUID(), "${req.body.content}", "${req.body.post_img_url}", NOW(), "${req.body.title}", NULL, "${userId}") `;
+      const reqCreatePost: string = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, p_fk_user_id) VALUES (UUID(), "${content}", "${post_img_url}", NOW(), "${title}", NULL, "${userId}") `;
       db.query(reqCreatePost, (err: QueryError) => {
         err ? reject(err) : resolve(true);
       });
@@ -29,11 +21,35 @@ export const serviceCreatePost = async (req: Request): Promise<any> => {
   }
 };
 
-export const serviceGetAllPosts = (req: Request) => {
+export const serviceGetAllPosts = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
-    const reqGetAllPosts: string = `SELECT uid, content, post_img_url, creation_date, title, modification_date, user_id FROM posts`;
+    const reqGetAllPosts: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id =  u_id`;
     db.query(reqGetAllPosts, (err: QueryError, rows: RowDataPacket[]) => {
       err ? reject(err) : resolve(rows);
     });
   });
 };
+
+export const serviceGetOnePost = (
+  req: Request
+): Promise<QueryError | RowDataPacket[0]> => {
+  return new Promise((resolve, reject) => {
+    const reqGetOnePost: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = "${req.params.id}"`;
+    db.query(reqGetOnePost, (err: QueryError, rows: RowDataPacket[0]) => {
+      err ? reject(err) : resolve(rows[0]);
+    });
+  });
+};
+
+export const serviceGetPostsByAuthor = (
+  req: Request
+): Promise<QueryError | RowDataPacket[]> => {
+  return new Promise((resolve, reject) => {
+    const reqGetPostsByAuthor: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = "${req.body.author}"`;
+    db.query(reqGetPostsByAuthor, (err: QueryError, rows: RowDataPacket[]) => {
+      err ? reject(err) : resolve(rows);
+    });
+  });
+};
+
+// export const serviceUpdatePost = (req: Request): Promise<QueryError | boolean>

@@ -3,21 +3,21 @@ import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
 
-export const reqGetUsers = (): Promise<QueryError | RowDataPacket[]> => {
+export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
     const sqlGetUsers: string =
-      "SELECT uid, username, email, firstname, lastname, inscription_date FROM users";
+      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users";
     db.query(sqlGetUsers, (err: QueryError, rows: RowDataPacket[]) => {
       err ? reject(err) : resolve(rows);
     });
   });
 };
 
-export const reqGetUser = (
+export const serviceGetOneUser = (
   req: Request
 ): Promise<QueryError | string | RowDataPacket[0]> => {
   return new Promise((resolve, reject) => {
-    const sqlGetUser: string = `SELECT uid, username, email, firstname, lastname, inscription_date, bio FROM users WHERE uid = '${req.params.uid}'`;
+    const sqlGetUser: string = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users WHERE u_uid = '${req.params.id}'`;
     db.query(sqlGetUser, (err: QueryError, rows: RowDataPacket[0]) => {
       err
         ? reject(err)
@@ -32,7 +32,7 @@ const checkIfUserExist = (
   req: Request
 ): Promise<QueryError | boolean | string> => {
   return new Promise((resolve, reject) => {
-    const sqlFindUser: string = `SELECT uid FROM users WHERE uid = '${req.params.uid}'`;
+    const sqlFindUser: string = `SELECT u_uid FROM users WHERE u_uid = '${req.params.id}'`;
     db.query(sqlFindUser, (err: QueryError, rows: RowDataPacket[0]) => {
       err
         ? reject(err)
@@ -43,16 +43,17 @@ const checkIfUserExist = (
   });
 };
 
-export const reqUpdateUser = async (
+export const serviceUpdateUser = async (
   req: Request
 ): Promise<QueryError | boolean | unknown> => {
+  const { username, email, password, firstname, lastname, bio } = req.body;
   try {
     const userExist = await checkIfUserExist(req);
     return userExist
       ? new Promise(async (resolve, reject) => {
           try {
-            const hashedPassword = await hashPassword(req);
-            const sqlUpdateUser: string = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE uid = '${req.params.uid}'`;
+            const hashedPassword = await hashPassword(password);
+            const sqlUpdateUser: string = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_uid = '${req.params.id}'`;
             db.query(sqlUpdateUser, (err: QueryError): void => {
               err ? reject(err) : resolve(true);
             });
@@ -68,7 +69,7 @@ export const reqUpdateUser = async (
   }
 };
 
-export const reqDeleteUser = async (
+export const serviceDeleteUser = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   try {
@@ -77,7 +78,7 @@ export const reqDeleteUser = async (
       ? false
       : userExist === req.auth
       ? new Promise((resolve, reject) => {
-          const sqlDeleteUser: string = `DELETE FROM users WHERE uid = '${req.params.uid}'`;
+          const sqlDeleteUser: string = `DELETE FROM users WHERE u_uid = '${req.params.id}'`;
           db.query(sqlDeleteUser, (err: string) => {
             err ? reject(err) : resolve(true);
           });

@@ -4,7 +4,7 @@ exports.deleteUser = exports.updateUser = exports.getUser = exports.getUsers = v
 const users_services_1 = require("./users.services");
 const getUsers = async (_req, res) => {
     try {
-        const data = await (0, users_services_1.reqGetUsers)();
+        const data = await (0, users_services_1.serviceGetAllUsers)();
         res.status(200).json(data);
     }
     catch (err) {
@@ -15,7 +15,7 @@ const getUsers = async (_req, res) => {
 exports.getUsers = getUsers;
 const getUser = async (req, res) => {
     try {
-        const data = await (0, users_services_1.reqGetUser)(req);
+        const data = await (0, users_services_1.serviceGetOneUser)(req);
         res.status(200).json(data);
     }
     catch (err) {
@@ -27,7 +27,7 @@ exports.getUser = getUser;
 // res.status(404).json({ message: "Utilisateur non trouvé" });
 const updateUser = async (req, res) => {
     try {
-        const result = await (0, users_services_1.reqUpdateUser)(req);
+        const result = await (0, users_services_1.serviceUpdateUser)(req);
         result
             ? res.status(200).json({ message: "Profil mis à jour avec succès" })
             : res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -40,7 +40,7 @@ const updateUser = async (req, res) => {
 exports.updateUser = updateUser;
 const deleteUser = async (req, res) => {
     try {
-        const result = await (0, users_services_1.reqDeleteUser)(req);
+        const result = await (0, users_services_1.serviceDeleteUser)(req);
         result === true
             ? res.status(200).json({
                 message: "Utilisateur supprimé avec succès",

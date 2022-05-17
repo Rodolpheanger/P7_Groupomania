@@ -1,20 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reqDeleteUser = exports.reqUpdateUser = exports.reqGetUser = exports.reqGetUsers = void 0;
+exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceGetOneUser = exports.serviceGetAllUsers = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
-const reqGetUsers = () => {
+const serviceGetAllUsers = () => {
     return new Promise((resolve, reject) => {
-        const sqlGetUsers = "SELECT uid, username, email, firstname, lastname, inscription_date FROM users";
+        const sqlGetUsers = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users";
         database_1.db.query(sqlGetUsers, (err, rows) => {
             err ? reject(err) : resolve(rows);
         });
     });
 };
-exports.reqGetUsers = reqGetUsers;
-const reqGetUser = (req) => {
+exports.serviceGetAllUsers = serviceGetAllUsers;
+const serviceGetOneUser = (req) => {
     return new Promise((resolve, reject) => {
-        const sqlGetUser = `SELECT uid, username, email, firstname, lastname, inscription_date, bio FROM users WHERE uid = '${req.params.uid}'`;
+        const sqlGetUser = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users WHERE u_uid = '${req.params.id}'`;
         database_1.db.query(sqlGetUser, (err, rows) => {
             err
                 ? reject(err)
@@ -24,10 +24,10 @@ const reqGetUser = (req) => {
         });
     });
 };
-exports.reqGetUser = reqGetUser;
+exports.serviceGetOneUser = serviceGetOneUser;
 const checkIfUserExist = (req) => {
     return new Promise((resolve, reject) => {
-        const sqlFindUser = `SELECT uid FROM users WHERE uid = '${req.params.uid}'`;
+        const sqlFindUser = `SELECT u_uid FROM users WHERE u_uid = '${req.params.id}'`;
         database_1.db.query(sqlFindUser, (err, rows) => {
             err
                 ? reject(err)
@@ -37,14 +37,15 @@ const checkIfUserExist = (req) => {
         });
     });
 };
-const reqUpdateUser = async (req) => {
+const serviceUpdateUser = async (req) => {
+    const { username, email, password, firstname, lastname, bio } = req.body;
     try {
         const userExist = await checkIfUserExist(req);
         return userExist
             ? new Promise(async (resolve, reject) => {
                 try {
-                    const hashedPassword = await (0, password_utils_1.hashPassword)(req);
-                    const sqlUpdateUser = `UPDATE users SET username = '${req.body.username}', email = '${req.body.email}', password = '${hashedPassword}', firstname = '${req.body.firstname}', lastname = '${req.body.lastname}', bio = '${req.body.bio}' WHERE uid = '${req.params.uid}'`;
+                    const hashedPassword = await (0, password_utils_1.hashPassword)(password);
+                    const sqlUpdateUser = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_uid = '${req.params.id}'`;
                     database_1.db.query(sqlUpdateUser, (err) => {
                         err ? reject(err) : resolve(true);
                     });
@@ -61,15 +62,15 @@ const reqUpdateUser = async (req) => {
         return err;
     }
 };
-exports.reqUpdateUser = reqUpdateUser;
-const reqDeleteUser = async (req) => {
+exports.serviceUpdateUser = serviceUpdateUser;
+const serviceDeleteUser = async (req) => {
     try {
         const userExist = await checkIfUserExist(req);
         return !userExist
             ? false
             : userExist === req.auth
                 ? new Promise((resolve, reject) => {
-                    const sqlDeleteUser = `DELETE FROM users WHERE uid = '${req.params.uid}'`;
+                    const sqlDeleteUser = `DELETE FROM users WHERE u_uid = '${req.params.id}'`;
                     database_1.db.query(sqlDeleteUser, (err) => {
                         err ? reject(err) : resolve(true);
                     });
@@ -80,5 +81,5 @@ const reqDeleteUser = async (req) => {
         return err;
     }
 };
-exports.reqDeleteUser = reqDeleteUser;
+exports.serviceDeleteUser = serviceDeleteUser;
 //# sourceMappingURL=users.services.js.map

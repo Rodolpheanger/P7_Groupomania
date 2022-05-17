@@ -2,10 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { getUserUid } from "../utils/auth.utils";
 
 const auth = (req: Request | any, res: Response, next: NextFunction): void => {
+  const { u_uid } = req.body;
   try {
-    const uid = getUserUid(req);
-    req.auth = uid;
-    if (req.body.uid && req.body.uid !== uid) {
+    const userUid = getUserUid(req);
+    req.auth = userUid;
+    if (u_uid && u_uid !== userUid) {
       throw "403 : Requête non autorisée !";
     } else {
       next();

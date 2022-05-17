@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserUid = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const createToken = (rows) => {
+const createToken = (u_uid, u_isadmin) => {
     const payload = {
-        uid: rows[0].uid,
-        isAdmin: rows[0].admin,
+        userUid: u_uid,
+        userIsAdmin: u_isadmin,
     };
     return jsonwebtoken_1.default.sign(payload, `${process.env.JWT_SECRETKEY}`, {
         expiresIn: "24h",
@@ -26,8 +26,8 @@ const decodeToken = (req) => {
 };
 const getUserUid = (req) => {
     const decodedToken = decodeToken(req);
-    const uid = decodedToken.uid;
-    return uid;
+    const userUid = decodedToken.userUid;
+    return userUid;
 };
 exports.getUserUid = getUserUid;
 //# sourceMappingURL=auth.utils.js.map

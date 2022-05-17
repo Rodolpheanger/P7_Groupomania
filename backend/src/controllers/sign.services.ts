@@ -6,21 +6,22 @@ import { QueryError, RowDataPacket } from "mysql2";
 
 // TODO: sortir les res.status pour les mettre dans les controllers
 
-export const addUser = (req: Request): QueryError | unknown => {
+export const serviceSignup = (req: Request) => {
+  const { username, password, email } = req.body;
   return new Promise(async (resolve, reject) => {
     try {
-      const hashedPassword = await hashPassword(req);
+      const hashedPassword = await hashPassword(password);
       const sqlSignUp: string = `
         INSERT INTO users (
-          username,
-          password,
-          email,
-          inscription_date,
-          uid
+          u_username,
+          u_password,
+          u_email,
+          u_inscription_date,
+          u_uid
           ) VALUES (
-            "${req.body.username}",
+            "${username}",
             "${hashedPassword}",
-            "${req.body.email}",
+            "${email}",
             NOW(),
             UUID());
           `;
@@ -34,22 +35,31 @@ export const addUser = (req: Request): QueryError | unknown => {
   });
 };
 
-export const logUser = (req: Request): QueryError | unknown | any => {
+export const serviceSignin = (req: Request) => {
+  const { email, password } = req.body;
   return new Promise((resolve, reject) => {
-    const sqlLogin: string = `SELECT uid, password, admin FROM users WHERE email = "${req.body.email}";`;
+    const sqlLogin: string = `SELECT u_uid, u_password, u_isadmin FROM users WHERE u_email = "${email}";`;
     db.query(sqlLogin, async (err: QueryError, rows: RowDataPacket[]) => {
+      const { u_password, u_uid, u_isadmin } = rows[0];
       try {
         if (err) {
           reject(err);
         } else if (rows.length === 0) {
           resolve("NoUser");
         } else {
-          const validPassword: boolean = await checkPassword(req, rows);
+          const validPassword: boolean = await checkPassword(
+            password,
+            u_password
+          );
           if (!validPassword) {
             resolve("WrongPassword");
           } else {
-            const token = createToken(rows);
-            const result = { token, uid: rows[0].uid, admin: rows[0].admin };
+            const token: string = createToken(u_uid, u_isadmin);
+            const result = {
+              token,
+              userUid: u_uid,
+              userIsAdmin: u_isadmin,
+            };
             resolve(result);
           }
         }
