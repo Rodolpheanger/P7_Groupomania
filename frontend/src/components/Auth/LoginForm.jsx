@@ -17,8 +17,9 @@ const LoginForm = () => {
       .required("Ce champ est obligatoire"),
   });
 
-  const submit = (values, actions) => {
+  const submit = async (values, actions) => {
     actions.setSubmitting(false);
+    await axios.post("api/user/signin", values);
     navigate("/posts");
   };
 
