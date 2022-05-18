@@ -19,8 +19,15 @@ const LoginForm = () => {
 
   const submit = async (values, actions) => {
     actions.setSubmitting(false);
-    await axios.post("api/user/signin", values);
-    navigate("/posts");
+    try {
+      const response = await axios.post("api/user/signin", values);
+      const { userUid, userIsAdmin, token } = response.data;
+      const dataToStore = JSON.stringify({ userUid, userIsAdmin, token });
+      localStorage.setItem("data", dataToStore);
+      navigate("/posts");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
