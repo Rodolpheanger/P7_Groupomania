@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkIfUserExistAndGetUid = exports.getUserId = void 0;
+exports.checkIfUserExistAndGetData = exports.getUserId = void 0;
 const database_1 = require("../../config/database");
 const getUserId = (req) => {
     return new Promise((resolve, reject) => {
@@ -12,17 +12,17 @@ const getUserId = (req) => {
     });
 };
 exports.getUserId = getUserId;
-const checkIfUserExistAndGetUid = (userUid) => {
+const checkIfUserExistAndGetData = (data, dataType) => {
     return new Promise((resolve, reject) => {
-        const sqlFindUser = `SELECT u_uid FROM users WHERE u_uid = '${userUid}'`;
+        const sqlFindUser = `SELECT u_uid FROM users WHERE ${dataType} = '${data}'`;
         database_1.db.query(sqlFindUser, (err, rows) => {
             err
                 ? reject(err)
                 : rows.length === 0
-                    ? resolve(false)
+                    ? reject({ error: "Utilisateur non trouvé" })
                     : resolve(rows[0].u_uid);
         });
     });
 };
-exports.checkIfUserExistAndGetUid = checkIfUserExistAndGetUid;
+exports.checkIfUserExistAndGetData = checkIfUserExistAndGetData;
 //# sourceMappingURL=user.utils.js.map

@@ -1,6 +1,5 @@
 import { Request } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { RowDataPacket } from "mysql2";
 
 interface Payload {
   userUid: string;

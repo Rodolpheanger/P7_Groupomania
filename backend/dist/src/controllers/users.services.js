@@ -30,7 +30,7 @@ const serviceUpdateUser = async (req) => {
     const userUid = req.params.id;
     const { username, email, password, firstname, lastname, bio } = req.body;
     try {
-        const userExist = await (0, user_utils_1.checkIfUserExistAndGetUid)(userUid);
+        const userExist = await (0, user_utils_1.checkIfUserExistAndGetData)(userUid, "u_uid");
         return !userExist
             ? false
             : userExist === req.userUid
@@ -58,7 +58,7 @@ exports.serviceUpdateUser = serviceUpdateUser;
 const serviceDeleteUser = async (req) => {
     const userUid = req.params.id;
     try {
-        const userExist = await (0, user_utils_1.checkIfUserExistAndGetUid)(userUid);
+        const userExist = await (0, user_utils_1.checkIfUserExistAndGetData)(userUid, "u_uid");
         return !userExist
             ? false
             : userExist === req.userUid

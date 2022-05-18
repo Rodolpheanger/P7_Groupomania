@@ -12,16 +12,17 @@ export const getUserId = (req: Request | any): Promise<QueryError | number> => {
   });
 };
 
-export const checkIfUserExistAndGetUid = (
-  userUid: string
+export const checkIfUserExistAndGetData = (
+  data: string,
+  dataType: string
 ): Promise<QueryError | boolean | string> => {
   return new Promise((resolve, reject) => {
-    const sqlFindUser: string = `SELECT u_uid FROM users WHERE u_uid = '${userUid}'`;
+    const sqlFindUser: string = `SELECT u_uid FROM users WHERE ${dataType} = '${data}'`;
     db.query(sqlFindUser, (err: QueryError, rows: RowDataPacket[0]) => {
       err
         ? reject(err)
         : rows.length === 0
-        ? resolve(false)
+        ? reject({ error: "Utilisateur non trouvé" })
         : resolve(rows[0].u_uid);
     });
   });

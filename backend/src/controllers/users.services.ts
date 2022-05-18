@@ -2,7 +2,7 @@ import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
-import { checkIfUserExistAndGetUid } from "../utils/user.utils";
+import { checkIfUserExistAndGetData } from "../utils/user.utils";
 
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ export const serviceUpdateUser = async (
   const userUid = req.params.id;
   const { username, email, password, firstname, lastname, bio } = req.body;
   try {
-    const userExist = await checkIfUserExistAndGetUid(userUid);
+    const userExist = await checkIfUserExistAndGetData(userUid, "u_uid");
     return !userExist
       ? false
       : userExist === req.userUid
@@ -63,7 +63,7 @@ export const serviceDeleteUser = async (
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.params.id;
   try {
-    const userExist = await checkIfUserExistAndGetUid(userUid);
+    const userExist = await checkIfUserExistAndGetData(userUid, "u_uid");
     return !userExist
       ? false
       : userExist === req.userUid
