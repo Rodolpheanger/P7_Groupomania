@@ -5,7 +5,7 @@ const auth = (req, res, next) => {
     const { u_uid } = req.body;
     try {
         const userUid = (0, auth_utils_1.getUserUid)(req);
-        req.auth = userUid;
+        req.userUid = userUid;
         if (u_uid && u_uid !== userUid) {
             throw "403 : Requête non autorisée !";
         }

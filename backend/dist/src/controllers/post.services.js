@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceGetPostsByAuthor = exports.serviceGetOnePost = exports.serviceGetAllPosts = exports.serviceCreatePost = void 0;
+exports.serviceDeletePost = exports.serviceUpdatePost = exports.serviceGetPostsByAuthor = exports.serviceGetOnePost = exports.serviceGetAllPosts = exports.serviceCreatePost = void 0;
 const database_1 = require("../../config/database");
+const post_utils_1 = require("../utils/post.utils");
 const user_utils_1 = require("../utils/user.utils");
 const serviceCreatePost = async (req) => {
     const { content, post_img_url, title } = req.body;
@@ -47,5 +48,47 @@ const serviceGetPostsByAuthor = (req) => {
     });
 };
 exports.serviceGetPostsByAuthor = serviceGetPostsByAuthor;
-// export const serviceUpdatePost = (req: Request): Promise<QueryError | boolean>
+const serviceUpdatePost = async (req) => {
+    const postId = req.params.id;
+    const { content, imgUrl, title } = req.body;
+    try {
+        const postData = await (0, post_utils_1.checkIfPostExistAndGetOwner)(postId);
+        return !postData
+            ? false
+            : postData === req.userUid
+                ? new Promise((resolve, reject) => {
+                    const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${imgUrl}', p_title = '${title}' WHERE p_uid = '${postId}'`;
+                    database_1.db.query(reqUpdatePost, (err) => {
+                        err ? reject(err) : resolve(true);
+                    });
+                })
+                : "Forbidden";
+    }
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+};
+exports.serviceUpdatePost = serviceUpdatePost;
+const serviceDeletePost = async (req) => {
+    const postId = req.params.id;
+    try {
+        const postData = await (0, post_utils_1.checkIfPostExistAndGetOwner)(postId);
+        return !postData
+            ? false
+            : postData === req.userUid
+                ? new Promise((resolve, reject) => {
+                    const reqDeletePost = `DELETE FROM posts WHERE p_uid = '${postId}'`;
+                    database_1.db.query(reqDeletePost, (err) => {
+                        err ? reject(err) : resolve(true);
+                    });
+                })
+                : "Forbidden";
+    }
+    catch (err) {
+        console.log(err);
+        return err;
+    }
+};
+exports.serviceDeletePost = serviceDeletePost;
 //# sourceMappingURL=post.services.js.map

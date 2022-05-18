@@ -33,7 +33,9 @@ export const updateUser = async (
 ): Promise<void> => {
   try {
     const result = await serviceUpdateUser(req);
-    result
+    result === "Forbidden"
+      ? res.status(403).json({ message: "Requête non autorisée" })
+      : result
       ? res.status(200).json({ message: "Profil mis à jour avec succès" })
       : res.status(404).json({ message: "Utilisateur non trouvé" });
   } catch (err) {
@@ -48,13 +50,13 @@ export const deleteUser = async (
 ): Promise<void> => {
   try {
     const result = await serviceDeleteUser(req);
-    result === true
+    result === "Forbidden"
+      ? res.status(403).json({ message: "Requête non autorisée" })
+      : result
       ? res.status(200).json({
           message: "Utilisateur supprimé avec succès",
         })
-      : result === false
-      ? res.status(404).json({ message: "Utilisateur non trouvé" })
-      : res.status(403).json({ message: "Requête non autorisée" });
+      : res.status(404).json({ message: "Utilisateur non trouvé" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Erreur interne du serveur" });

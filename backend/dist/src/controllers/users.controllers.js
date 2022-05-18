@@ -28,9 +28,11 @@ exports.getUser = getUser;
 const updateUser = async (req, res) => {
     try {
         const result = await (0, users_services_1.serviceUpdateUser)(req);
-        result
-            ? res.status(200).json({ message: "Profil mis à jour avec succès" })
-            : res.status(404).json({ message: "Utilisateur non trouvé" });
+        result === "Forbidden"
+            ? res.status(403).json({ message: "Requête non autorisée" })
+            : result
+                ? res.status(200).json({ message: "Profil mis à jour avec succès" })
+                : res.status(404).json({ message: "Utilisateur non trouvé" });
     }
     catch (err) {
         console.log(err);
@@ -41,13 +43,13 @@ exports.updateUser = updateUser;
 const deleteUser = async (req, res) => {
     try {
         const result = await (0, users_services_1.serviceDeleteUser)(req);
-        result === true
-            ? res.status(200).json({
-                message: "Utilisateur supprimé avec succès",
-            })
-            : result === false
-                ? res.status(404).json({ message: "Utilisateur non trouvé" })
-                : res.status(403).json({ message: "Requête non autorisée" });
+        result === "Forbidden"
+            ? res.status(403).json({ message: "Requête non autorisée" })
+            : result
+                ? res.status(200).json({
+                    message: "Utilisateur supprimé avec succès",
+                })
+                : res.status(404).json({ message: "Utilisateur non trouvé" });
     }
     catch (err) {
         console.log(err);

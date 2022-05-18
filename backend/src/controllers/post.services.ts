@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
+import { checkIfPostExistAndGetOwner } from "../utils/post.utils";
 import { getUserId } from "../utils/user.utils";
 
 export const serviceCreatePost = async (
@@ -52,4 +53,47 @@ export const serviceGetPostsByAuthor = (
   });
 };
 
-// export const serviceUpdatePost = (req: Request): Promise<QueryError | boolean>
+export const serviceUpdatePost = async (
+  req: Request | any
+): Promise<QueryError | boolean | unknown> => {
+  const postId: string = req.params.id;
+  const { content, imgUrl, title } = req.body;
+  try {
+    const postData = await checkIfPostExistAndGetOwner(postId);
+    return !postData
+      ? false
+      : postData === req.userUid
+      ? new Promise((resolve, reject) => {
+          const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${imgUrl}', p_title = '${title}' WHERE p_uid = '${postId}'`;
+          db.query(reqUpdatePost, (err: QueryError) => {
+            err ? reject(err) : resolve(true);
+          });
+        })
+      : "Forbidden";
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+export const serviceDeletePost = async (
+  req: Request | any
+): Promise<QueryError | boolean | unknown> => {
+  const postId: string = req.params.id;
+  try {
+    const postData = await checkIfPostExistAndGetOwner(postId);
+    return !postData
+      ? false
+      : postData === req.userUid
+      ? new Promise((resolve, reject) => {
+          const reqDeletePost: string = `DELETE FROM posts WHERE p_uid = '${postId}'`;
+          db.query(reqDeletePost, (err: QueryError) => {
+            err ? reject(err) : resolve(true);
+          });
+        })
+      : "Forbidden";
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
