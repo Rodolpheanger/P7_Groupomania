@@ -40,7 +40,6 @@ const serviceSignin = (req) => {
     return new Promise((resolve, reject) => {
         const sqlLogin = `SELECT u_uid, u_password, u_isadmin FROM users WHERE u_email = "${email}";`;
         database_1.db.query(sqlLogin, async (err, rows) => {
-            const { u_password, u_uid, u_isadmin } = rows[0];
             try {
                 if (err) {
                     reject(err);
@@ -49,6 +48,7 @@ const serviceSignin = (req) => {
                     resolve("NoUser");
                 }
                 else {
+                    const { u_password, u_uid, u_isadmin } = rows[0];
                     const validPassword = await (0, password_utils_1.checkPassword)(password, u_password);
                     if (!validPassword) {
                         resolve("WrongPassword");

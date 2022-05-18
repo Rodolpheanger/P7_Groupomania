@@ -9,7 +9,7 @@ const signup = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Erreur interne du serveur" });
+        res.status(500).json({ error: err });
     }
 };
 exports.signup = signup;
@@ -17,24 +17,19 @@ const signin = async (req, res) => {
     try {
         const result = await (0, sign_services_1.serviceSignin)(req);
         result === "NoUser"
-            ? res.status(404).json({ message: "Utilisateur non trouvé" })
+            ? res.status(200).json({ error: "Utilisateur non trouvé" })
             : result === "WrongPassword"
                 ? res.status(401).json({ error: "Mot de passe incorrect !" })
-                : /*(res.cookie("jwt", result.token, {
-                    httpOnly: true,
-                    maxAge: 24 * 60 * 60 * 1000,
-                  }),*/
-                    res.status(200).json({
-                        message: "Connexion réussie",
-                        userUid: result.userUid,
-                        userIsAdmin: result.userIsAdmin,
-                        token: result.token,
-                    });
-        /*);*/
+                : res.status(200).json({
+                    message: "Connexion réussie",
+                    userUid: result.userUid,
+                    userIsAdmin: result.userIsAdmin,
+                    token: result.token,
+                });
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Erreur interne du serveur" });
+        res.status(500).json({ error: err });
     }
 };
 exports.signin = signin;

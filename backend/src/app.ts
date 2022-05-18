@@ -8,13 +8,15 @@ import "../config/database";
 import userRoutes from "./routes/users.routes";
 import postRoutes from "./routes/posts.routes";
 const port = process.env.PORT;
+const client = process.env.CLIENT_URL;
+console.log(client);
 
 app.use(express.json());
-app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(helmet());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: client,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,

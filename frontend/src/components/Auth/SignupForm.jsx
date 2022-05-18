@@ -12,13 +12,23 @@ const SignupForm = () => {
   const UserSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, "Votre pseudo doit comporter au moins 3 caractères (max 15)")
-      .max(15, "Votre pseudo doit comporter au plus 15 caractères (min 3)")
+      .max(
+        15,
+        "Votre pseudo ne doit pas comporter plus de 15 caractères (min 3)"
+      )
       .required("Ce champ est obligatoire"),
     email: Yup.string()
       .email("Format de l'email invalide")
       .required("Ce champ est obligatoire"),
     password: Yup.string()
-      .min(6, "Votre mot de passe doit comporter au moins 6 caractères")
+      .min(
+        8,
+        "Votre mot de passe doit comporter au moins 8 caractères (max 50)"
+      )
+      .max(
+        50,
+        "Votre mot de passe ne doit pas comporter plus de 50 caractères (min 8)"
+      )
       .required("Ce champ est obligatoire"),
   });
 

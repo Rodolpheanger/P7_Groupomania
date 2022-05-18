@@ -40,13 +40,13 @@ export const serviceSignin = (req: Request) => {
   return new Promise((resolve, reject) => {
     const sqlLogin: string = `SELECT u_uid, u_password, u_isadmin FROM users WHERE u_email = "${email}";`;
     db.query(sqlLogin, async (err: QueryError, rows: RowDataPacket[]) => {
-      const { u_password, u_uid, u_isadmin } = rows[0];
       try {
         if (err) {
           reject(err);
         } else if (rows.length === 0) {
           resolve("NoUser");
         } else {
+          const { u_password, u_uid, u_isadmin } = rows[0];
           const validPassword: boolean = await checkPassword(
             password,
             u_password

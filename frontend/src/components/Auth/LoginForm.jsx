@@ -13,7 +13,8 @@ const LoginForm = () => {
       .email("Format de l'email invalide")
       .required("Ce champ est obligatoire"),
     password: Yup.string()
-      .min(6, "Votre mot de passe doit comporter au moins 6 caractères")
+      .min(8, "Votre mot de passe doit comporter au moins 8 caractères")
+      .max(50, "Votre mot de passe ne doit pas comporter plus de 50 caractères")
       .required("Ce champ est obligatoire"),
   });
 
@@ -21,10 +22,17 @@ const LoginForm = () => {
     actions.setSubmitting(false);
     try {
       const response = await axios.post("api/user/signin", values);
-      const { userUid, userIsAdmin, token } = response.data;
-      const dataToStore = JSON.stringify({ userUid, userIsAdmin, token });
-      localStorage.setItem("data", dataToStore);
-      navigate("/posts");
+      const { userUid, userIsAdmin, token, message, error } = response.data;
+      console.log(response);
+      console.log(error);
+      return error
+        ? alert(error)
+        : (alert(message),
+          localStorage.setItem(
+            "data",
+            JSON.stringify({ userUid, userIsAdmin, token })
+          ),
+          navigate("/posts"));
     } catch (err) {
       console.log(err);
     }
