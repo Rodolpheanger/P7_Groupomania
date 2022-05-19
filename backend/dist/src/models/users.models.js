@@ -39,7 +39,7 @@ exports.userSchema = yup.object().shape({
     firstname: yup.string().max(50, "Prénom trop long (caractères max 50)"),
     lastname: yup.string().max(50, "Nom trop long (caractères max 50)"),
     bio: yup.string().max(500, "Bio trop longue (caractères max 500)"),
-    profil_picture_url: yup
+    avatar_url: yup
         .string()
         .max(255, "Nom d'image trop long (caractères max 255)"),
     inscription_date: yup.date(),

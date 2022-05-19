@@ -25,7 +25,6 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Erreur interne du serveur" });
   }
 };
-// res.status(404).json({ message: "Utilisateur non trouvé" });
 
 export const updateUser = async (
   req: Request,

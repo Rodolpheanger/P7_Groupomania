@@ -1,19 +1,23 @@
-import { userValidity } from "./../middleware/user-validation.middleware";
 import express from "express";
-const router = express.Router();
-
+import auth from "../middleware/auth.middleware";
+import { userValidity } from "./../middleware/user-validation.middleware";
+import { uploadAvatar } from "./../middleware/multer.middleware";
+import { setAvatar } from "../controllers/upload.controller";
 import { signup, signin } from "../controllers/sign.controllers";
 import {
   getUsers,
   getUser,
-  deleteUser,
   updateUser,
+  deleteUser,
 } from "../controllers/users.controllers";
-import auth from "../middleware/auth.middleware";
+const router = express.Router();
 
 // sign
 router.post("/signup", userValidity, signup);
 router.post("/signin", userValidity, signin);
+
+//upload
+router.put("/upload", auth, uploadAvatar, setAvatar);
 
 // users
 router.get("/users", auth, getUsers);

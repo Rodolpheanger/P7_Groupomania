@@ -4,7 +4,6 @@ exports.serviceSignin = exports.serviceSignup = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const auth_utils_1 = require("../utils/auth.utils");
-// TODO: sortir les res.status pour les mettre dans les controllers
 const serviceSignup = (req) => {
     const { username, password, email } = req.body;
     return new Promise(async (resolve, reject) => {

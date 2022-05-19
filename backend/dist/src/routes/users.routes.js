@@ -3,15 +3,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_validation_middleware_1 = require("./../middleware/user-validation.middleware");
 const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
+const auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
+const user_validation_middleware_1 = require("./../middleware/user-validation.middleware");
+const multer_middleware_1 = require("./../middleware/multer.middleware");
+const upload_controller_1 = require("../controllers/upload.controller");
 const sign_controllers_1 = require("../controllers/sign.controllers");
 const users_controllers_1 = require("../controllers/users.controllers");
-const auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
+const router = express_1.default.Router();
 // sign
 router.post("/signup", user_validation_middleware_1.userValidity, sign_controllers_1.signup);
 router.post("/signin", user_validation_middleware_1.userValidity, sign_controllers_1.signin);
+//upload
+router.put("/upload", auth_middleware_1.default, multer_middleware_1.uploadAvatar, upload_controller_1.setAvatar);
 // users
 router.get("/users", auth_middleware_1.default, users_controllers_1.getUsers);
 router.get("/:id", auth_middleware_1.default, users_controllers_1.getUser);

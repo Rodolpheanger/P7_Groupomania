@@ -24,7 +24,6 @@ const getUser = async (req, res) => {
     }
 };
 exports.getUser = getUser;
-// res.status(404).json({ message: "Utilisateur non trouvé" });
 const updateUser = async (req, res) => {
     try {
         const result = await (0, users_services_1.serviceUpdateUser)(req);

@@ -6,7 +6,7 @@ const password_utils_1 = require("../utils/password.utils");
 const user_utils_1 = require("../utils/user.utils");
 const serviceGetAllUsers = () => {
     return new Promise((resolve, reject) => {
-        const sqlGetUsers = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users";
+        const sqlGetUsers = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_isadmin FROM users";
         database_1.db.query(sqlGetUsers, (err, rows) => {
             err ? reject(err) : resolve(rows);
         });
@@ -15,7 +15,7 @@ const serviceGetAllUsers = () => {
 exports.serviceGetAllUsers = serviceGetAllUsers;
 const serviceGetOneUser = (req) => {
     return new Promise((resolve, reject) => {
-        const sqlGetUser = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users WHERE u_uid = '${req.params.id}'`;
+        const sqlGetUser = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_isadmin FROM users WHERE u_uid = '${req.params.id}'`;
         database_1.db.query(sqlGetUser, (err, rows) => {
             err
                 ? reject(err)

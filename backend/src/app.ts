@@ -9,7 +9,6 @@ import userRoutes from "./routes/users.routes";
 import postRoutes from "./routes/posts.routes";
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
-console.log(client);
 
 app.use(express.json());
 app.use(helmet());

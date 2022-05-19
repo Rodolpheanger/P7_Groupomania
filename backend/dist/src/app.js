@@ -14,7 +14,6 @@ const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const posts_routes_1 = __importDefault(require("./routes/posts.routes"));
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
-console.log(client);
 app.use(express_1.default.json());
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({

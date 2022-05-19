@@ -4,8 +4,6 @@ import { hashPassword, checkPassword } from "../utils/password.utils";
 import { createToken } from "../utils/auth.utils";
 import { QueryError, RowDataPacket } from "mysql2";
 
-// TODO: sortir les res.status pour les mettre dans les controllers
-
 export const serviceSignup = (req: Request) => {
   const { username, password, email } = req.body;
   return new Promise(async (resolve, reject) => {

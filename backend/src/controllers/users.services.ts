@@ -7,7 +7,7 @@ import { checkIfUserExistAndGetData } from "../utils/user.utils";
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
     const sqlGetUsers: string =
-      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users";
+      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_isadmin FROM users";
     db.query(sqlGetUsers, (err: QueryError, rows: RowDataPacket[]) => {
       err ? reject(err) : resolve(rows);
     });
@@ -18,7 +18,7 @@ export const serviceGetOneUser = (
   req: Request
 ): Promise<QueryError | string | RowDataPacket[0]> => {
   return new Promise((resolve, reject) => {
-    const sqlGetUser: string = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_inscription_date, u_bio, u_isadmin FROM users WHERE u_uid = '${req.params.id}'`;
+    const sqlGetUser: string = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_isadmin FROM users WHERE u_uid = '${req.params.id}'`;
     db.query(sqlGetUser, (err: QueryError, rows: RowDataPacket[0]) => {
       err
         ? reject(err)
