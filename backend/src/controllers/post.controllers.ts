@@ -19,7 +19,7 @@ export const createPost = async (
       : res.status(400).json({ message: "Requête non conforme" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Erreur interne serveur" });
+    res.status(500).json({ message: "Test Erreur interne serveur" });
   }
 };
 
@@ -84,6 +84,7 @@ export const updatePost = async (
     res.status(500).json({ message: "Erreur interne serveur" });
   }
 };
+
 export const deletePost = async (
   req: Request,
   res: Response

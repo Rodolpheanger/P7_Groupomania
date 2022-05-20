@@ -3,13 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceDeletePost = exports.serviceUpdatePost = exports.serviceGetPostsByAuthor = exports.serviceGetOnePost = exports.serviceGetAllPosts = exports.serviceCreatePost = void 0;
 const database_1 = require("../../config/database");
 const post_utils_1 = require("../utils/post.utils");
+const uploads_utils_1 = require("../utils/uploads.utils");
 const user_utils_1 = require("../utils/user.utils");
 const serviceCreatePost = async (req) => {
-    const { content, post_img_url, title } = req.body;
+    const { content, title } = req.body;
+    const postImgUrl = (0, uploads_utils_1.createPostImgUrl)(req);
     try {
         const userId = await (0, user_utils_1.getUserId)(req);
         return new Promise((resolve, reject) => {
-            const reqCreatePost = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, p_fk_user_id) VALUES (UUID(), "${content}", "${post_img_url}", NOW(), "${title}", NULL, "${userId}") `;
+            const reqCreatePost = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", NULL, "${userId}") `;
             database_1.db.query(reqCreatePost, (err) => {
                 err ? reject(err) : resolve(true);
             });
@@ -50,14 +52,19 @@ const serviceGetPostsByAuthor = (req) => {
 exports.serviceGetPostsByAuthor = serviceGetPostsByAuthor;
 const serviceUpdatePost = async (req) => {
     const postId = req.params.id;
-    const { content, imgUrl, title } = req.body;
+    const { content, title } = req.body;
     try {
-        const postData = await (0, post_utils_1.checkIfPostExistAndGetOwner)(postId);
-        return !postData
+        const postDatas = await (0, post_utils_1.checkIfPostExistAndGetDatas)(postId);
+        console.log(postDatas);
+        const postOwner = postDatas.u_uid;
+        const oldPostImgUrl = postDatas.p_post_img_url;
+        console.log("Log oldPostImgUrl dans serviceUpdate: ", oldPostImgUrl);
+        const postImgUrl = (0, uploads_utils_1.setPostImgUrl)(req, oldPostImgUrl);
+        return !postDatas
             ? false
-            : postData === req.userUid
+            : postOwner === req.userUid
                 ? new Promise((resolve, reject) => {
-                    const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${imgUrl}', p_title = '${title}' WHERE p_uid = '${postId}'`;
+                    const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrl}',p_title = '${title}' WHERE p_uid = '${postId}'`;
                     database_1.db.query(reqUpdatePost, (err) => {
                         err ? reject(err) : resolve(true);
                     });
@@ -73,11 +80,15 @@ exports.serviceUpdatePost = serviceUpdatePost;
 const serviceDeletePost = async (req) => {
     const postId = req.params.id;
     try {
-        const postData = await (0, post_utils_1.checkIfPostExistAndGetOwner)(postId);
-        return !postData
+        const postDatas = await (0, post_utils_1.checkIfPostExistAndGetDatas)(postId);
+        const postOwner = postDatas.u_uid;
+        const postImgUrl = postDatas.p_post_img_url;
+        console.log("Log postImgUrl dans service delete: ", postImgUrl);
+        return !postDatas
             ? false
-            : postData === req.userUid
+            : postOwner === req.userUid
                 ? new Promise((resolve, reject) => {
+                    (0, uploads_utils_1.deleteOldPostImageOnServer)(postImgUrl);
                     const reqDeletePost = `DELETE FROM posts WHERE p_uid = '${postId}'`;
                     database_1.db.query(reqDeletePost, (err) => {
                         err ? reject(err) : resolve(true);

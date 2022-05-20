@@ -11,7 +11,7 @@ const createPost = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Erreur interne serveur" });
+        res.status(500).json({ message: "Test Erreur interne serveur" });
     }
 };
 exports.createPost = createPost;

@@ -17,8 +17,7 @@ const fileFilter = (req, file, cb) => {
         cb(null, true);
     }
     else {
-        cb(null, false);
-        return cb(new Error("Le type de fichier est invalide (fichiers jpg, jpeg ou png uniquement)"));
+        cb(new Error("Le type de fichier est invalide (fichiers jpg, jpeg ou png uniquement)"), false);
     }
 };
 const avatarStorage = multer_1.default.diskStorage({
@@ -33,12 +32,12 @@ const avatarStorage = multer_1.default.diskStorage({
 });
 const postImageStorage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "frontend/public/uploads/posts_img");
+        cb(null, "uploads/posts_images");
     },
     filename: (req, file, cb) => {
-        const name = req.body.postUid;
+        const name = req.userUid;
         const extension = MIME_TYPES[file.mimetype];
-        cb(null, `${name}.${Date.now()}.${extension}`);
+        cb(null, `${name}_${Date.now()}.${extension}`);
     },
 });
 //@ts-ignore
@@ -52,5 +51,5 @@ exports.uploadPostImage = (0, multer_1.default)({
     limits: { fileSize: 2000000 },
     fileFilter,
     storage: postImageStorage,
-}).single("avatar");
+}).single("image");
 //# sourceMappingURL=multer.middleware.js.map

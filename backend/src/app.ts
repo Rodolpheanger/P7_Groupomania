@@ -1,12 +1,13 @@
 import express, { Express, Request, Response } from "express";
-const app: Express = express();
 import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import helmet from "helmet";
-dotenv.config();
+import path from "path";
 import "../config/database";
 import userRoutes from "./routes/users.routes";
 import postRoutes from "./routes/posts.routes";
+const app: Express = express();
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
 
@@ -21,10 +22,6 @@ app.use(
     optionsSuccessStatus: 204,
   })
 );
-
-// Mise en place des routes
-app.use("/api/user", userRoutes);
-app.use("/api/post", postRoutes);
 // **** Lancement du server ****
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Express + TypeScript Server is running");
@@ -33,3 +30,18 @@ app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
 // ***************************************************************************
+
+// Mise en place des middlewares pour servir les uploads
+
+app.use("/avatars", express.static(path.join(__dirname, "avatars")));
+app.use("/images", express.static(path.join(__dirname, "posts_images")));
+
+// Mise en place des routes
+app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
+
+// Gestionnaire d'erreurs ???
+// app.use((err: QueryError, req: Request, res: Response, next: NextFunction) => {
+//   console.log(err.stack);
+//   res.status(500).send(err.stack);
+// });

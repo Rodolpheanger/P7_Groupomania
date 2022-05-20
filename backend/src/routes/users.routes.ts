@@ -2,7 +2,7 @@ import express from "express";
 import auth from "../middleware/auth.middleware";
 import { userValidity } from "./../middleware/user-validation.middleware";
 import { uploadAvatar } from "./../middleware/multer.middleware";
-import { setAvatar } from "../controllers/upload.controller";
+import { setAvatar } from "../controllers/upload.controllers";
 import { signup, signin } from "../controllers/sign.controllers";
 import {
   getUsers,

@@ -1,17 +1,23 @@
 import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
-import { checkIfPostExistAndGetOwner } from "../utils/post.utils";
+import { checkIfPostExistAndGetDatas } from "../utils/post.utils";
+import {
+  deleteOldPostImageOnServer,
+  createPostImgUrl,
+  setPostImgUrl,
+} from "../utils/uploads.utils";
 import { getUserId } from "../utils/user.utils";
 
 export const serviceCreatePost = async (
   req: Request
 ): Promise<QueryError | boolean | unknown> => {
-  const { content, post_img_url, title } = req.body;
+  const { content, title } = req.body;
+  const postImgUrl = createPostImgUrl(req);
   try {
     const userId = await getUserId(req);
     return new Promise((resolve, reject) => {
-      const reqCreatePost: string = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, p_fk_user_id) VALUES (UUID(), "${content}", "${post_img_url}", NOW(), "${title}", NULL, "${userId}") `;
+      const reqCreatePost: string = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", NULL, "${userId}") `;
       db.query(reqCreatePost, (err: QueryError) => {
         err ? reject(err) : resolve(true);
       });
@@ -57,14 +63,19 @@ export const serviceUpdatePost = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   const postId: string = req.params.id;
-  const { content, imgUrl, title } = req.body;
+  const { content, title } = req.body;
   try {
-    const postData = await checkIfPostExistAndGetOwner(postId);
-    return !postData
+    const postDatas = await checkIfPostExistAndGetDatas(postId);
+    console.log(postDatas);
+    const postOwner = postDatas.u_uid;
+    const oldPostImgUrl = postDatas.p_post_img_url;
+    console.log("Log oldPostImgUrl dans serviceUpdate: ", oldPostImgUrl);
+    const postImgUrl = setPostImgUrl(req, oldPostImgUrl);
+    return !postDatas
       ? false
-      : postData === req.userUid
+      : postOwner === req.userUid
       ? new Promise((resolve, reject) => {
-          const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${imgUrl}', p_title = '${title}' WHERE p_uid = '${postId}'`;
+          const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrl}',p_title = '${title}' WHERE p_uid = '${postId}'`;
           db.query(reqUpdatePost, (err: QueryError) => {
             err ? reject(err) : resolve(true);
           });
@@ -81,11 +92,15 @@ export const serviceDeletePost = async (
 ): Promise<QueryError | boolean | unknown> => {
   const postId: string = req.params.id;
   try {
-    const postData = await checkIfPostExistAndGetOwner(postId);
-    return !postData
+    const postDatas = await checkIfPostExistAndGetDatas(postId);
+    const postOwner = postDatas.u_uid;
+    const postImgUrl = postDatas.p_post_img_url;
+    console.log("Log postImgUrl dans service delete: ", postImgUrl);
+    return !postDatas
       ? false
-      : postData === req.userUid
+      : postOwner === req.userUid
       ? new Promise((resolve, reject) => {
+          deleteOldPostImageOnServer(postImgUrl);
           const reqDeletePost: string = `DELETE FROM posts WHERE p_uid = '${postId}'`;
           db.query(reqDeletePost, (err: QueryError) => {
             err ? reject(err) : resolve(true);

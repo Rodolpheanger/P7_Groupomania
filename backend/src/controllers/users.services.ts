@@ -2,7 +2,8 @@ import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
-import { checkIfUserExistAndGetData } from "../utils/user.utils";
+import { deleteAvatarImgIfExist } from "../utils/uploads.utils";
+import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
 
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
@@ -29,45 +30,52 @@ export const serviceGetOneUser = (
   });
 };
 
+// TODO: voir gestion des erreurs !!!!!!!!!!!!!!!!!!!
+
 export const serviceUpdateUser = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.params.id;
   const { username, email, password, firstname, lastname, bio } = req.body;
-  try {
-    const userExist = await checkIfUserExistAndGetData(userUid, "u_uid");
-    return !userExist
-      ? false
-      : userExist === req.userUid
-      ? new Promise(async (resolve, reject) => {
-          try {
-            const hashedPassword = await hashPassword(password);
-            const sqlUpdateUser: string = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_uid = '${userUid}'`;
-            db.query(sqlUpdateUser, (err: QueryError): void => {
-              err ? reject(err) : resolve(true);
-            });
-          } catch (err) {
-            console.log(err);
-            return err;
-          }
-        })
-      : "Forbidden";
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
+  // try {
+  const userExist = await checkIfUserExistAndGetDatas(userUid, "u_uid");
+  return !userExist
+    ? false
+    : userExist === req.userUid
+    ? new Promise(async (resolve, reject) => {
+        try {
+          const hashedPassword = await hashPassword(password);
+          const sqlUpdateUser: string = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_uid = '${userUid}'`;
+          db.query(sqlUpdateUser, (err: QueryError): void => {
+            err ? reject(err) : resolve(true);
+          });
+        } catch (err) {
+          console.log(err);
+          return err;
+        }
+      })
+    : "Forbidden";
+  // } catch (err) {
+  //   console.log(err);
+  //   return err;
+  // }
 };
+
+// TODO: voir clé etrangère entre user et post HS et sur comments : REVOIR toutes les clés étrangères !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 export const serviceDeleteUser = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.params.id;
   try {
-    const userExist = await checkIfUserExistAndGetData(userUid, "u_uid");
-    return !userExist
+    const datas = await checkIfUserExistAndGetDatas(userUid, "u_uid");
+    const userOwner = datas.u_uid;
+    const avatarUrl = datas.u_avatar_url;
+    return !datas
       ? false
-      : userExist === req.userUid
+      : userOwner === req.userUid
       ? new Promise((resolve, reject) => {
+          deleteAvatarImgIfExist(req, avatarUrl);
           const sqlDeleteUser: string = `DELETE FROM users WHERE u_uid = '${userUid}'`;
           db.query(sqlDeleteUser, (err: string) => {
             err ? reject(err) : resolve(true);
