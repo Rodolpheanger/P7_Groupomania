@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const errors_utils_1 = require("./utils/errors.utils");
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -37,9 +38,9 @@ app.use("/images", express_1.default.static(path_1.default.join(__dirname, "post
 // Mise en place des routes
 app.use("/api/user", users_routes_1.default);
 app.use("/api/post", posts_routes_1.default);
-// Gestionnaire d'erreurs ???
-// app.use((err: QueryError, req: Request, res: Response, next: NextFunction) => {
-//   console.log(err.stack);
-//   res.status(500).send(err.stack);
-// });
+// Renvoi des erreurs non catchés vers errors.util
+app.use((err, req, res, next) => {
+    console.log("Error in app.ts : ", err);
+    (0, errors_utils_1.errorResponse)(err, res);
+});
 //# sourceMappingURL=app.js.map

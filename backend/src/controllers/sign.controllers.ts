@@ -21,7 +21,7 @@ export const signin = async (req: Request, res: Response): Promise<void> => {
       : res.status(200).json({
           message: "Connexion réussie",
           userUid: result.userUid,
-          userIsAdmin: result.userIsAdmin,
+          userRole: result.userRole,
           token: result.token,
         });
   } catch (err) {

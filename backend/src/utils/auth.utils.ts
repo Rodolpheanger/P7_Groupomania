@@ -3,13 +3,13 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 interface Payload {
   userUid: string;
-  userIsAdmin: boolean;
+  userRole: boolean;
 }
 
-export const createToken = (u_uid: string, u_isadmin: boolean) => {
+export const createToken = (u_uid: string, u_role: boolean) => {
   const payload: Payload = {
     userUid: u_uid,
-    userIsAdmin: u_isadmin,
+    userRole: u_role,
   };
   return jwt.sign(payload, `${process.env.JWT_SECRETKEY}`, {
     expiresIn: "24h",

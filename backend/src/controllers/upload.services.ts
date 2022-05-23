@@ -9,24 +9,18 @@ export const serviceSetAvatarUrl = async (
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.userUid;
   const avatarOwner = req.body.uid;
-  try {
-    const datas = await checkIfUserExistAndGetDatas(avatarOwner, "u_uid");
-    const oldAvatarUrl = datas.u_avatar_url;
-    console.log("serviceSet: ", oldAvatarUrl);
-    const reqUser = datas.u_uid;
-    return !reqUser
-      ? false
-      : reqUser === userUid
-      ? new Promise((resolve, reject) => {
-          const avatarUrl = createAvatarUrl(req, oldAvatarUrl);
-          const reqSetAvatarUrl: string = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${userUid}"`;
-          db.query(reqSetAvatarUrl, (err: QueryError) => {
-            err ? reject(err) : resolve(true);
-          });
-        })
-      : "Forbidden";
-  } catch (err) {
-    console.log(err);
-    return err;
+  const datas = await checkIfUserExistAndGetDatas(avatarOwner, "u_uid");
+  const oldAvatarUrl = datas.u_avatar_url;
+  const reqUser = datas.u_uid;
+  if (reqUser === userUid) {
+    return new Promise((resolve, reject) => {
+      const avatarUrl = createAvatarUrl(req, oldAvatarUrl);
+      const reqSetAvatarUrl: string = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${userUid}"`;
+      db.query(reqSetAvatarUrl, (err: QueryError) => {
+        err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+      });
+    });
+  } else {
+    throw Error("forbidden");
   }
 };

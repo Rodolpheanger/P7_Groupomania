@@ -22,7 +22,7 @@ const LoginForm = () => {
     actions.setSubmitting(false);
     try {
       const response = await axios.post("api/user/signin", values);
-      const { userUid, userIsAdmin, token, message, error } = response.data;
+      const { userUid, userRole, token, message, error } = response.data;
       console.log(response);
       console.log(error);
       return error
@@ -30,7 +30,7 @@ const LoginForm = () => {
         : (alert(message),
           localStorage.setItem(
             "data",
-            JSON.stringify({ userUid, userIsAdmin, token })
+            JSON.stringify({ userUid, userRole, token })
           ),
           navigate("/posts"));
     } catch (err) {

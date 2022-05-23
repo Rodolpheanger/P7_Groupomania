@@ -4,10 +4,15 @@ exports.checkIfUserExistAndGetDatas = exports.getUserId = void 0;
 const database_1 = require("../../config/database");
 const getUserId = (req) => {
     return new Promise((resolve, reject) => {
-        const reqGetUserId = `SELECT u_id FROM users WHERE u_uid = "${req.userUid}"`;
+        const userUid = req.userUid;
+        const reqGetUserId = `SELECT u_id FROM users WHERE u_uid = "${userUid}"`;
         database_1.db.query(reqGetUserId, (err, rows) => {
-            console.log(rows);
-            err ? reject(err) : resolve(rows[0].u_id);
+            err
+                ? (console.log(err), reject(Error("query error")))
+                : rows.length === 0
+                    ? (console.log(`User "${userUid} not found`),
+                        reject(Error("user not found")))
+                    : resolve(rows[0].u_id);
         });
     });
 };
@@ -17,9 +22,10 @@ const checkIfUserExistAndGetDatas = (data, dataType) => {
         const sqlFindUser = `SELECT u_uid, u_avatar_url FROM users WHERE ${dataType} = '${data}'`;
         database_1.db.query(sqlFindUser, (err, rows) => {
             err
-                ? reject(err)
+                ? (console.log(err), reject(Error("query error")))
                 : rows.length === 0
-                    ? reject({ error: "Utilisateur non trouvé" })
+                    ? (console.log(`User "${data}" not found`),
+                        reject(Error(`user not found`)))
                     : resolve(rows[0]);
         });
     });

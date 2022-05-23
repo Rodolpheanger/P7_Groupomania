@@ -17,7 +17,7 @@ const fileFilter = (req, file, cb) => {
         cb(null, true);
     }
     else {
-        cb(new Error("Le type de fichier est invalide (fichiers jpg, jpeg ou png uniquement)"), false);
+        cb(new Error("Multer unexpected file"), false);
     }
 };
 const avatarStorage = multer_1.default.diskStorage({

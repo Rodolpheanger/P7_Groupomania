@@ -1,3 +1,4 @@
+import { errorResponse } from "./../utils/errors.utils";
 import { Request, Response, NextFunction } from "express";
 import { userSchema } from "../models/users.models";
 
@@ -6,8 +7,12 @@ export const userValidity = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const isValid: boolean = await userSchema.isValid(req.body);
-  isValid
-    ? next()
-    : res.status(400).json({ message: "Format des données non valide !" });
+  try {
+    const isValid = await userSchema.validate(req.body).catch((err) => {
+      throw new Error(err);
+    });
+    if (isValid) next();
+  } catch (err: any) {
+    errorResponse(err, res);
+  }
 };

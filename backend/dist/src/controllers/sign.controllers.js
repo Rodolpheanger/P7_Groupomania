@@ -23,7 +23,7 @@ const signin = async (req, res) => {
                 : res.status(200).json({
                     message: "Connexion réussie",
                     userUid: result.userUid,
-                    userIsAdmin: result.userIsAdmin,
+                    userRole: result.userRole,
                     token: result.token,
                 });
     }

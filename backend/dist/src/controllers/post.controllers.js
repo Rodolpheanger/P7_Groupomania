@@ -1,86 +1,71 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePost = exports.updatePost = exports.getPostsByAuthor = exports.getOnePost = exports.getAllPosts = exports.createPost = void 0;
+const errors_utils_1 = require("../utils/errors.utils");
 const post_services_1 = require("./post.services");
 const createPost = async (req, res) => {
     try {
         const result = await (0, post_services_1.serviceCreatePost)(req);
-        result
-            ? res.status(201).json({ message: "Post créé avec succès" })
-            : res.status(400).json({ message: "Requête non conforme" });
+        if (result)
+            res.status(201).json({ message: "Post créé avec succès" });
     }
     catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Test Erreur interne serveur" });
+        (0, errors_utils_1.errorResponse)(err, res);
     }
 };
 exports.createPost = createPost;
 const getAllPosts = async (req, res) => {
     try {
         const data = await (0, post_services_1.serviceGetAllPosts)();
-        data
-            ? res.status(200).json(data)
-            : res.status(400).json({ message: "Requête non conforme" });
+        if (data)
+            res.status(200).json(data);
     }
     catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Erreur interne serveur" });
+        (0, errors_utils_1.errorResponse)(err, res);
     }
 };
 exports.getAllPosts = getAllPosts;
 const getOnePost = async (req, res) => {
     try {
         const data = await (0, post_services_1.serviceGetOnePost)(req);
-        data
-            ? res.status(200).json({ data })
-            : res.status(400).json({ message: "Requête non conforme" });
+        if (data)
+            res.status(200).json(data);
     }
     catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Erreur interne serveur" });
+        (0, errors_utils_1.errorResponse)(err, res);
     }
 };
 exports.getOnePost = getOnePost;
 const getPostsByAuthor = async (req, res) => {
     try {
         const data = await (0, post_services_1.serviceGetPostsByAuthor)(req);
-        data
-            ? res.status(200).json({ data })
-            : res.status(400).json({ message: "Requête non conforme" });
+        if (data)
+            res.status(200).json(data);
     }
     catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Erreur interne serveur" });
+        (0, errors_utils_1.errorResponse)(err, res);
     }
 };
 exports.getPostsByAuthor = getPostsByAuthor;
 const updatePost = async (req, res) => {
     try {
         const result = await (0, post_services_1.serviceUpdatePost)(req);
-        result === "Forbidden"
-            ? res.status(403).json({ message: "Requête non autorisée" })
-            : result
-                ? res.status(200).json({ message: "Post mis à jour avec succès" })
-                : res.status(404).json({ message: "Post non trouvé" });
+        if (result)
+            res.status(200).json({ message: "Post mis à jour avec succès" });
     }
     catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Erreur interne serveur" });
+        (0, errors_utils_1.errorResponse)(err, res);
     }
 };
 exports.updatePost = updatePost;
 const deletePost = async (req, res) => {
     try {
         const result = await (0, post_services_1.serviceDeletePost)(req);
-        result === "Forbidden"
-            ? res.status(403).json({ message: "Requête non autorisée" })
-            : result
-                ? res.status(200).json({ message: "Post supprimé avec succès" })
-                : res.status(404).json({ message: "Post non trouvé" });
+        if (result)
+            res.status(200).json({ message: "Post supprimé avec succès" });
     }
     catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Erreur interne serveur" });
+        (0, errors_utils_1.errorResponse)(err, res);
     }
 };
 exports.deletePost = deletePost;

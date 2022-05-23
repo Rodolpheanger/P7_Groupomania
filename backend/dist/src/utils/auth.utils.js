@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserUid = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const createToken = (u_uid, u_isadmin) => {
+const createToken = (u_uid, u_role) => {
     const payload = {
         userUid: u_uid,
-        userIsAdmin: u_isadmin,
+        userRole: u_role,
     };
     return jsonwebtoken_1.default.sign(payload, `${process.env.JWT_SECRETKEY}`, {
         expiresIn: "24h",

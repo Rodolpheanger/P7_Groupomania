@@ -36,7 +36,7 @@ export const serviceSignup = (req: Request) => {
 export const serviceSignin = (req: Request) => {
   const { email, password } = req.body;
   return new Promise((resolve, reject) => {
-    const sqlLogin: string = `SELECT u_uid, u_password, u_isadmin FROM users WHERE u_email = "${email}";`;
+    const sqlLogin: string = `SELECT u_uid, u_password, u_role FROM users WHERE u_email = "${email}";`;
     db.query(sqlLogin, async (err: QueryError, rows: RowDataPacket[]) => {
       try {
         if (err) {
@@ -44,7 +44,7 @@ export const serviceSignin = (req: Request) => {
         } else if (rows.length === 0) {
           resolve("NoUser");
         } else {
-          const { u_password, u_uid, u_isadmin } = rows[0];
+          const { u_password, u_uid, u_role } = rows[0];
           const validPassword: boolean = await checkPassword(
             password,
             u_password
@@ -52,11 +52,11 @@ export const serviceSignin = (req: Request) => {
           if (!validPassword) {
             resolve("WrongPassword");
           } else {
-            const token: string = createToken(u_uid, u_isadmin);
+            const token: string = createToken(u_uid, u_role);
             const result = {
               token,
               userUid: u_uid,
-              userIsAdmin: u_isadmin,
+              useRole: u_role,
             };
             resolve(result);
           }

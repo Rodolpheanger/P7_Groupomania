@@ -1,4 +1,6 @@
-import express, { Express, Request, Response } from "express";
+import { errorResponse } from "./utils/errors.utils";
+import { QueryError } from "mysql2";
+import express, { Express, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
@@ -40,8 +42,10 @@ app.use("/images", express.static(path.join(__dirname, "posts_images")));
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 
-// Gestionnaire d'erreurs ???
-// app.use((err: QueryError, req: Request, res: Response, next: NextFunction) => {
-//   console.log(err.stack);
-//   res.status(500).send(err.stack);
-// });
+// Renvoi des erreurs non catchés vers errors.util
+app.use(
+  (err: QueryError | any, req: Request, res: Response, next: NextFunction) => {
+    console.log("Error in app.ts : ", err);
+    errorResponse(err, res);
+  }
+);

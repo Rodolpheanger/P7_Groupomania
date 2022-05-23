@@ -30,14 +30,12 @@ const createAvatarUrl = (req, avatarUrl) => {
         return `${req.protocol}://${req.get("host")}/uploads/avatars/${req.file.filename}`;
     }
     else {
-        console.log("create", avatarUrl);
         (0, exports.deleteAvatarImgIfExist)(req, avatarUrl);
         return "";
     }
 };
 exports.createAvatarUrl = createAvatarUrl;
 const deleteAvatarImgIfExist = (req, avatarUrl) => {
-    console.log("deleteIf", avatarUrl);
     avatarUrl ? deleteAvatarImgOnServer(req, avatarUrl) : true;
 };
 exports.deleteAvatarImgIfExist = deleteAvatarImgIfExist;
@@ -59,10 +57,10 @@ const modifyPostImgUrl = (req) => {
 };
 const deleteOldPostImageOnServer = (oldPostImgUrl) => {
     const filename = oldPostImgUrl.split("/posts_images/")[1];
-    console.log(filename);
     fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 exports.deleteOldPostImageOnServer = deleteOldPostImageOnServer;
+// TODO voir pour si multipart mais img vide
 const setPostImgUrl = (req, oldPostImgUrl) => {
     if (!req.file) {
         return oldPostImgUrl;

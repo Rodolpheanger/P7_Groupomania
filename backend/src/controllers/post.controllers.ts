@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { errorResponse } from "../utils/errors.utils";
 import {
   serviceCreatePost,
   serviceDeletePost,
@@ -14,12 +15,9 @@ export const createPost = async (
 ): Promise<void> => {
   try {
     const result = await serviceCreatePost(req);
-    result
-      ? res.status(201).json({ message: "Post créé avec succès" })
-      : res.status(400).json({ message: "Requête non conforme" });
+    if (result) res.status(201).json({ message: "Post créé avec succès" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Test Erreur interne serveur" });
+    errorResponse(err, res);
   }
 };
 
@@ -29,12 +27,9 @@ export const getAllPosts = async (
 ): Promise<void> => {
   try {
     const data = await serviceGetAllPosts();
-    data
-      ? res.status(200).json(data)
-      : res.status(400).json({ message: "Requête non conforme" });
+    if (data) res.status(200).json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Erreur interne serveur" });
+    errorResponse(err, res);
   }
 };
 
@@ -44,12 +39,9 @@ export const getOnePost = async (
 ): Promise<void> => {
   try {
     const data = await serviceGetOnePost(req);
-    data
-      ? res.status(200).json({ data })
-      : res.status(400).json({ message: "Requête non conforme" });
+    if (data) res.status(200).json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Erreur interne serveur" });
+    errorResponse(err, res);
   }
 };
 
@@ -59,12 +51,9 @@ export const getPostsByAuthor = async (
 ): Promise<void> => {
   try {
     const data = await serviceGetPostsByAuthor(req);
-    data
-      ? res.status(200).json({ data })
-      : res.status(400).json({ message: "Requête non conforme" });
+    if (data) res.status(200).json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Erreur interne serveur" });
+    errorResponse(err, res);
   }
 };
 
@@ -74,14 +63,10 @@ export const updatePost = async (
 ): Promise<void> => {
   try {
     const result = await serviceUpdatePost(req);
-    result === "Forbidden"
-      ? res.status(403).json({ message: "Requête non autorisée" })
-      : result
-      ? res.status(200).json({ message: "Post mis à jour avec succès" })
-      : res.status(404).json({ message: "Post non trouvé" });
+    if (result)
+      res.status(200).json({ message: "Post mis à jour avec succès" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Erreur interne serveur" });
+    errorResponse(err, res);
   }
 };
 
@@ -91,13 +76,8 @@ export const deletePost = async (
 ): Promise<void> => {
   try {
     const result = await serviceDeletePost(req);
-    result === "Forbidden"
-      ? res.status(403).json({ message: "Requête non autorisée" })
-      : result
-      ? res.status(200).json({ message: "Post supprimé avec succès" })
-      : res.status(404).json({ message: "Post non trouvé" });
+    if (result) res.status(200).json({ message: "Post supprimé avec succès" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Erreur interne serveur" });
+    errorResponse(err, res);
   }
 };
