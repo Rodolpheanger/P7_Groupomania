@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setPostImgUrl = exports.deleteOldPostImageOnServer = exports.createPostImgUrl = exports.deleteAvatarImgIfExist = exports.createAvatarUrl = void 0;
+exports.setPostImgUrl = exports.deletePostImageOnServer = exports.createPostImgUrl = exports.deleteAvatarImgIfExist = exports.createAvatarUrl = void 0;
 const fs = __importStar(require("fs"));
 const createAvatarUrl = (req, avatarUrl) => {
     if (req.file) {
@@ -55,12 +55,19 @@ exports.createPostImgUrl = createPostImgUrl;
 const modifyPostImgUrl = (req) => {
     return `${req.protocol}://${req.get("host")}/uploads/posts_images/${req.file.filename}`;
 };
-const deleteOldPostImageOnServer = (oldPostImgUrl) => {
-    const filename = oldPostImgUrl.split("/posts_images/")[1];
+const getFilename = (req, oldPostImgUrl) => {
+    if (req.file) {
+        return req.file.filename;
+    }
+    else {
+        return oldPostImgUrl.split("/posts_images/")[1];
+    }
+};
+const deletePostImageOnServer = (req, oldPostImgUrl) => {
+    const filename = getFilename(req, oldPostImgUrl);
     fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
-exports.deleteOldPostImageOnServer = deleteOldPostImageOnServer;
-// TODO voir pour si multipart mais img vide
+exports.deletePostImageOnServer = deletePostImageOnServer;
 const setPostImgUrl = (req, oldPostImgUrl) => {
     if (!req.file) {
         return oldPostImgUrl;
@@ -70,7 +77,7 @@ const setPostImgUrl = (req, oldPostImgUrl) => {
         return postImgUrl;
     }
     else {
-        (0, exports.deleteOldPostImageOnServer)(oldPostImgUrl);
+        (0, exports.deletePostImageOnServer)(req, oldPostImgUrl);
         const newPostImgUrl = modifyPostImgUrl(req);
         return newPostImgUrl;
     }

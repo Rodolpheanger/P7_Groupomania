@@ -12,14 +12,14 @@ const sign_controllers_1 = require("../controllers/sign.controllers");
 const users_controllers_1 = require("../controllers/users.controllers");
 const router = express_1.default.Router();
 // sign
-router.post("/signup", user_validation_middleware_1.userValidity, sign_controllers_1.signup);
-router.post("/signin", user_validation_middleware_1.userValidity, sign_controllers_1.signin);
+router.post("/signup", user_validation_middleware_1.userValidation, sign_controllers_1.signup);
+router.post("/signin", user_validation_middleware_1.userValidation, sign_controllers_1.signin);
 //upload
 router.put("/upload", auth_middleware_1.default, multer_middleware_1.uploadAvatar, upload_controllers_1.setAvatar);
 // users
 router.get("/users", auth_middleware_1.default, users_controllers_1.getUsers);
 router.get("/:id", auth_middleware_1.default, users_controllers_1.getUser);
-router.put("/:id", auth_middleware_1.default, user_validation_middleware_1.userValidity, users_controllers_1.updateUser);
+router.put("/:id", auth_middleware_1.default, user_validation_middleware_1.userValidation, users_controllers_1.updateUser);
 router.delete("/:id", auth_middleware_1.default, users_controllers_1.deleteUser);
 exports.default = router;
 //# sourceMappingURL=users.routes.js.map

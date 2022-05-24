@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { req, Request } from "express";
 import * as fs from "fs";
 
 export const createAvatarUrl = (
@@ -43,21 +43,33 @@ const modifyPostImgUrl = (req: Request | any): string => {
   }`;
 };
 
-export const deleteOldPostImageOnServer = (oldPostImgUrl: string) => {
-  const filename = oldPostImgUrl.split("/posts_images/")[1];
+const getFilename = (req: Request | any, oldPostImgUrl: string) => {
+  if (req.file) {
+    return req.file.filename;
+  } else {
+    return oldPostImgUrl.split("/posts_images/")[1];
+  }
+};
+
+export const deletePostImageOnServer = (
+  req: Request | any,
+  oldPostImgUrl: string
+) => {
+  const filename = getFilename(req, oldPostImgUrl);
   fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 
-// TODO voir pour si multipart mais img vide
-
-export const setPostImgUrl = (req: Request, oldPostImgUrl: string): string => {
+export const setPostImgUrl = (
+  req: Request | any,
+  oldPostImgUrl: string
+): string => {
   if (!req.file) {
     return oldPostImgUrl;
   } else if (req.file && !oldPostImgUrl) {
     const postImgUrl = createPostImgUrl(req);
     return postImgUrl;
   } else {
-    deleteOldPostImageOnServer(oldPostImgUrl);
+    deletePostImageOnServer(req, oldPostImgUrl);
     const newPostImgUrl = modifyPostImgUrl(req);
     return newPostImgUrl;
   }

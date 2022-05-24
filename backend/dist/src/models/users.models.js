@@ -27,28 +27,30 @@ exports.userSchema = void 0;
 const yup = __importStar(require("yup"));
 exports.userSchema = yup.object().shape({
     uid: yup.string().uuid(),
-    username: yup.string().max(50, "Nom d'utilisateur trop long"),
+    username: yup
+        .string()
+        .max(50, "Nom d'utilisateur trop long (50 caractères max)"),
     email: yup
         .string()
-        .max(150, "Email trop long")
-        .email("Format email non valide"),
+        .max(150, "Email trop long (150 caractères max)")
+        .email("Format email non valide (exemple: nom.prenom@groupomania.fr)"),
     password: yup
         .string()
-        .min(6, "Mot de passe trop court (caractères min 8)")
-        .max(50, "Mot de passe trop long (caractères max 50)"),
+        .min(6, "Mot de passe trop court (8 caractères min)")
+        .max(50, "Mot de passe trop long (50 caractères max)"),
     firstname: yup
         .string()
         .matches(/[a-zA-Z]+/i, "Caractères alphabétiques uniquement")
-        .max(50, "Prénom trop long (caractères max 50)"),
+        .max(50, "Prénom trop long (50 caractères max)"),
     lastname: yup
         .string()
         .matches(/[a-zA-Z]+/i, "Caractères alphabétiques uniquement")
-        .max(50, "Nom trop long (caractères max 50)"),
-    bio: yup.string().max(500, "Bio trop longue (caractères max 500)"),
-    avatar_url: yup
-        .string()
-        .max(255, "Nom d'image trop long (caractères max 255)"),
-    inscription_date: yup.date(),
+        .max(50, "Nom trop long (50 caractères max)"),
+    bio: yup.string().max(500, "Bio trop longue (500 caractères max)"),
+    // avatar_url: yup
+    //   .string()
+    //   .max(255, "Nom d'image trop long (caractères max 255)"),
+    // inscription_date: yup.date(),
     role: yup
         .string()
         .matches(/user|admin/i, "Role non autorisé")

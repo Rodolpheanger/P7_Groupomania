@@ -1,14 +1,14 @@
 import { errorResponse } from "./../utils/errors.utils";
 import { Request, Response, NextFunction } from "express";
-import { userSchema } from "../models/users.models";
+import { postSchema } from "../models/posts.models";
 
-export const userValidation = async (
+export const postValidation = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const isValid = await userSchema.validate(req.body).catch((err) => {
+    const isValid = await postSchema.validate(req.body).catch((err) => {
       throw new Error(err);
     });
     if (isValid) next();

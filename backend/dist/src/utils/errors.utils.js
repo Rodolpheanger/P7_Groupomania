@@ -1,83 +1,113 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorResponse = void 0;
+class ErrorToSend {
+    constructor(code, message) {
+        this.code = code;
+        this.message = message;
+    }
+    sendError(res) {
+        return res.status(this.code).json({ message: this.message });
+    }
+}
 const errorResponse = (err, res) => {
-    const error = setError(err);
-    res.status(error.code).json({ message: error.message });
-};
-exports.errorResponse = errorResponse;
-const setError = (err) => {
-    console.log("Error message in utils: ", err.message);
+    if (err.message)
+        console.log("Error message in errors.utils: ", err.message);
+    if (err.field)
+        console.log("Error message in errors.utils: ", err.field);
     if (err.message.includes("unauthorized") ||
         err.message.includes("forbidden") ||
         err.message.includes("split")) {
-        return authErrors(err);
+        return authErrors(err, res);
     }
     if ((err.field && err.field.includes("avatar")) ||
         (err.field && err.field.includes("image")) ||
         err.message.includes("Multer")) {
-        return multerErrors(err);
+        return multerErrors(err, res);
+    }
+    if (err.message.includes("no file")) {
+        return fileErrors(err, res);
     }
     if (err.message.includes("ValidationError")) {
-        return validationErrors(err);
+        return validationErrors(err, res);
     }
     if (err.message.includes("query")) {
-        return queryError();
+        return queryError(err, res);
+    }
+    if (err.message.includes("email") ||
+        err.message.includes("username") ||
+        err.message.includes("password")) {
+        return signErrors(err, res);
     }
     if (err.message.includes("user")) {
-        return userErrors(err);
+        return userErrors(err, res);
+    }
+    if (err.message.includes("post")) {
+        return postErrors(err, res);
     }
     if (err.message.includes("unlink")) {
-        return internalServerError();
+        return internalServerError(err, res);
     }
     else {
-        return { code: 500, message: "erreur inconnue" };
+        new ErrorToSend(500, "erreur inconnue").sendError(res);
     }
 };
-const authErrors = (err) => {
-    let error = { code: 0, message: "" };
+exports.errorResponse = errorResponse;
+const authErrors = (err, res) => {
     if (err.message.includes("unauthorized") || err.message.includes("split")) {
-        (error.code = 401), (error.message = "Echec de l'authentification");
+        new ErrorToSend(401, "Echec de l'authentification").sendError(res);
     }
     if (err.message.includes("forbidden")) {
-        (error.code = 403), (error.message = "Requête non autorisée");
+        new ErrorToSend(403, "Requête non autorisée").sendError(res);
     }
-    return error;
 };
-const multerErrors = (err) => {
-    let error = { code: 0, message: "" };
+const multerErrors = (err, res) => {
     if (err.message.includes("File too large") && err.field.includes("avatar")) {
-        (error.code = 400),
-            (error.message =
-                "Fichier trop volumineux (taille maximum autorisée: 1 Mo)");
+        new ErrorToSend(400, "Fichier trop volumineux (taille maximum autorisée: 1 Mo)").sendError(res);
     }
     if (err.message.includes("File too large") && err.field.includes("image")) {
-        (error.code = 400),
-            (error.message =
-                "Fichier trop volumineux (taille maximum autorisée: 2 Mo)");
+        new ErrorToSend(400, "Fichier trop volumineux (taille maximum autorisée: 2 Mo)").sendError(res);
     }
     if (err.message.includes("unexpected file")) {
-        (error.code = 400),
-            (error.message =
-                "Type de fichier non pris en charge (jpg, jpeg et png uniquement");
+        new ErrorToSend(400, "Type de fichier non pris en charge (jpg, jpeg et png uniquement").sendError(res);
     }
-    return error;
 };
-const validationErrors = (err) => {
-    return { code: 400, message: err.message.split(":")[1] };
+const fileErrors = (err, res) => {
+    if (err.message.includes("no file")) {
+        new ErrorToSend(400, "Aucun fichier détécté").sendError(res);
+    }
 };
-const queryError = () => {
-    return { code: 500, message: "Erreur interne du serveur" };
+const validationErrors = (err, res) => {
+    new ErrorToSend(400, err.message.split(":")[1]).sendError(res);
 };
-const internalServerError = () => {
-    return { code: 500, message: "Erreur interne du serveur" };
+const queryError = (err, res) => {
+    new ErrorToSend(500, "Erreur interne du serveur").sendError(res);
 };
-const userErrors = (err) => {
-    let error = { code: 0, message: "" };
+const signErrors = (err, res) => {
+    if (err.message.includes("username")) {
+        new ErrorToSend(400, `Pseudo '${err.message.split("'")[1]}' déjà enregistré`).sendError(res);
+    }
+    if (err.message.includes("email")) {
+        new ErrorToSend(400, `Email '${err.message.split("'")[1]}' déjà enregistré`).sendError(res);
+    }
+    if (err.message.includes("invalid password")) {
+        new ErrorToSend(400, "Mot de passe non valide").sendError(res);
+    }
+};
+const userErrors = (err, res) => {
     if (err.message.includes("user not found")) {
-        error.code = 404;
-        error.message = "Utilisateur non trouvé";
+        new ErrorToSend(404, "Utilisateur non trouvé").sendError(res);
     }
-    return error;
+    if (err.message.includes("invalid password")) {
+        new ErrorToSend(400, "Mot de passe non valide").sendError(res);
+    }
+};
+const postErrors = (err, res) => {
+    if (err.message.includes("not found")) {
+        new ErrorToSend(400, "Post non trouvé").sendError(res);
+    }
+};
+const internalServerError = (err, res) => {
+    new ErrorToSend(500, "Erreur interne du serveur").sendError(res);
 };
 //# sourceMappingURL=errors.utils.js.map
