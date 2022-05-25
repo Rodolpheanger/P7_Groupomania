@@ -15,7 +15,6 @@ const auth = (req, res, next) => {
         }
     }
     catch (err) {
-        console.log("log", err.message);
         (0, errors_utils_1.errorResponse)(err, res);
     }
 };

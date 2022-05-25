@@ -1,4 +1,4 @@
-import { req, Request } from "express";
+import { Request } from "express";
 import * as fs from "fs";
 
 export const createAvatarUrl = (
@@ -19,11 +19,18 @@ export const deleteAvatarImgIfExist = (
   req: Request,
   avatarUrl: string
 ): void => {
-  avatarUrl ? deleteAvatarImgOnServer(req, avatarUrl) : true;
+  if (avatarUrl) deleteAvatarImgOnServer(req, avatarUrl);
 };
 
-const deleteAvatarImgOnServer = (req: Request, avatarUrl: string): void => {
-  const filename = avatarUrl.split("/avatars/")[1];
+const getAvatarFilename = (req: Request | any, avatarUrl: string) => {
+  return req.file ? req.file.filename : avatarUrl.split("/avatars/")[1];
+};
+
+export const deleteAvatarImgOnServer = (
+  req: Request,
+  avatarUrl: string
+): void => {
+  const filename = getAvatarFilename(req, avatarUrl);
   fs.unlinkSync(`uploads/avatars/${filename}`);
 };
 
@@ -43,20 +50,13 @@ const modifyPostImgUrl = (req: Request | any): string => {
   }`;
 };
 
-const getFilename = (req: Request | any, oldPostImgUrl: string) => {
-  if (req.file) {
-    return req.file.filename;
-  } else {
-    return oldPostImgUrl.split("/posts_images/")[1];
-  }
+export const deleteOldPostImageOnServer = (oldPostImgUrl: string) => {
+  const filename = oldPostImgUrl.split("/posts_images/")[1];
+  fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 
-export const deletePostImageOnServer = (
-  req: Request | any,
-  oldPostImgUrl: string
-) => {
-  const filename = getFilename(req, oldPostImgUrl);
-  fs.unlinkSync(`uploads/posts_images/${filename}`);
+export const deleteNewImageOnServer = (req: Request | any) => {
+  fs.unlinkSync(`uploads/posts_images/${req.file.filename}`);
 };
 
 export const setPostImgUrl = (
@@ -69,7 +69,7 @@ export const setPostImgUrl = (
     const postImgUrl = createPostImgUrl(req);
     return postImgUrl;
   } else {
-    deletePostImageOnServer(req, oldPostImgUrl);
+    deleteOldPostImageOnServer(oldPostImgUrl);
     const newPostImgUrl = modifyPostImgUrl(req);
     return newPostImgUrl;
   }

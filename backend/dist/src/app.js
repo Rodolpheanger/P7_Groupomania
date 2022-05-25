@@ -13,6 +13,7 @@ const path_1 = __importDefault(require("path"));
 require("../config/database");
 const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const posts_routes_1 = __importDefault(require("./routes/posts.routes"));
+const comments_routes_1 = __importDefault(require("./routes/comments.routes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
@@ -38,6 +39,7 @@ app.use("/images", express_1.default.static(path_1.default.join(__dirname, "post
 // Mise en place des routes
 app.use("/api/user", users_routes_1.default);
 app.use("/api/post", posts_routes_1.default);
+app.use("/api/comment", comments_routes_1.default);
 // Renvoi des erreurs non catchés vers errors.util
 app.use((err, req, res, next) => {
     console.log("Error in app.ts : ", err);

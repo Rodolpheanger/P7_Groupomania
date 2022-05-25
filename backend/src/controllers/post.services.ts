@@ -3,18 +3,22 @@ import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { checkIfPostExistAndGetDatas } from "../utils/post.utils";
 import {
-  deletePostImageOnServer,
+  deleteOldPostImageOnServer,
   createPostImgUrl,
   setPostImgUrl,
+  deleteNewImageOnServer,
 } from "../utils/uploads.utils";
-import { getUserId } from "../utils/user.utils";
+import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
 
 export const serviceCreatePost = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
+  const userUid = req.userUid;
   const { content, title } = req.body;
   const postImgUrl = createPostImgUrl(req);
-  const userId = await getUserId(req);
+  const userDatas = await checkIfUserExistAndGetDatas(req, userUid);
+
+  const userId = userDatas.u_id;
   if (
     req.headers["content-type"].includes("multipart") &&
     req.file === undefined
@@ -22,7 +26,7 @@ export const serviceCreatePost = async (
     throw Error("no file");
   }
   return new Promise((resolve, reject) => {
-    const reqCreatePost: string = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", NULL, "${userId}") `;
+    const reqCreatePost: string = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", ${userId}) `;
     db.query(reqCreatePost, (err: QueryError) => {
       err ? (console.log(err), reject(Error("query error"))) : resolve(true);
     });
@@ -31,7 +35,7 @@ export const serviceCreatePost = async (
 
 export const serviceGetAllPosts = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
-    const reqGetAllPosts: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id =  u_id`;
+    const reqGetAllPosts: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
     db.query(reqGetAllPosts, (err: QueryError, rows: RowDataPacket[]) => {
       err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
     });
@@ -63,12 +67,12 @@ export const serviceGetPostsByAuthor = (
 export const serviceUpdatePost = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
-  const postId: string = req.params.id;
+  const postUid: string = req.params.id;
   const { content, title } = req.body;
-  const postDatas = await checkIfPostExistAndGetDatas(req, postId);
+  const postDatas = await checkIfPostExistAndGetDatas(req, postUid);
   const postOwner = postDatas.u_uid;
+  const postId = postDatas.p_id;
   const oldPostImgUrl = postDatas.p_post_img_url;
-  const postImgUrl = setPostImgUrl(req, oldPostImgUrl);
   if (
     req.headers["content-type"].includes("multipart") &&
     req.file === undefined
@@ -76,31 +80,39 @@ export const serviceUpdatePost = async (
     throw Error("no file");
   }
   if (postOwner === req.userUid) {
+    const postImgUrl = setPostImgUrl(req, oldPostImgUrl);
+    console.log("1");
     return new Promise((resolve, reject) => {
-      const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrl}',p_title = '${title}' WHERE p_uid = '${postId}'`;
+      const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrl}',p_title = '${title}' WHERE p_id = ${postId}`;
       db.query(reqUpdatePost, (err: QueryError) => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });
     });
   } else {
-    deletePostImageOnServer(req, postImgUrl);
-    throw Error("forbidden");
+    if (req.file) {
+      deleteNewImageOnServer(req);
+      throw Error("forbidden");
+    } else {
+      throw Error("forbidden");
+    }
   }
 };
 
 export const serviceDeletePost = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
-  const postId: string = req.params.id;
-  const postDatas = await checkIfPostExistAndGetDatas(req, postId);
+  const postUid: string = req.params.id;
+  const postDatas = await checkIfPostExistAndGetDatas(req, postUid);
   const postOwner = postDatas.u_uid;
+  const postId = postDatas.p_id;
   const postImgUrl = postDatas.p_post_img_url;
   if (postOwner === req.userUid) {
     return new Promise((resolve, reject) => {
-      deletePostImageOnServer(req, postImgUrl);
-      const reqDeletePost: string = `DELETE FROM posts WHERE p_uid = '${postId}'`;
+      const reqDeletePost: string = `DELETE FROM posts WHERE p_uid = ${postId}`;
       db.query(reqDeletePost, (err: QueryError) => {
-        err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+        err
+          ? (console.log(err), reject(Error("query error")))
+          : (deleteOldPostImageOnServer(postImgUrl), resolve(true));
       });
     });
   } else {

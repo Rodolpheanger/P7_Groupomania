@@ -13,7 +13,6 @@ const auth = (req: Request | any, res: Response, next: NextFunction): void => {
       next();
     }
   } catch (err: any) {
-    console.log("log", err.message);
     errorResponse(err, res);
   }
 };

@@ -14,9 +14,12 @@ const serviceGetAllUsers = () => {
     });
 };
 exports.serviceGetAllUsers = serviceGetAllUsers;
-const serviceGetOneUser = (req) => {
+const serviceGetOneUser = async (req) => {
+    const userUid = req.params.id;
+    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
+    const userId = datas.u_id;
     return new Promise((resolve, reject) => {
-        const sqlGetUser = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_uid = '${req.params.id}'`;
+        const sqlGetUser = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_id = '${userId}'`;
         database_1.db.query(sqlGetUser, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows[0]);
         });
@@ -26,12 +29,13 @@ exports.serviceGetOneUser = serviceGetOneUser;
 const serviceUpdateUser = async (req) => {
     const userUid = req.params.id;
     const { username, email, password, firstname, lastname, bio } = req.body;
-    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(userUid, "u_uid");
+    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
     const userOwner = datas.u_uid;
+    const userId = datas.u_id;
     if (userOwner === req.userUid) {
         return new Promise(async (resolve, reject) => {
             const hashedPassword = await (0, password_utils_1.hashPassword)(password);
-            const sqlUpdateUser = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_uid = '${userUid}'`;
+            const sqlUpdateUser = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_id = ${userId}`;
             database_1.db.query(sqlUpdateUser, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
@@ -44,13 +48,13 @@ const serviceUpdateUser = async (req) => {
 exports.serviceUpdateUser = serviceUpdateUser;
 const serviceDeleteUser = async (req) => {
     const userUid = req.params.id;
-    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(userUid, "u_uid");
+    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
     const userOwner = datas.u_uid;
     const avatarUrl = datas.u_avatar_url;
     if (userOwner === req.userUid) {
         return new Promise((resolve, reject) => {
             (0, uploads_utils_1.deleteAvatarImgIfExist)(req, avatarUrl);
-            const sqlDeleteUser = `DELETE FROM users WHERE u_uid = '${userUid}'`;
+            const sqlDeleteUser = `DELETE FROM users WHERE u_id = '${userUid}'`;
             database_1.db.query(sqlDeleteUser, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });

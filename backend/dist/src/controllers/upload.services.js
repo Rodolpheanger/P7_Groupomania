@@ -7,7 +7,7 @@ const user_utils_1 = require("../utils/user.utils");
 const serviceSetAvatarUrl = async (req) => {
     const userUid = req.userUid;
     const avatarOwner = req.body.uid;
-    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(avatarOwner, "u_uid");
+    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, avatarOwner);
     const oldAvatarUrl = datas.u_avatar_url;
     const reqUser = datas.u_uid;
     if (reqUser === userUid) {
@@ -20,6 +20,7 @@ const serviceSetAvatarUrl = async (req) => {
         });
     }
     else {
+        (0, uploads_utils_1.deleteAvatarImgOnServer)(req, "");
         throw Error("forbidden");
     }
 };

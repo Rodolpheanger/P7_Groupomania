@@ -1,7 +1,10 @@
 import { Request } from "express";
 import { QueryError } from "mysql2";
 import { db } from "../../config/database";
-import { createAvatarUrl } from "../utils/uploads.utils";
+import {
+  createAvatarUrl,
+  deleteAvatarImgOnServer,
+} from "../utils/uploads.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
 
 export const serviceSetAvatarUrl = async (
@@ -9,7 +12,7 @@ export const serviceSetAvatarUrl = async (
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.userUid;
   const avatarOwner = req.body.uid;
-  const datas = await checkIfUserExistAndGetDatas(avatarOwner, "u_uid");
+  const datas = await checkIfUserExistAndGetDatas(req, avatarOwner);
   const oldAvatarUrl = datas.u_avatar_url;
   const reqUser = datas.u_uid;
   if (reqUser === userUid) {
@@ -21,6 +24,7 @@ export const serviceSetAvatarUrl = async (
       });
     });
   } else {
+    deleteAvatarImgOnServer(req, "");
     throw Error("forbidden");
   }
 };
