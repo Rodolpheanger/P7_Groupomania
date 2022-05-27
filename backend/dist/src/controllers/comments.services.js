@@ -34,7 +34,7 @@ const serviceGetCommentsByPost = async (req) => {
 };
 exports.serviceGetCommentsByPost = serviceGetCommentsByPost;
 const serviceModifyComment = async (req) => {
-    const datas = await (0, comment_utils_1.checkIfUserIsOwner)(req);
+    const datas = await (0, comment_utils_1.checkIfUserIsCommentOwner)(req);
     const { commentId, commentOwner } = datas;
     if (commentOwner === req.userUid) {
         return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ const serviceModifyComment = async (req) => {
 };
 exports.serviceModifyComment = serviceModifyComment;
 const serviceDeleteComment = async (req) => {
-    const datas = await (0, comment_utils_1.checkIfUserIsOwner)(req);
+    const datas = await (0, comment_utils_1.checkIfUserIsCommentOwner)(req);
     const { commentId, commentOwner } = datas;
     if (commentOwner === req.userUid) {
         return new Promise((resolve, reject) => {

@@ -61,16 +61,16 @@ export const deleteNewImageOnServer = (req: Request | any) => {
 
 export const setPostImgUrl = (
   req: Request | any,
-  oldPostImgUrl: string
+  postImgUrl: string
 ): string => {
   if (!req.file) {
-    return oldPostImgUrl;
-  } else if (req.file && !oldPostImgUrl) {
-    const postImgUrl = createPostImgUrl(req);
     return postImgUrl;
+  } else if (req.file && !postImgUrl) {
+    const postImgUrlToSend = createPostImgUrl(req);
+    return postImgUrlToSend;
   } else {
-    deleteOldPostImageOnServer(oldPostImgUrl);
-    const newPostImgUrl = modifyPostImgUrl(req);
-    return newPostImgUrl;
+    deleteOldPostImageOnServer(postImgUrl);
+    const postImgUrlToSend = modifyPostImgUrl(req);
+    return postImgUrlToSend;
   }
 };

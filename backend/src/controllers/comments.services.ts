@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
-import { checkIfUserIsOwner } from "../utils/comment.utils";
+import { checkIfUserIsCommentOwner } from "../utils/comment.utils";
 import { checkIfPostExistAndGetDatas } from "../utils/post.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
 
@@ -40,7 +40,7 @@ export const serviceGetCommentsByPost = async (
 export const serviceModifyComment = async (
   req: Request | any
 ): Promise<QueryError | RowDataPacket[0]> => {
-  const datas = await checkIfUserIsOwner(req);
+  const datas = await checkIfUserIsCommentOwner(req);
   const { commentId, commentOwner } = datas;
   if (commentOwner === req.userUid) {
     return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ export const serviceModifyComment = async (
 export const serviceDeleteComment = async (
   req: Request | any
 ): Promise<QueryError | boolean> => {
-  const datas = await checkIfUserIsOwner(req);
+  const datas = await checkIfUserIsCommentOwner(req);
   const { commentId, commentOwner } = datas;
   if (commentOwner === req.userUid) {
     return new Promise((resolve, reject) => {

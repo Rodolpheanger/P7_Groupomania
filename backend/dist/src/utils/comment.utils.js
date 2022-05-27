@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkIfUserIsOwner = exports.checkIfCommentExistAndGetDatas = void 0;
+exports.checkIfUserIsCommentOwner = exports.checkIfCommentExistAndGetDatas = void 0;
 const database_1 = require("../../config/database");
 const post_utils_1 = require("./post.utils");
 const user_utils_1 = require("./user.utils");
@@ -17,7 +17,7 @@ const checkIfCommentExistAndGetDatas = (commentUid) => {
     });
 };
 exports.checkIfCommentExistAndGetDatas = checkIfCommentExistAndGetDatas;
-const checkIfUserIsOwner = async (req) => {
+const checkIfUserIsCommentOwner = async (req) => {
     const commentUid = req.params.id;
     const commentDatas = await (0, exports.checkIfCommentExistAndGetDatas)(commentUid);
     const commentId = commentDatas.c_id;
@@ -26,5 +26,5 @@ const checkIfUserIsOwner = async (req) => {
     const commentOwner = userDatas.u_uid;
     return { commentId, commentOwner };
 };
-exports.checkIfUserIsOwner = checkIfUserIsOwner;
+exports.checkIfUserIsCommentOwner = checkIfUserIsCommentOwner;
 //# sourceMappingURL=comment.utils.js.map

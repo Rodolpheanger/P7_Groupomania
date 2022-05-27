@@ -23,3 +23,11 @@ export const checkIfPostExistAndGetDatas = (
     });
   });
 };
+
+export const checkIfUserIsPostOwner = async (req: Request, postUid: string) => {
+  const postDatas = await checkIfPostExistAndGetDatas(req, postUid);
+  const postOwner = postDatas.u_uid;
+  const postId = postDatas.p_id;
+  const postImgUrl = postDatas.p_post_img_url;
+  return { postOwner, postId, postImgUrl };
+};

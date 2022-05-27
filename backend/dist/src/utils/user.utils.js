@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkIfUserExistAndGetDatas = void 0;
+exports.checkIfUserIsUserOwner = exports.checkIfUserExistAndGetDatas = void 0;
 const database_1 = require("../../config/database");
 const uploads_utils_1 = require("./uploads.utils");
 const checkIfUserExistAndGetDatas = (req, userUid) => {
@@ -21,4 +21,12 @@ const checkIfUserExistAndGetDatas = (req, userUid) => {
     });
 };
 exports.checkIfUserExistAndGetDatas = checkIfUserExistAndGetDatas;
+const checkIfUserIsUserOwner = async (req, userUid) => {
+    const datas = await (0, exports.checkIfUserExistAndGetDatas)(req, userUid);
+    const userOwner = datas.u_uid;
+    const userId = datas.u_id;
+    const avatarUrl = datas.u_avatar_url;
+    return { userOwner, userId, avatarUrl };
+};
+exports.checkIfUserIsUserOwner = checkIfUserIsUserOwner;
 //# sourceMappingURL=user.utils.js.map

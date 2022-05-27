@@ -1,7 +1,10 @@
 import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
-import { checkIfPostExistAndGetDatas } from "../utils/post.utils";
+import {
+  checkIfPostExistAndGetDatas,
+  checkIfUserIsPostOwner,
+} from "../utils/post.utils";
 import {
   deleteOldPostImageOnServer,
   createPostImgUrl,
@@ -17,7 +20,6 @@ export const serviceCreatePost = async (
   const { content, title } = req.body;
   const postImgUrl = createPostImgUrl(req);
   const userDatas = await checkIfUserExistAndGetDatas(req, userUid);
-
   const userId = userDatas.u_id;
   if (
     req.headers["content-type"].includes("multipart") &&
@@ -69,10 +71,8 @@ export const serviceUpdatePost = async (
 ): Promise<QueryError | boolean | unknown> => {
   const postUid: string = req.params.id;
   const { content, title } = req.body;
-  const postDatas = await checkIfPostExistAndGetDatas(req, postUid);
-  const postOwner = postDatas.u_uid;
-  const postId = postDatas.p_id;
-  const oldPostImgUrl = postDatas.p_post_img_url;
+  const datas: any = checkIfUserIsPostOwner(req, postUid);
+  const { postOwner, postId, postImgUrl } = datas;
   if (
     req.headers["content-type"].includes("multipart") &&
     req.file === undefined
@@ -80,10 +80,10 @@ export const serviceUpdatePost = async (
     throw Error("no file");
   }
   if (postOwner === req.userUid) {
-    const postImgUrl = setPostImgUrl(req, oldPostImgUrl);
+    const postImgUrlToSend = setPostImgUrl(req, postImgUrl);
     console.log("1");
     return new Promise((resolve, reject) => {
-      const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrl}',p_title = '${title}' WHERE p_id = ${postId}`;
+      const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
       db.query(reqUpdatePost, (err: QueryError) => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });
@@ -102,10 +102,8 @@ export const serviceDeletePost = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   const postUid: string = req.params.id;
-  const postDatas = await checkIfPostExistAndGetDatas(req, postUid);
-  const postOwner = postDatas.u_uid;
-  const postId = postDatas.p_id;
-  const postImgUrl = postDatas.p_post_img_url;
+  const datas: any = checkIfUserIsPostOwner(req, postUid);
+  const { postOwner, postId, postImgUrl } = datas;
   if (postOwner === req.userUid) {
     return new Promise((resolve, reject) => {
       const reqDeletePost: string = `DELETE FROM posts WHERE p_uid = ${postId}`;

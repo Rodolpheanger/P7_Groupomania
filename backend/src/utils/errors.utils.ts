@@ -29,7 +29,7 @@ export const errorResponse = (err: any, res: Response) => {
     return multerErrors(err.message, err.field, res);
   if (err.message.includes("no file")) return fileErrors(err.message, res);
   if (err.message.includes("ValidationError"))
-    return validationErrors(err, res);
+    return validationErrors(err.message, res);
   if (err.message.includes("query")) return queryError(err.message, res);
   if (
     err.message.includes("email") ||
@@ -79,7 +79,7 @@ const fileErrors = (err: any, res: Response) => {
 };
 
 const validationErrors = (err: any, res: Response) => {
-  new ErrorToSend(400, err.split(":")[1]).sendError(res);
+  new ErrorToSend(400, err.split("r:")[1]).sendError(res);
 };
 
 const queryError = (err: any, res: Response) => {

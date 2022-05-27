@@ -3,7 +3,10 @@ import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
 import { deleteAvatarImgIfExist } from "../utils/uploads.utils";
-import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
+import {
+  checkIfUserExistAndGetDatas,
+  checkIfUserIsUserOwner,
+} from "../utils/user.utils";
 
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
@@ -34,9 +37,8 @@ export const serviceUpdateUser = async (
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.params.id;
   const { username, email, password, firstname, lastname, bio } = req.body;
-  const datas = await checkIfUserExistAndGetDatas(req, userUid);
-  const userOwner = datas.u_uid;
-  const userId = datas.u_id;
+  const datas: any = await checkIfUserIsUserOwner(req, userUid);
+  const { userOwner, userId } = datas;
   if (userOwner === req.userUid) {
     return new Promise(async (resolve, reject) => {
       const hashedPassword = await hashPassword(password);
@@ -54,13 +56,12 @@ export const serviceDeleteUser = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   const userUid = req.params.id;
-  const datas = await checkIfUserExistAndGetDatas(req, userUid);
-  const userOwner = datas.u_uid;
-  const avatarUrl = datas.u_avatar_url;
+  const datas: any = await checkIfUserIsUserOwner(req, userUid);
+  const { userOwner, userId, avatarUrl } = datas;
   if (userOwner === req.userUid) {
     return new Promise((resolve, reject) => {
       deleteAvatarImgIfExist(req, avatarUrl);
-      const sqlDeleteUser: string = `DELETE FROM users WHERE u_id = '${userUid}'`;
+      const sqlDeleteUser: string = `DELETE FROM users WHERE u_id = '${userId}'`;
       db.query(sqlDeleteUser, (err: string) => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });

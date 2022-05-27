@@ -69,18 +69,18 @@ const deleteNewImageOnServer = (req) => {
     fs.unlinkSync(`uploads/posts_images/${req.file.filename}`);
 };
 exports.deleteNewImageOnServer = deleteNewImageOnServer;
-const setPostImgUrl = (req, oldPostImgUrl) => {
+const setPostImgUrl = (req, postImgUrl) => {
     if (!req.file) {
-        return oldPostImgUrl;
-    }
-    else if (req.file && !oldPostImgUrl) {
-        const postImgUrl = (0, exports.createPostImgUrl)(req);
         return postImgUrl;
     }
+    else if (req.file && !postImgUrl) {
+        const postImgUrlToSend = (0, exports.createPostImgUrl)(req);
+        return postImgUrlToSend;
+    }
     else {
-        (0, exports.deleteOldPostImageOnServer)(oldPostImgUrl);
-        const newPostImgUrl = modifyPostImgUrl(req);
-        return newPostImgUrl;
+        (0, exports.deleteOldPostImageOnServer)(postImgUrl);
+        const postImgUrlToSend = modifyPostImgUrl(req);
+        return postImgUrlToSend;
     }
 };
 exports.setPostImgUrl = setPostImgUrl;

@@ -1,6 +1,6 @@
 import { errorResponse } from "./../utils/errors.utils";
 import { Request, Response, NextFunction } from "express";
-import { userSchema } from "../models/users.models";
+import { userSchema } from "../models/user.model";
 
 export const userValidation = async (
   req: Request,

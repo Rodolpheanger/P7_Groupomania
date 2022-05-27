@@ -29,9 +29,8 @@ exports.serviceGetOneUser = serviceGetOneUser;
 const serviceUpdateUser = async (req) => {
     const userUid = req.params.id;
     const { username, email, password, firstname, lastname, bio } = req.body;
-    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
-    const userOwner = datas.u_uid;
-    const userId = datas.u_id;
+    const datas = await (0, user_utils_1.checkIfUserIsUserOwner)(req, userUid);
+    const { userOwner, userId } = datas;
     if (userOwner === req.userUid) {
         return new Promise(async (resolve, reject) => {
             const hashedPassword = await (0, password_utils_1.hashPassword)(password);
@@ -48,13 +47,12 @@ const serviceUpdateUser = async (req) => {
 exports.serviceUpdateUser = serviceUpdateUser;
 const serviceDeleteUser = async (req) => {
     const userUid = req.params.id;
-    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
-    const userOwner = datas.u_uid;
-    const avatarUrl = datas.u_avatar_url;
+    const datas = await (0, user_utils_1.checkIfUserIsUserOwner)(req, userUid);
+    const { userOwner, userId, avatarUrl } = datas;
     if (userOwner === req.userUid) {
         return new Promise((resolve, reject) => {
             (0, uploads_utils_1.deleteAvatarImgIfExist)(req, avatarUrl);
-            const sqlDeleteUser = `DELETE FROM users WHERE u_id = '${userUid}'`;
+            const sqlDeleteUser = `DELETE FROM users WHERE u_id = '${userId}'`;
             database_1.db.query(sqlDeleteUser, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });

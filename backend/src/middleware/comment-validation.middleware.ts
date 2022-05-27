@@ -1,14 +1,14 @@
-import { errorResponse } from "./../utils/errors.utils";
+import { errorResponse } from "../utils/errors.utils";
 import { Request, Response, NextFunction } from "express";
-import { postSchema } from "../models/post.model";
+import { commentSchema } from "../models/comment.model";
 
-export const postValidation = async (
+export const commentValidation = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const isValid = await postSchema.validate(req.body).catch((err) => {
+    const isValid = await commentSchema.validate(req.body).catch((err) => {
       throw new Error(err);
     });
     if (isValid) next();

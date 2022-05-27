@@ -53,19 +53,17 @@ exports.serviceGetPostsByAuthor = serviceGetPostsByAuthor;
 const serviceUpdatePost = async (req) => {
     const postUid = req.params.id;
     const { content, title } = req.body;
-    const postDatas = await (0, post_utils_1.checkIfPostExistAndGetDatas)(req, postUid);
-    const postOwner = postDatas.u_uid;
-    const postId = postDatas.p_id;
-    const oldPostImgUrl = postDatas.p_post_img_url;
+    const datas = (0, post_utils_1.checkIfUserIsPostOwner)(req, postUid);
+    const { postOwner, postId, postImgUrl } = datas;
     if (req.headers["content-type"].includes("multipart") &&
         req.file === undefined) {
         throw Error("no file");
     }
     if (postOwner === req.userUid) {
-        const postImgUrl = (0, uploads_utils_1.setPostImgUrl)(req, oldPostImgUrl);
+        const postImgUrlToSend = (0, uploads_utils_1.setPostImgUrl)(req, postImgUrl);
         console.log("1");
         return new Promise((resolve, reject) => {
-            const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrl}',p_title = '${title}' WHERE p_id = ${postId}`;
+            const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
             database_1.db.query(reqUpdatePost, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
@@ -84,10 +82,8 @@ const serviceUpdatePost = async (req) => {
 exports.serviceUpdatePost = serviceUpdatePost;
 const serviceDeletePost = async (req) => {
     const postUid = req.params.id;
-    const postDatas = await (0, post_utils_1.checkIfPostExistAndGetDatas)(req, postUid);
-    const postOwner = postDatas.u_uid;
-    const postId = postDatas.p_id;
-    const postImgUrl = postDatas.p_post_img_url;
+    const datas = (0, post_utils_1.checkIfUserIsPostOwner)(req, postUid);
+    const { postOwner, postId, postImgUrl } = datas;
     if (postOwner === req.userUid) {
         return new Promise((resolve, reject) => {
             const reqDeletePost = `DELETE FROM posts WHERE p_uid = ${postId}`;

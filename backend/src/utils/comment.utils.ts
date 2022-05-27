@@ -19,7 +19,7 @@ export const checkIfCommentExistAndGetDatas = (
   });
 };
 
-export const checkIfUserIsOwner = async (
+export const checkIfUserIsCommentOwner = async (
   req: any
 ): Promise<{ commentId: any; commentOwner: any }> => {
   const commentUid = req.params.id;

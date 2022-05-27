@@ -26,7 +26,7 @@ const errorResponse = (err, res) => {
     if (err.message.includes("no file"))
         return fileErrors(err.message, res);
     if (err.message.includes("ValidationError"))
-        return validationErrors(err, res);
+        return validationErrors(err.message, res);
     if (err.message.includes("query"))
         return queryError(err.message, res);
     if (err.message.includes("email") ||
@@ -64,7 +64,7 @@ const fileErrors = (err, res) => {
         new ErrorToSend(400, "Aucun fichier détécté").sendError(res);
 };
 const validationErrors = (err, res) => {
-    new ErrorToSend(400, err.split(":")[1]).sendError(res);
+    new ErrorToSend(400, err.split("r:")[1]).sendError(res);
 };
 const queryError = (err, res) => {
     new ErrorToSend(500, "Erreur interne du serveur").sendError(res);

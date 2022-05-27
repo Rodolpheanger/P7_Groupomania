@@ -23,3 +23,11 @@ export const checkIfUserExistAndGetDatas = (
     });
   });
 };
+
+export const checkIfUserIsUserOwner = async (req: Request, userUid: string) => {
+  const datas = await checkIfUserExistAndGetDatas(req, userUid);
+  const userOwner = datas.u_uid;
+  const userId = datas.u_id;
+  const avatarUrl = datas.u_avatar_url;
+  return { userOwner, userId, avatarUrl };
+};
