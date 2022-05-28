@@ -4,7 +4,7 @@ exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceGetOneUse
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
-const user_utils_1 = require("../utils/user.utils");
+const users_utils_1 = require("../utils/users.utils");
 const serviceGetAllUsers = () => {
     return new Promise((resolve, reject) => {
         const sqlGetUsers = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
@@ -16,7 +16,7 @@ const serviceGetAllUsers = () => {
 exports.serviceGetAllUsers = serviceGetAllUsers;
 const serviceGetOneUser = async (req) => {
     const userUid = req.params.id;
-    const datas = await (0, user_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
+    const datas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
     const userId = datas.u_id;
     return new Promise((resolve, reject) => {
         const sqlGetUser = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_id = '${userId}'`;
@@ -29,7 +29,7 @@ exports.serviceGetOneUser = serviceGetOneUser;
 const serviceUpdateUser = async (req) => {
     const userUid = req.params.id;
     const { username, email, password, firstname, lastname, bio } = req.body;
-    const datas = await (0, user_utils_1.checkIfUserIsUserOwner)(req, userUid);
+    const datas = await (0, users_utils_1.checkIfUserIsUserOwner)(req, userUid);
     const { userOwner, userId } = datas;
     if (userOwner === req.userUid) {
         return new Promise(async (resolve, reject) => {
@@ -47,7 +47,7 @@ const serviceUpdateUser = async (req) => {
 exports.serviceUpdateUser = serviceUpdateUser;
 const serviceDeleteUser = async (req) => {
     const userUid = req.params.id;
-    const datas = await (0, user_utils_1.checkIfUserIsUserOwner)(req, userUid);
+    const datas = await (0, users_utils_1.checkIfUserIsUserOwner)(req, userUid);
     const { userOwner, userId, avatarUrl } = datas;
     if (userOwner === req.userUid) {
         return new Promise((resolve, reject) => {

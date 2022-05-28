@@ -5,7 +5,7 @@ import {
   createAvatarUrl,
   deleteAvatarImgOnServer,
 } from "../utils/uploads.utils";
-import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
+import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceSetAvatarUrl = async (
   req: Request | any

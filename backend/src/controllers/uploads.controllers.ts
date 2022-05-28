@@ -1,6 +1,6 @@
-import { errorResponse } from "./../utils/errors.utils";
+import { errorResponse } from "../utils/errors.utils";
 import { Request, Response } from "express";
-import { serviceSetAvatarUrl } from "./upload.services";
+import { serviceSetAvatarUrl } from "./uploads.services";
 
 export const setAvatar = async (req: Request, res: Response): Promise<void> => {
   try {

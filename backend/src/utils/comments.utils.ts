@@ -1,8 +1,8 @@
 import { RowDataPacket } from "mysql2";
 import { QueryError } from "mysql2";
 import { db } from "../../config/database";
-import { checkIfPostExistAndGetDatas } from "./post.utils";
-import { checkIfUserExistAndGetDatas } from "./user.utils";
+import { checkIfPostExistAndGetDatas } from "./posts.utils";
+import { checkIfUserExistAndGetDatas } from "./users.utils";
 
 export const checkIfCommentExistAndGetDatas = (
   commentUid: string
@@ -19,7 +19,7 @@ export const checkIfCommentExistAndGetDatas = (
   });
 };
 
-export const checkIfUserIsCommentOwner = async (
+export const checkIfUserIsCommentOwnerAndGetDatas = async (
   req: any
 ): Promise<{ commentId: any; commentOwner: any }> => {
   const commentUid = req.params.id;

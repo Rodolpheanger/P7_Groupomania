@@ -1,17 +1,14 @@
 import { Request } from "express";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
-import {
-  checkIfPostExistAndGetDatas,
-  checkIfUserIsPostOwner,
-} from "../utils/post.utils";
+import { checkIfUserIsPostOwnerAndGetDatas } from "../utils/posts.utils";
 import {
   deleteOldPostImageOnServer,
   createPostImgUrl,
   setPostImgUrl,
   deleteNewImageOnServer,
 } from "../utils/uploads.utils";
-import { checkIfUserExistAndGetDatas } from "../utils/user.utils";
+import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceCreatePost = async (
   req: Request | any
@@ -71,7 +68,7 @@ export const serviceUpdatePost = async (
 ): Promise<QueryError | boolean | unknown> => {
   const postUid: string = req.params.id;
   const { content, title } = req.body;
-  const datas: any = checkIfUserIsPostOwner(req, postUid);
+  const datas: any = checkIfUserIsPostOwnerAndGetDatas(req, postUid);
   const { postOwner, postId, postImgUrl } = datas;
   if (
     req.headers["content-type"].includes("multipart") &&
@@ -102,7 +99,7 @@ export const serviceDeletePost = async (
   req: Request | any
 ): Promise<QueryError | boolean | unknown> => {
   const postUid: string = req.params.id;
-  const datas: any = checkIfUserIsPostOwner(req, postUid);
+  const datas: any = checkIfUserIsPostOwnerAndGetDatas(req, postUid);
   const { postOwner, postId, postImgUrl } = datas;
   if (postOwner === req.userUid) {
     return new Promise((resolve, reject) => {

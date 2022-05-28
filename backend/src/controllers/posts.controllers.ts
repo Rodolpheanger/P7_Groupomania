@@ -7,7 +7,7 @@ import {
   serviceGetOnePost,
   serviceGetPostsByAuthor,
   serviceUpdatePost,
-} from "./post.services";
+} from "./posts.services";
 
 export const createPost = async (
   req: Request,

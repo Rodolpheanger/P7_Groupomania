@@ -6,7 +6,7 @@ import { deleteAvatarImgIfExist } from "../utils/uploads.utils";
 import {
   checkIfUserExistAndGetDatas,
   checkIfUserIsUserOwner,
-} from "../utils/user.utils";
+} from "../utils/users.utils";
 
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {

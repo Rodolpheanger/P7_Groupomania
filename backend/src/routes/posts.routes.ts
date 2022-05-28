@@ -5,7 +5,7 @@ import {
   getOnePost,
   getPostsByAuthor,
   updatePost,
-} from "./../controllers/post.controllers";
+} from "../controllers/posts.controllers";
 import express from "express";
 const router = express.Router();
 import auth from "../middleware/auth.middleware";
