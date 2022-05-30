@@ -12,9 +12,9 @@ import auth from "../middleware/auth.middleware";
 import { uploadPostImage } from "../middleware/multer.middleware";
 import { postValidation } from "../middleware/post-validation.middleware";
 
-router.post("/new", auth, uploadPostImage, postValidation, createPost);
-router.get("/posts", auth, getAllPosts);
-router.get("/author", auth, postValidation, getPostsByAuthor);
+router.post("/", auth, uploadPostImage, postValidation, createPost);
+router.get("/", auth, getAllPosts);
+router.get("/author/:id", auth, postValidation, getPostsByAuthor);
 router.get("/:id", auth, getOnePost);
 router.put("/:id", auth, uploadPostImage, postValidation, updatePost);
 router.delete("/:id", auth, deletePost);

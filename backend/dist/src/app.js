@@ -14,6 +14,7 @@ require("../config/database");
 const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const posts_routes_1 = __importDefault(require("./routes/posts.routes"));
 const comments_routes_1 = __importDefault(require("./routes/comments.routes"));
+const likes_routes_1 = __importDefault(require("./routes/likes.routes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
@@ -37,9 +38,10 @@ app.listen(port, () => {
 app.use("/avatars", express_1.default.static(path_1.default.join(__dirname, "avatars")));
 app.use("/images", express_1.default.static(path_1.default.join(__dirname, "posts_images")));
 // Mise en place des routes
-app.use("/api/user", users_routes_1.default);
-app.use("/api/post", posts_routes_1.default);
-app.use("/api/comment", comments_routes_1.default);
+app.use("/api/users", users_routes_1.default);
+app.use("/api/posts", posts_routes_1.default);
+app.use("/api/comments", comments_routes_1.default);
+app.use("/api/likes", likes_routes_1.default);
 // Renvoi des erreurs non catchés vers errors.util
 app.use((err, req, res, next) => {
     console.log("Error in app.ts : ", err);

@@ -10,6 +10,7 @@ import "../config/database";
 import userRoutes from "./routes/users.routes";
 import postRoutes from "./routes/posts.routes";
 import commentRoutes from "./routes/comments.routes";
+import likeRoutes from "./routes/likes.routes";
 const app: Express = express();
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
@@ -40,9 +41,10 @@ app.use("/avatars", express.static(path.join(__dirname, "avatars")));
 app.use("/images", express.static(path.join(__dirname, "posts_images")));
 
 // Mise en place des routes
-app.use("/api/user", userRoutes);
-app.use("/api/post", postRoutes);
-app.use("/api/comment", commentRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/likes", likeRoutes);
 
 // Renvoi des erreurs non catchés vers errors.util
 app.use(

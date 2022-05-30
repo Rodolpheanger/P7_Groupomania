@@ -20,7 +20,7 @@ router.post("/signin", userValidation, signin);
 router.put("/upload", auth, uploadAvatar, setAvatar);
 
 // users
-router.get("/users", auth, getUsers);
+router.get("/", auth, getUsers);
 router.get("/:id", auth, getUser);
 router.put("/:id", auth, userValidation, updateUser);
 router.delete("/:id", auth, deleteUser);

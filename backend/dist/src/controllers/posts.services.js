@@ -43,7 +43,7 @@ const serviceGetOnePost = (req) => {
 exports.serviceGetOnePost = serviceGetOnePost;
 const serviceGetPostsByAuthor = (req) => {
     return new Promise((resolve, reject) => {
-        const reqGetPostsByAuthor = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = "${req.body.author}"`;
+        const reqGetPostsByAuthor = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = "${req.params.id}"`;
         database_1.db.query(reqGetPostsByAuthor, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
         });

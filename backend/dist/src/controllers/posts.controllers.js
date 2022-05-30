@@ -6,6 +6,7 @@ const posts_services_1 = require("./posts.services");
 const createPost = async (req, res) => {
     try {
         const result = await (0, posts_services_1.serviceCreatePost)(req);
+        console.log(result);
         if (result)
             res.status(201).json({ message: "Post créé avec succès" });
     }

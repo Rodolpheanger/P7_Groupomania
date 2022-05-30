@@ -15,6 +15,7 @@ export const createPost = async (
 ): Promise<void> => {
   try {
     const result = await serviceCreatePost(req);
+    console.log(result);
     if (result) res.status(201).json({ message: "Post créé avec succès" });
   } catch (err) {
     errorResponse(err, res);
