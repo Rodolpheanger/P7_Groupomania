@@ -5,11 +5,11 @@ const database_1 = require("../../config/database");
 const likes_utils_1 = require("../utils/likes.utils");
 const posts_utils_1 = require("../utils/posts.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceSetLike = async (file, userUid, postUid, likeValue) => {
+const serviceSetLike = async (file, requestUserUid, postUid, likeValue) => {
     console.log("test", typeof file);
     const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;
-    const likeUserData = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, userUid);
+    const likeUserData = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
     const likeUserId = likeUserData.u_id;
     const likeDatas = await (0, likes_utils_1.checkIfLikeExistAndGetDatas)(postId, likeUserId);
     if (likeDatas === false) {

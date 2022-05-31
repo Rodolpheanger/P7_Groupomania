@@ -7,14 +7,14 @@ export const setAvatar = async (
   res: Response
 ): Promise<void> => {
   const file: any = req.file;
-  const userUid = req.userUid;
+  const requestUserUid = req.requestUserUid;
   const avatarOwner = req.body.avatarOwnerUid;
   const protocol: string = req.protocol;
   const host = req.get("host");
   try {
     const result = await serviceSetAvatarUrl(
       file,
-      userUid,
+      requestUserUid,
       avatarOwner,
       protocol,
       host

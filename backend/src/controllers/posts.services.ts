@@ -13,12 +13,12 @@ export const serviceCreatePost = async (
   file: any,
   content: string,
   title: string,
-  userUid: string,
+  requestUserUid: string,
   protocol: string,
   host: string
 ): Promise<QueryError | boolean | unknown> => {
   const postImgUrl = createPostImgUrl(file, protocol, host);
-  const userDatas = await checkIfUserExistAndGetDatas(file, userUid);
+  const userDatas = await checkIfUserExistAndGetDatas(file, requestUserUid);
   const userId = userDatas.u_id;
   return new Promise((resolve, reject) => {
     const reqCreatePost: string = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", ${userId}) `;
@@ -64,16 +64,14 @@ export const serviceUpdatePost = async (
   postUid: string,
   content: string,
   title: string,
-  userUid: string,
+  requestUserUid: string,
   protocol: string,
   host: string
 ): Promise<QueryError | boolean | unknown> => {
-  const filename = file.filename;
-  const datas: any = checkIfUserIsPostOwnerAndGetDatas(file, postUid);
+  const datas: any = await checkIfUserIsPostOwnerAndGetDatas(file, postUid);
   const { postOwner, postId, postImgUrl } = datas;
-  if (postOwner === userUid) {
+  if (postOwner === requestUserUid) {
     const postImgUrlToSend = setPostImgUrl(file, protocol, host, postImgUrl);
-    console.log("1");
     return new Promise((resolve, reject) => {
       const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
       db.query(reqUpdatePost, (err: QueryError) => {
@@ -82,6 +80,7 @@ export const serviceUpdatePost = async (
     });
   } else {
     if (file) {
+      const filename = file.filename;
       deleteNewImageOnServer(filename);
       throw Error("forbidden");
     } else {
@@ -93,13 +92,13 @@ export const serviceUpdatePost = async (
 export const serviceDeletePost = async (
   file: any,
   postUid: string,
-  userUid: string
+  requestUserUid: string
 ): Promise<QueryError | boolean | unknown> => {
-  const datas: any = checkIfUserIsPostOwnerAndGetDatas(file, postUid);
+  const datas: any = await checkIfUserIsPostOwnerAndGetDatas(file, postUid);
   const { postOwner, postId, postImgUrl } = datas;
-  if (postOwner === userUid) {
+  if (postOwner === requestUserUid) {
     return new Promise((resolve, reject) => {
-      const reqDeletePost: string = `DELETE FROM posts WHERE p_uid = ${postId}`;
+      const reqDeletePost: string = `DELETE FROM posts WHERE p_id = ${postId}`;
       db.query(reqDeletePost, (err: QueryError) => {
         err
           ? (console.log(err), reject(Error("query error")))

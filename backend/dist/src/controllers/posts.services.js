@@ -5,9 +5,9 @@ const database_1 = require("../../config/database");
 const posts_utils_1 = require("../utils/posts.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceCreatePost = async (file, content, title, userUid, protocol, host) => {
+const serviceCreatePost = async (file, content, title, requestUserUid, protocol, host) => {
     const postImgUrl = (0, uploads_utils_1.createPostImgUrl)(file, protocol, host);
-    const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, userUid);
+    const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
     const userId = userDatas.u_id;
     return new Promise((resolve, reject) => {
         const reqCreatePost = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", ${userId}) `;
@@ -44,13 +44,11 @@ const serviceGetPostsByAuthor = (authorUid) => {
     });
 };
 exports.serviceGetPostsByAuthor = serviceGetPostsByAuthor;
-const serviceUpdatePost = async (file, postUid, content, title, userUid, protocol, host) => {
-    const filename = file.filename;
-    const datas = (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
+const serviceUpdatePost = async (file, postUid, content, title, requestUserUid, protocol, host) => {
+    const datas = await (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
     const { postOwner, postId, postImgUrl } = datas;
-    if (postOwner === userUid) {
+    if (postOwner === requestUserUid) {
         const postImgUrlToSend = (0, uploads_utils_1.setPostImgUrl)(file, protocol, host, postImgUrl);
-        console.log("1");
         return new Promise((resolve, reject) => {
             const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
             database_1.db.query(reqUpdatePost, (err) => {
@@ -60,6 +58,7 @@ const serviceUpdatePost = async (file, postUid, content, title, userUid, protoco
     }
     else {
         if (file) {
+            const filename = file.filename;
             (0, uploads_utils_1.deleteNewImageOnServer)(filename);
             throw Error("forbidden");
         }
@@ -69,12 +68,12 @@ const serviceUpdatePost = async (file, postUid, content, title, userUid, protoco
     }
 };
 exports.serviceUpdatePost = serviceUpdatePost;
-const serviceDeletePost = async (file, postUid, userUid) => {
-    const datas = (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
+const serviceDeletePost = async (file, postUid, requestUserUid) => {
+    const datas = await (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
     const { postOwner, postId, postImgUrl } = datas;
-    if (postOwner === userUid) {
+    if (postOwner === requestUserUid) {
         return new Promise((resolve, reject) => {
-            const reqDeletePost = `DELETE FROM posts WHERE p_uid = ${postId}`;
+            const reqDeletePost = `DELETE FROM posts WHERE p_id = ${postId}`;
             database_1.db.query(reqDeletePost, (err) => {
                 err
                     ? (console.log(err), reject(Error("query error")))

@@ -6,7 +6,7 @@ const posts_services_1 = require("./posts.services");
 const createPost = async (req, res) => {
     const file = req.file;
     const { content, title } = req.body;
-    const userUid = req.userUid;
+    const requestUserUid = req.requestUserUid;
     const protocol = req.protocol;
     const host = req.get("host");
     try {
@@ -15,7 +15,7 @@ const createPost = async (req, res) => {
             throw Error("no file");
         }
         else {
-            const result = await (0, posts_services_1.serviceCreatePost)(file, content, title, userUid, protocol, host);
+            const result = await (0, posts_services_1.serviceCreatePost)(file, content, title, requestUserUid, protocol, host);
             console.log(result);
             if (result)
                 res.status(201).json({ message: "Post créé avec succès" });
@@ -65,7 +65,7 @@ const updatePost = async (req, res) => {
     const file = req.file;
     const postUid = req.params.id;
     const { content, title } = req.body;
-    const userUid = req.userUid;
+    const requestUserUid = req.requestUserUid;
     const protocol = req.protocol;
     const host = req.get("host");
     try {
@@ -74,7 +74,7 @@ const updatePost = async (req, res) => {
             throw Error("no file");
         }
         else {
-            const result = await (0, posts_services_1.serviceUpdatePost)(file, postUid, content, title, userUid, protocol, host);
+            const result = await (0, posts_services_1.serviceUpdatePost)(file, postUid, content, title, requestUserUid, protocol, host);
             if (result)
                 res.status(200).json({ message: "Post mis à jour avec succès" });
         }
@@ -87,9 +87,9 @@ exports.updatePost = updatePost;
 const deletePost = async (req, res) => {
     const file = req.file;
     const postUid = req.params.id;
-    const userUid = req.userUid;
+    const requestUserUid = req.requestUserUid;
     try {
-        const result = await (0, posts_services_1.serviceDeletePost)(file, postUid, userUid);
+        const result = await (0, posts_services_1.serviceDeletePost)(file, postUid, requestUserUid);
         if (result)
             res.status(200).json({ message: "Post supprimé avec succès" });
     }

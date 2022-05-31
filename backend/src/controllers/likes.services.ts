@@ -6,14 +6,14 @@ import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceSetLike = async (
   file: any,
-  userUid: string,
+  requestUserUid: string,
   postUid: string,
   likeValue: number
 ): Promise<any> => {
   console.log("test", typeof file);
   const postDatas = await checkIfPostExistAndGetDatas(file, postUid);
   const postId = postDatas.p_id;
-  const likeUserData = await checkIfUserExistAndGetDatas(file, userUid);
+  const likeUserData = await checkIfUserExistAndGetDatas(file, requestUserUid);
   const likeUserId = likeUserData.u_id;
   const likeDatas = await checkIfLikeExistAndGetDatas(postId, likeUserId);
   if (likeDatas === false) {

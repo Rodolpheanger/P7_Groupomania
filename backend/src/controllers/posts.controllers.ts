@@ -15,7 +15,7 @@ export const createPost = async (
 ): Promise<void> => {
   const file = req.file;
   const { content, title } = req.body;
-  const userUid = req.userUid;
+  const requestUserUid = req.requestUserUid;
   const protocol = req.protocol;
   const host = req.get("host");
   try {
@@ -29,7 +29,7 @@ export const createPost = async (
         file,
         content,
         title,
-        userUid,
+        requestUserUid,
         protocol,
         host
       );
@@ -86,7 +86,7 @@ export const updatePost = async (
   const file: any = req.file;
   const postUid: string = req.params.id;
   const { content, title }: { content: string; title: string } = req.body;
-  const userUid: string = req.userUid;
+  const requestUserUid: string = req.requestUserUid;
   const protocol = req.protocol;
   const host = req.get("host");
   try {
@@ -101,7 +101,7 @@ export const updatePost = async (
         postUid,
         content,
         title,
-        userUid,
+        requestUserUid,
         protocol,
         host
       );
@@ -119,9 +119,9 @@ export const deletePost = async (
 ): Promise<void> => {
   const file = req.file;
   const postUid: string = req.params.id;
-  const userUid: string = req.userUid;
+  const requestUserUid: string = req.requestUserUid;
   try {
-    const result = await serviceDeletePost(file, postUid, userUid);
+    const result = await serviceDeletePost(file, postUid, requestUserUid);
     if (result) res.status(200).json({ message: "Post supprimé avec succès" });
   } catch (err) {
     errorResponse(err, res);

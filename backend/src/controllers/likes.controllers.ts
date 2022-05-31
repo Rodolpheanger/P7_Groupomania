@@ -7,11 +7,16 @@ export const setLike = async (
   res: Response
 ): Promise<void> => {
   const file = req.file;
-  const userUid: string = req.userUid;
+  const requestUserUid: string = req.requestUserUid;
   const postUid: string = req.params.id;
   const likeValue: number = req.body.value;
   try {
-    const result = await serviceSetLike(file, userUid, postUid, likeValue);
+    const result = await serviceSetLike(
+      file,
+      requestUserUid,
+      postUid,
+      likeValue
+    );
     if (result) res.status(201).json({ message: result });
   } catch (err) {
     console.log("test", err);

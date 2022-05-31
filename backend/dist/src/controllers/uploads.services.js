@@ -4,23 +4,21 @@ exports.serviceSetAvatarUrl = void 0;
 const database_1 = require("../../config/database");
 const uploads_utils_1 = require("../utils/uploads.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceSetAvatarUrl = async (req) => {
-    const userUid = req.userUid;
-    const avatarOwner = req.body.uid;
-    const datas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(req, avatarOwner);
+const serviceSetAvatarUrl = async (file, requestUserUid, avatarOwner, protocol, host) => {
+    const datas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, avatarOwner);
     const oldAvatarUrl = datas.u_avatar_url;
     const reqUser = datas.u_uid;
-    if (reqUser === userUid) {
+    if (reqUser === requestUserUid) {
         return new Promise((resolve, reject) => {
-            const avatarUrl = (0, uploads_utils_1.createAvatarUrl)(req, oldAvatarUrl);
-            const reqSetAvatarUrl = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${userUid}"`;
+            const avatarUrl = (0, uploads_utils_1.createAvatarUrl)(file, protocol, host, oldAvatarUrl);
+            const reqSetAvatarUrl = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${requestUserUid}"`;
             database_1.db.query(reqSetAvatarUrl, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
         });
     }
     else {
-        (0, uploads_utils_1.deleteAvatarImgOnServer)(req, "");
+        (0, uploads_utils_1.deleteAvatarImgOnServer)(file, "");
         throw Error("forbidden");
     }
 };

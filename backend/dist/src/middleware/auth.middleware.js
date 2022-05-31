@@ -6,9 +6,9 @@ const auth = (req, res, next) => {
     try {
         const u_uid = req.body.u_uid;
         const token = req.headers.authorization.split(" ")[1];
-        const userUid = (0, auth_utils_1.getUserUid)(token);
-        req.userUid = userUid;
-        if (u_uid && u_uid !== userUid) {
+        const requestUserUid = (0, auth_utils_1.getUserUid)(token);
+        req.requestUserUid = requestUserUid;
+        if (u_uid && u_uid !== requestUserUid) {
             throw Error("unauthorized");
         }
         else {

@@ -28,7 +28,7 @@ const avatarStorage = multer.diskStorage({
     cb(null, "uploads/avatars");
   },
   filename: (req: Request | any, file, cb) => {
-    const name = req.userUid;
+    const name = req.requestUserUid;
     const extension = MIME_TYPES[file.mimetype];
     cb(null, `${name}.${extension}`);
   },
@@ -39,7 +39,7 @@ const postImageStorage = multer.diskStorage({
     cb(null, "uploads/posts_images");
   },
   filename: (req: Request | any, file, cb) => {
-    const name = req.userUid;
+    const name = req.requestUserUid;
     const extension = MIME_TYPES[file.mimetype];
     cb(null, `${name}_${Date.now()}.${extension}`);
   },

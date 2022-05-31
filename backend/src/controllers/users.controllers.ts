@@ -28,16 +28,18 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const updateUser = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   const file: any = req.file;
-  const userUid = req.params.id;
+  const userToModifyUid: string = req.params.id;
+  const requestUserUid: string = req.requestUserUid;
   const { username, email, password, firstname, lastname, bio } = req.body;
   try {
     const result = await serviceUpdateUser(
       file,
-      userUid,
+      userToModifyUid,
+      requestUserUid,
       username,
       email,
       password,
@@ -53,14 +55,18 @@ export const updateUser = async (
 };
 
 export const deleteUser = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   const file: any = req.file;
-  const userUid: string = req.params.id;
-
+  const userToDeleteUid: string = req.params.id;
+  const requestUserUid: string = req.requestUserUid;
   try {
-    const result = await serviceDeleteUser(file, userUid);
+    const result = await serviceDeleteUser(
+      file,
+      userToDeleteUid,
+      requestUserUid
+    );
     if (result)
       res.status(200).json({
         message: "Utilisateur supprimé avec succès",

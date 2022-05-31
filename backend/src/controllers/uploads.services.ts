@@ -8,7 +8,7 @@ import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceSetAvatarUrl = async (
   file: any,
-  userUid: string,
+  requestUserUid: string,
   avatarOwner: string,
   protocol: string,
   host: string
@@ -16,10 +16,10 @@ export const serviceSetAvatarUrl = async (
   const datas = await checkIfUserExistAndGetDatas(file, avatarOwner);
   const oldAvatarUrl = datas.u_avatar_url;
   const reqUser = datas.u_uid;
-  if (reqUser === userUid) {
+  if (reqUser === requestUserUid) {
     return new Promise((resolve, reject) => {
       const avatarUrl = createAvatarUrl(file, protocol, host, oldAvatarUrl);
-      const reqSetAvatarUrl: string = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${userUid}"`;
+      const reqSetAvatarUrl: string = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${requestUserUid}"`;
       db.query(reqSetAvatarUrl, (err: QueryError) => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });

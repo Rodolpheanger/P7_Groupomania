@@ -33,7 +33,8 @@ export const serviceGetOneUser = async (
 
 export const serviceUpdateUser = async (
   file: any,
-  userUid: string,
+  userToModifyUid: string,
+  requestUserUid: string,
   username: string,
   email: string,
   password: string,
@@ -41,9 +42,9 @@ export const serviceUpdateUser = async (
   lastname: string,
   bio: string
 ): Promise<QueryError | boolean | unknown> => {
-  const datas: any = await checkIfUserIsUserOwner(file, userUid);
+  const datas: any = await checkIfUserIsUserOwner(file, userToModifyUid);
   const { userOwner, userId } = datas;
-  if (userOwner === userUid) {
+  if (userOwner === requestUserUid) {
     return new Promise(async (resolve, reject) => {
       const hashedPassword = await hashPassword(password);
       const sqlUpdateUser: string = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_id = ${userId}`;
@@ -58,11 +59,12 @@ export const serviceUpdateUser = async (
 
 export const serviceDeleteUser = async (
   file: any,
-  userUid: string
+  userToDeleteUid: string,
+  requestUserUid: string
 ): Promise<QueryError | boolean | unknown> => {
-  const datas: any = await checkIfUserIsUserOwner(file, userUid);
+  const datas: any = await checkIfUserIsUserOwner(file, userToDeleteUid);
   const { userOwner, userId, avatarUrl } = datas;
-  if (userOwner === userUid) {
+  if (userOwner === requestUserUid) {
     return new Promise((resolve, reject) => {
       deleteAvatarImgIfExist(file, avatarUrl);
       const sqlDeleteUser: string = `DELETE FROM users WHERE u_id = '${userId}'`;

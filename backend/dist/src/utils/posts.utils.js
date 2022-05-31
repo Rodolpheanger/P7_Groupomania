@@ -4,14 +4,15 @@ exports.checkIfUserIsPostOwnerAndGetDatas = exports.checkIfPostExistAndGetDatas 
 const database_1 = require("../../config/database");
 const uploads_utils_1 = require("./uploads.utils");
 const checkIfPostExistAndGetDatas = (file, postUid) => {
-    const filename = file.filename;
+    let filename = "";
     return new Promise((resolve, reject) => {
         const sqlPost = `SELECT u_uid, p_post_img_url, p_id FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = '${postUid}'`;
         database_1.db.query(sqlPost, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
                 : rows.length === 0 && file
-                    ? ((0, uploads_utils_1.deleteNewImageOnServer)(filename),
+                    ? ((filename = file.filename),
+                        (0, uploads_utils_1.deleteNewImageOnServer)(filename),
                         console.log(err),
                         reject(Error("post not found")))
                     : rows.length === 0

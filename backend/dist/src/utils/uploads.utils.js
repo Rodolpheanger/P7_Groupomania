@@ -25,19 +25,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setPostImgUrl = exports.deleteNewImageOnServer = exports.deleteOldPostImageOnServer = exports.createPostImgUrl = exports.deleteAvatarImgOnServer = exports.deleteAvatarImgIfExist = exports.createAvatarUrl = void 0;
 const fs = __importStar(require("fs"));
-const createAvatarUrl = (req, avatarUrl) => {
-    if (req.file) {
-        return `${req.protocol}://${req.get("host")}/uploads/avatars/${req.file.filename}`;
+const createAvatarUrl = (file, protocol, host, avatarUrl) => {
+    if (file) {
+        return `${protocol}://${host}/uploads/avatars/${file.filename}`;
     }
     else {
-        (0, exports.deleteAvatarImgIfExist)(req, avatarUrl);
+        (0, exports.deleteAvatarImgIfExist)(file, avatarUrl);
         return "";
     }
 };
 exports.createAvatarUrl = createAvatarUrl;
-const deleteAvatarImgIfExist = (req, avatarUrl) => {
+const deleteAvatarImgIfExist = (file, avatarUrl) => {
     if (avatarUrl)
-        (0, exports.deleteAvatarImgOnServer)(req, avatarUrl);
+        (0, exports.deleteAvatarImgOnServer)(file, avatarUrl);
 };
 exports.deleteAvatarImgIfExist = deleteAvatarImgIfExist;
 const getAvatarFilename = (file, avatarUrl) => {

@@ -5,13 +5,10 @@ const database_1 = require("../../config/database");
 const comments_utils_1 = require("../utils/comments.utils");
 const posts_utils_1 = require("../utils/posts.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceCreateComment = async (req) => {
-    const userUid = req.userUid;
-    const content = req.body.content;
-    const postUid = req.params.id;
-    const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(req, postUid);
+const serviceCreateComment = async (file, requestUserUid, content, postUid) => {
+    const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;
-    const commentUserData = await (0, users_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
+    const commentUserData = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
     const commentUserId = commentUserData.u_id;
     return new Promise((resolve, reject) => {
         const sqlCreateComment = `INSERT INTO comments (c_uid, c_content, c_fk_user_id, c_fk_post_id) VALUES (UUID(), '${content}',' ${commentUserId}', '${postId}')`;
@@ -21,9 +18,8 @@ const serviceCreateComment = async (req) => {
     });
 };
 exports.serviceCreateComment = serviceCreateComment;
-const serviceGetCommentsByPost = async (req) => {
-    const postUid = req.params.id;
-    const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(req, postUid);
+const serviceGetCommentsByPost = async (file, postUid) => {
+    const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;
     return new Promise((resolve, reject) => {
         const sqlGetCommentsByPost = `SELECT c_uid, c_content, c_creation_date, c_modification_date, u_username FROM comments INNER JOIN users ON u_id = c_fk_user_id WHERE c_fk_post_id = '${postId}' ORDER BY c_creation_date`;
@@ -33,12 +29,12 @@ const serviceGetCommentsByPost = async (req) => {
     });
 };
 exports.serviceGetCommentsByPost = serviceGetCommentsByPost;
-const serviceModifyComment = async (req) => {
-    const datas = await (0, comments_utils_1.checkIfUserIsCommentOwnerAndGetDatas)(req);
+const serviceModifyComment = async (file, requestUserUid, commentUid, content) => {
+    const datas = await (0, comments_utils_1.checkIfUserIsCommentOwnerAndGetDatas)(file, commentUid);
     const { commentId, commentOwner } = datas;
-    if (commentOwner === req.userUid) {
+    if (commentOwner === requestUserUid) {
         return new Promise((resolve, reject) => {
-            const sqlModifyComment = `UPDATE comments SET c_content = '${req.body.content}' WHERE c_id = ${commentId}`;
+            const sqlModifyComment = `UPDATE comments SET c_content = '${content}' WHERE c_id = ${commentId}`;
             database_1.db.query(sqlModifyComment, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
@@ -49,10 +45,10 @@ const serviceModifyComment = async (req) => {
     }
 };
 exports.serviceModifyComment = serviceModifyComment;
-const serviceDeleteComment = async (req) => {
-    const datas = await (0, comments_utils_1.checkIfUserIsCommentOwnerAndGetDatas)(req);
+const serviceDeleteComment = async (file, requestUserUid, commentUid) => {
+    const datas = await (0, comments_utils_1.checkIfUserIsCommentOwnerAndGetDatas)(file, commentUid);
     const { commentId, commentOwner } = datas;
-    if (commentOwner === req.userUid) {
+    if (commentOwner === requestUserUid) {
         return new Promise((resolve, reject) => {
             const sqlDeleteComment = `DELETE FROM comments WHERE c_id = ${commentId}`;
             database_1.db.query(sqlDeleteComment, (err) => {

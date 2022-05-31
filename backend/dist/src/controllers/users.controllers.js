@@ -15,8 +15,10 @@ const getUsers = async (_req, res) => {
 };
 exports.getUsers = getUsers;
 const getUser = async (req, res) => {
+    const file = req.file;
+    const userUid = req.params.id;
     try {
-        const data = await (0, users_services_1.serviceGetOneUser)(req);
+        const data = await (0, users_services_1.serviceGetOneUser)(file, userUid);
         if (data)
             res.status(200).json(data);
     }
@@ -26,8 +28,12 @@ const getUser = async (req, res) => {
 };
 exports.getUser = getUser;
 const updateUser = async (req, res) => {
+    const file = req.file;
+    const userToModifyUid = req.params.id;
+    const requestUserUid = req.requestUserUid;
+    const { username, email, password, firstname, lastname, bio } = req.body;
     try {
-        const result = await (0, users_services_1.serviceUpdateUser)(req);
+        const result = await (0, users_services_1.serviceUpdateUser)(file, userToModifyUid, requestUserUid, username, email, password, firstname, lastname, bio);
         if (result)
             res.status(200).json({ message: "Profil mis à jour avec succès" });
     }
@@ -37,8 +43,11 @@ const updateUser = async (req, res) => {
 };
 exports.updateUser = updateUser;
 const deleteUser = async (req, res) => {
+    const file = req.file;
+    const userToDeleteUid = req.params.id;
+    const requestUserUid = req.requestUserUid;
     try {
-        const result = await (0, users_services_1.serviceDeleteUser)(req);
+        const result = await (0, users_services_1.serviceDeleteUser)(file, userToDeleteUid, requestUserUid);
         if (result)
             res.status(200).json({
                 message: "Utilisateur supprimé avec succès",

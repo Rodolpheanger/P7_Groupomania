@@ -17,12 +17,11 @@ const checkIfCommentExistAndGetDatas = (commentUid) => {
     });
 };
 exports.checkIfCommentExistAndGetDatas = checkIfCommentExistAndGetDatas;
-const checkIfUserIsCommentOwnerAndGetDatas = async (req) => {
-    const commentUid = req.params.id;
+const checkIfUserIsCommentOwnerAndGetDatas = async (file, commentUid) => {
     const commentDatas = await (0, exports.checkIfCommentExistAndGetDatas)(commentUid);
     const commentId = commentDatas.c_id;
-    await (0, posts_utils_1.checkIfPostExistAndGetDatas)(req, commentDatas.p_uid);
-    const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(req, commentDatas.u_uid);
+    await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, commentDatas.p_uid);
+    const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, commentDatas.u_uid);
     const commentOwner = userDatas.u_uid;
     return { commentId, commentOwner };
 };
