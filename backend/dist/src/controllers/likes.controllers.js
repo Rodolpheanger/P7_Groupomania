@@ -4,8 +4,12 @@ exports.setLike = void 0;
 const errors_utils_1 = require("../utils/errors.utils");
 const likes_services_1 = require("./likes.services");
 const setLike = async (req, res) => {
+    const file = req.file;
+    const userUid = req.userUid;
+    const postUid = req.params.id;
+    const likeValue = req.body.value;
     try {
-        const result = await (0, likes_services_1.serviceSetLike)(req);
+        const result = await (0, likes_services_1.serviceSetLike)(file, userUid, postUid, likeValue);
         if (result)
             res.status(201).json({ message: result });
     }

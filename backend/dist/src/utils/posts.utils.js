@@ -3,14 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkIfUserIsPostOwnerAndGetDatas = exports.checkIfPostExistAndGetDatas = void 0;
 const database_1 = require("../../config/database");
 const uploads_utils_1 = require("./uploads.utils");
-const checkIfPostExistAndGetDatas = (req, postUid) => {
+const checkIfPostExistAndGetDatas = (file, postUid) => {
+    const filename = file.filename;
     return new Promise((resolve, reject) => {
         const sqlPost = `SELECT u_uid, p_post_img_url, p_id FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = '${postUid}'`;
         database_1.db.query(sqlPost, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
-                : rows.length === 0 && req.file
-                    ? ((0, uploads_utils_1.deleteNewImageOnServer)(req),
+                : rows.length === 0 && file
+                    ? ((0, uploads_utils_1.deleteNewImageOnServer)(filename),
                         console.log(err),
                         reject(Error("post not found")))
                     : rows.length === 0
@@ -20,8 +21,8 @@ const checkIfPostExistAndGetDatas = (req, postUid) => {
     });
 };
 exports.checkIfPostExistAndGetDatas = checkIfPostExistAndGetDatas;
-const checkIfUserIsPostOwnerAndGetDatas = async (req, postUid) => {
-    const postDatas = await (0, exports.checkIfPostExistAndGetDatas)(req, postUid);
+const checkIfUserIsPostOwnerAndGetDatas = async (file, postUid) => {
+    const postDatas = await (0, exports.checkIfPostExistAndGetDatas)(file, postUid);
     const postOwner = postDatas.u_uid;
     const postId = postDatas.p_id;
     const postImgUrl = postDatas.p_post_img_url;

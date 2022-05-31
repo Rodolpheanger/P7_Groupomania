@@ -10,13 +10,32 @@ import {
 } from "./posts.services";
 
 export const createPost = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
+  const file = req.file;
+  const { content, title } = req.body;
+  const userUid = req.userUid;
+  const protocol = req.protocol;
+  const host = req.get("host");
   try {
-    const result = await serviceCreatePost(req);
-    console.log(result);
-    if (result) res.status(201).json({ message: "Post créé avec succès" });
+    if (
+      req.headers["content-type"].includes("multipart") &&
+      file === undefined
+    ) {
+      throw Error("no file");
+    } else {
+      const result = await serviceCreatePost(
+        file,
+        content,
+        title,
+        userUid,
+        protocol,
+        host
+      );
+      console.log(result);
+      if (result) res.status(201).json({ message: "Post créé avec succès" });
+    }
   } catch (err) {
     errorResponse(err, res);
   }
@@ -38,8 +57,9 @@ export const getOnePost = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const postUid: string = req.params.id;
   try {
-    const data = await serviceGetOnePost(req);
+    const data = await serviceGetOnePost(postUid);
     if (data) res.status(200).json(data);
   } catch (err) {
     errorResponse(err, res);
@@ -50,8 +70,9 @@ export const getPostsByAuthor = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+  const authorUid = req.params.id;
   try {
-    const data = await serviceGetPostsByAuthor(req);
+    const data = await serviceGetPostsByAuthor(authorUid);
     if (data) res.status(200).json(data);
   } catch (err) {
     errorResponse(err, res);
@@ -59,24 +80,48 @@ export const getPostsByAuthor = async (
 };
 
 export const updatePost = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
+  const file: any = req.file;
+  const postUid: string = req.params.id;
+  const { content, title }: { content: string; title: string } = req.body;
+  const userUid: string = req.userUid;
+  const protocol = req.protocol;
+  const host = req.get("host");
   try {
-    const result = await serviceUpdatePost(req);
-    if (result)
-      res.status(200).json({ message: "Post mis à jour avec succès" });
+    if (
+      req.headers["content-type"].includes("multipart") &&
+      file === undefined
+    ) {
+      throw Error("no file");
+    } else {
+      const result = await serviceUpdatePost(
+        file,
+        postUid,
+        content,
+        title,
+        userUid,
+        protocol,
+        host
+      );
+      if (result)
+        res.status(200).json({ message: "Post mis à jour avec succès" });
+    }
   } catch (err) {
     errorResponse(err, res);
   }
 };
 
 export const deletePost = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
+  const file = req.file;
+  const postUid: string = req.params.id;
+  const userUid: string = req.userUid;
   try {
-    const result = await serviceDeletePost(req);
+    const result = await serviceDeletePost(file, postUid, userUid);
     if (result) res.status(200).json({ message: "Post supprimé avec succès" });
   } catch (err) {
     errorResponse(err, res);

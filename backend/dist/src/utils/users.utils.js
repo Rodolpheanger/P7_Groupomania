@@ -3,14 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkIfUserIsUserOwner = exports.checkIfUserExistAndGetDatas = void 0;
 const database_1 = require("../../config/database");
 const uploads_utils_1 = require("./uploads.utils");
-const checkIfUserExistAndGetDatas = (req, userUid) => {
+const checkIfUserExistAndGetDatas = (file, userUid) => {
     return new Promise((resolve, reject) => {
         const sqlFindUser = `SELECT u_id, u_uid, u_avatar_url FROM users WHERE u_uid = '${userUid}'`;
         database_1.db.query(sqlFindUser, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
-                : rows.length === 0 && req.file
-                    ? ((0, uploads_utils_1.deleteAvatarImgOnServer)(req, ""),
+                : rows.length === 0 && file
+                    ? ((0, uploads_utils_1.deleteAvatarImgOnServer)(file, ""),
                         console.log(`User "${userUid}" not found`),
                         reject(Error(`user not found`)))
                     : rows.length === 0

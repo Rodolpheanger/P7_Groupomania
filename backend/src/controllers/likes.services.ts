@@ -1,17 +1,19 @@
-import { Request } from "express";
 import { QueryError } from "mysql2";
 import { db } from "../../config/database";
 import { checkIfLikeExistAndGetDatas } from "../utils/likes.utils";
 import { checkIfPostExistAndGetDatas } from "../utils/posts.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
-export const serviceSetLike = async (req: Request | any): Promise<any> => {
-  const userUid = req.userUid;
-  const postUid = req.params.id;
-  const likeValue = req.body.value;
-  const postDatas = await checkIfPostExistAndGetDatas(req, postUid);
+export const serviceSetLike = async (
+  file: any,
+  userUid: string,
+  postUid: string,
+  likeValue: number
+): Promise<any> => {
+  console.log("test", typeof file);
+  const postDatas = await checkIfPostExistAndGetDatas(file, postUid);
   const postId = postDatas.p_id;
-  const likeUserData = await checkIfUserExistAndGetDatas(req, userUid);
+  const likeUserData = await checkIfUserExistAndGetDatas(file, userUid);
   const likeUserId = likeUserData.u_id;
   const likeDatas = await checkIfLikeExistAndGetDatas(postId, likeUserId);
   if (likeDatas === false) {

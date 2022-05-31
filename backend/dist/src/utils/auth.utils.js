@@ -15,17 +15,12 @@ const createToken = (u_uid, u_role) => {
     });
 };
 exports.createToken = createToken;
-const getToken = (req) => {
-    const token = req.headers.authorization.split(" ")[1];
-    return token;
-};
-const decodeToken = (req) => {
-    const token = getToken(req);
+const decodeToken = (token) => {
     const decodedToken = jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRETKEY}`);
     return decodedToken;
 };
-const getUserUid = (req) => {
-    const decodedToken = decodeToken(req);
+const getUserUid = (token) => {
+    const decodedToken = decodeToken(token);
     const userUid = decodedToken.userUid;
     return userUid;
 };

@@ -40,46 +40,46 @@ const deleteAvatarImgIfExist = (req, avatarUrl) => {
         (0, exports.deleteAvatarImgOnServer)(req, avatarUrl);
 };
 exports.deleteAvatarImgIfExist = deleteAvatarImgIfExist;
-const getAvatarFilename = (req, avatarUrl) => {
-    return req.file ? req.file.filename : avatarUrl.split("/avatars/")[1];
+const getAvatarFilename = (file, avatarUrl) => {
+    return file ? file.filename : avatarUrl.split("/avatars/")[1];
 };
-const deleteAvatarImgOnServer = (req, avatarUrl) => {
-    const filename = getAvatarFilename(req, avatarUrl);
+const deleteAvatarImgOnServer = (file, avatarUrl) => {
+    const filename = getAvatarFilename(file, avatarUrl);
     fs.unlinkSync(`uploads/avatars/${filename}`);
 };
 exports.deleteAvatarImgOnServer = deleteAvatarImgOnServer;
-const createPostImgUrl = (req) => {
-    if (req.file) {
-        return `${req.protocol}://${req.get("host")}/uploads/posts_images/${req.file.filename}`;
+const createPostImgUrl = (file, protocol, host) => {
+    if (file) {
+        return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
     }
     else {
         return "";
     }
 };
 exports.createPostImgUrl = createPostImgUrl;
-const modifyPostImgUrl = (req) => {
-    return `${req.protocol}://${req.get("host")}/uploads/posts_images/${req.file.filename}`;
+const modifyPostImgUrl = (file, protocol, host) => {
+    return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
 };
 const deleteOldPostImageOnServer = (oldPostImgUrl) => {
     const filename = oldPostImgUrl.split("/posts_images/")[1];
     fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 exports.deleteOldPostImageOnServer = deleteOldPostImageOnServer;
-const deleteNewImageOnServer = (req) => {
-    fs.unlinkSync(`uploads/posts_images/${req.file.filename}`);
+const deleteNewImageOnServer = (filename) => {
+    fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 exports.deleteNewImageOnServer = deleteNewImageOnServer;
-const setPostImgUrl = (req, postImgUrl) => {
-    if (!req.file) {
+const setPostImgUrl = (file, protocol, host, postImgUrl) => {
+    if (!file) {
         return postImgUrl;
     }
-    else if (req.file && !postImgUrl) {
-        const postImgUrlToSend = (0, exports.createPostImgUrl)(req);
+    else if (file && !postImgUrl) {
+        const postImgUrlToSend = (0, exports.createPostImgUrl)(file, protocol, host);
         return postImgUrlToSend;
     }
     else {
         (0, exports.deleteOldPostImageOnServer)(postImgUrl);
-        const postImgUrlToSend = modifyPostImgUrl(req);
+        const postImgUrlToSend = modifyPostImgUrl(file, protocol, host);
         return postImgUrlToSend;
     }
 };

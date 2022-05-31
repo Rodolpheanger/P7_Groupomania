@@ -1,53 +1,50 @@
-import { Request } from "express";
 import * as fs from "fs";
 
 export const createAvatarUrl = (
-  req: Request | any,
+  file: any,
+  protocol: string,
+  host: string,
   avatarUrl: string
 ): string => {
-  if (req.file) {
-    return `${req.protocol}://${req.get("host")}/uploads/avatars/${
-      req.file.filename
-    }`;
+  if (file) {
+    return `${protocol}://${host}/uploads/avatars/${file.filename}`;
   } else {
-    deleteAvatarImgIfExist(req, avatarUrl);
+    deleteAvatarImgIfExist(file, avatarUrl);
     return "";
   }
 };
 
-export const deleteAvatarImgIfExist = (
-  req: Request,
-  avatarUrl: string
-): void => {
-  if (avatarUrl) deleteAvatarImgOnServer(req, avatarUrl);
+export const deleteAvatarImgIfExist = (file: any, avatarUrl: string): void => {
+  if (avatarUrl) deleteAvatarImgOnServer(file, avatarUrl);
 };
 
-const getAvatarFilename = (req: Request | any, avatarUrl: string) => {
-  return req.file ? req.file.filename : avatarUrl.split("/avatars/")[1];
+const getAvatarFilename = (file: any | any, avatarUrl: string) => {
+  return file ? file.filename : avatarUrl.split("/avatars/")[1];
 };
 
-export const deleteAvatarImgOnServer = (
-  req: Request,
-  avatarUrl: string
-): void => {
-  const filename = getAvatarFilename(req, avatarUrl);
+export const deleteAvatarImgOnServer = (file: any, avatarUrl: string): void => {
+  const filename = getAvatarFilename(file, avatarUrl);
   fs.unlinkSync(`uploads/avatars/${filename}`);
 };
 
-export const createPostImgUrl = (req: Request): string => {
-  if (req.file) {
-    return `${req.protocol}://${req.get("host")}/uploads/posts_images/${
-      req.file.filename
-    }`;
+export const createPostImgUrl = (
+  file: any,
+  protocol: string,
+  host: string
+): string => {
+  if (file) {
+    return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
   } else {
     return "";
   }
 };
 
-const modifyPostImgUrl = (req: Request | any): string => {
-  return `${req.protocol}://${req.get("host")}/uploads/posts_images/${
-    req.file.filename
-  }`;
+const modifyPostImgUrl = (
+  file: any,
+  protocol: string,
+  host: string
+): string => {
+  return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
 };
 
 export const deleteOldPostImageOnServer = (oldPostImgUrl: string) => {
@@ -55,22 +52,24 @@ export const deleteOldPostImageOnServer = (oldPostImgUrl: string) => {
   fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 
-export const deleteNewImageOnServer = (req: Request | any) => {
-  fs.unlinkSync(`uploads/posts_images/${req.file.filename}`);
+export const deleteNewImageOnServer = (filename: string | any) => {
+  fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 
 export const setPostImgUrl = (
-  req: Request | any,
+  file: any,
+  protocol: string,
+  host: string,
   postImgUrl: string
 ): string => {
-  if (!req.file) {
+  if (!file) {
     return postImgUrl;
-  } else if (req.file && !postImgUrl) {
-    const postImgUrlToSend = createPostImgUrl(req);
+  } else if (file && !postImgUrl) {
+    const postImgUrlToSend = createPostImgUrl(file, protocol, host);
     return postImgUrlToSend;
   } else {
     deleteOldPostImageOnServer(postImgUrl);
-    const postImgUrlToSend = modifyPostImgUrl(req);
+    const postImgUrlToSend = modifyPostImgUrl(file, protocol, host);
     return postImgUrlToSend;
   }
 };

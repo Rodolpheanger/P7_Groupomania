@@ -1,4 +1,3 @@
-import { Request } from "express";
 import { QueryError } from "mysql2";
 import { db } from "../../config/database";
 import {
@@ -8,23 +7,25 @@ import {
 import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceSetAvatarUrl = async (
-  req: Request | any
+  file: any,
+  userUid: string,
+  avatarOwner: string,
+  protocol: string,
+  host: string
 ): Promise<QueryError | boolean | unknown> => {
-  const userUid = req.userUid;
-  const avatarOwner = req.body.uid;
-  const datas = await checkIfUserExistAndGetDatas(req, avatarOwner);
+  const datas = await checkIfUserExistAndGetDatas(file, avatarOwner);
   const oldAvatarUrl = datas.u_avatar_url;
   const reqUser = datas.u_uid;
   if (reqUser === userUid) {
     return new Promise((resolve, reject) => {
-      const avatarUrl = createAvatarUrl(req, oldAvatarUrl);
+      const avatarUrl = createAvatarUrl(file, protocol, host, oldAvatarUrl);
       const reqSetAvatarUrl: string = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${userUid}"`;
       db.query(reqSetAvatarUrl, (err: QueryError) => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });
     });
   } else {
-    deleteAvatarImgOnServer(req, "");
+    deleteAvatarImgOnServer(file, "");
     throw Error("forbidden");
   }
 };

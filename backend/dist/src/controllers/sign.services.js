@@ -4,8 +4,8 @@ exports.serviceSignin = exports.serviceSignup = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const auth_utils_1 = require("../utils/auth.utils");
-const serviceSignup = (req) => {
-    const { username, password, email } = req.body;
+const serviceSignup = (body) => {
+    const { username, password, email } = body;
     return new Promise(async (resolve, reject) => {
         const hashedPassword = await (0, password_utils_1.hashPassword)(password);
         const sqlSignUp = `
@@ -28,8 +28,8 @@ const serviceSignup = (req) => {
     });
 };
 exports.serviceSignup = serviceSignup;
-const serviceSignin = (req) => {
-    const { email, password } = req.body;
+const serviceSignin = (body) => {
+    const { email, password } = body;
     return new Promise((resolve, reject) => {
         const sqlLogin = `SELECT u_uid, u_password, u_role FROM users WHERE u_email = "${email}";`;
         database_1.db.query(sqlLogin, async (err, rows) => {

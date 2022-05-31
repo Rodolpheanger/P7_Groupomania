@@ -4,8 +4,9 @@ import { errorResponse } from "../utils/errors.utils";
 
 const auth = (req: Request | any, res: Response, next: NextFunction): void => {
   try {
-    const { u_uid } = req.body;
-    const userUid = getUserUid(req);
+    const u_uid: string = req.body.u_uid;
+    const token: string = req.headers.authorization.split(" ")[1];
+    const userUid = getUserUid(token);
     req.userUid = userUid;
     if (u_uid && u_uid !== userUid) {
       throw Error("unauthorized");

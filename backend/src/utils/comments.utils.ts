@@ -20,13 +20,13 @@ export const checkIfCommentExistAndGetDatas = (
 };
 
 export const checkIfUserIsCommentOwnerAndGetDatas = async (
-  req: any
+  file: any,
+  commentUid: string
 ): Promise<{ commentId: any; commentOwner: any }> => {
-  const commentUid = req.params.id;
   const commentDatas = await checkIfCommentExistAndGetDatas(commentUid);
   const commentId = commentDatas.c_id;
-  await checkIfPostExistAndGetDatas(req, commentDatas.p_uid);
-  const userDatas = await checkIfUserExistAndGetDatas(req, commentDatas.u_uid);
+  await checkIfPostExistAndGetDatas(file, commentDatas.p_uid);
+  const userDatas = await checkIfUserExistAndGetDatas(file, commentDatas.u_uid);
   const commentOwner = userDatas.u_uid;
   return { commentId, commentOwner };
 };

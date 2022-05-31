@@ -1,11 +1,10 @@
-import { Request } from "express";
 import { db } from "../../config/database";
 import { hashPassword, checkPassword } from "../utils/password.utils";
 import { createToken } from "../utils/auth.utils";
 import { QueryError, RowDataPacket } from "mysql2";
 
-export const serviceSignup = (req: Request) => {
-  const { username, password, email } = req.body;
+export const serviceSignup = (body: any) => {
+  const { username, password, email } = body;
   return new Promise(async (resolve, reject) => {
     const hashedPassword = await hashPassword(password);
     const sqlSignUp: string = `
@@ -28,8 +27,8 @@ export const serviceSignup = (req: Request) => {
   });
 };
 
-export const serviceSignin = (req: Request) => {
-  const { email, password } = req.body;
+export const serviceSignin = (body: any) => {
+  const { email, password } = body;
   return new Promise((resolve, reject) => {
     const sqlLogin: string = `SELECT u_uid, u_password, u_role FROM users WHERE u_email = "${email}";`;
     db.query(sqlLogin, async (err: QueryError, rows: RowDataPacket[]) => {

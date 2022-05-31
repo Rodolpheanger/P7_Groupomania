@@ -5,16 +5,10 @@ const database_1 = require("../../config/database");
 const posts_utils_1 = require("../utils/posts.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceCreatePost = async (req) => {
-    const userUid = req.userUid;
-    const { content, title } = req.body;
-    const postImgUrl = (0, uploads_utils_1.createPostImgUrl)(req);
-    const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(req, userUid);
+const serviceCreatePost = async (file, content, title, userUid, protocol, host) => {
+    const postImgUrl = (0, uploads_utils_1.createPostImgUrl)(file, protocol, host);
+    const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, userUid);
     const userId = userDatas.u_id;
-    if (req.headers["content-type"].includes("multipart") &&
-        req.file === undefined) {
-        throw Error("no file");
-    }
     return new Promise((resolve, reject) => {
         const reqCreatePost = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", ${userId}) `;
         database_1.db.query(reqCreatePost, (err) => {
@@ -32,35 +26,30 @@ const serviceGetAllPosts = () => {
     });
 };
 exports.serviceGetAllPosts = serviceGetAllPosts;
-const serviceGetOnePost = (req) => {
+const serviceGetOnePost = (postUid) => {
     return new Promise((resolve, reject) => {
-        const reqGetOnePost = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = "${req.params.id}"`;
+        const reqGetOnePost = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = "${postUid}"`;
         database_1.db.query(reqGetOnePost, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows[0]);
         });
     });
 };
 exports.serviceGetOnePost = serviceGetOnePost;
-const serviceGetPostsByAuthor = (req) => {
+const serviceGetPostsByAuthor = (authorUid) => {
     return new Promise((resolve, reject) => {
-        const reqGetPostsByAuthor = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = "${req.params.id}"`;
+        const reqGetPostsByAuthor = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = "${authorUid}"`;
         database_1.db.query(reqGetPostsByAuthor, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
         });
     });
 };
 exports.serviceGetPostsByAuthor = serviceGetPostsByAuthor;
-const serviceUpdatePost = async (req) => {
-    const postUid = req.params.id;
-    const { content, title } = req.body;
-    const datas = (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(req, postUid);
+const serviceUpdatePost = async (file, postUid, content, title, userUid, protocol, host) => {
+    const filename = file.filename;
+    const datas = (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
     const { postOwner, postId, postImgUrl } = datas;
-    if (req.headers["content-type"].includes("multipart") &&
-        req.file === undefined) {
-        throw Error("no file");
-    }
-    if (postOwner === req.userUid) {
-        const postImgUrlToSend = (0, uploads_utils_1.setPostImgUrl)(req, postImgUrl);
+    if (postOwner === userUid) {
+        const postImgUrlToSend = (0, uploads_utils_1.setPostImgUrl)(file, protocol, host, postImgUrl);
         console.log("1");
         return new Promise((resolve, reject) => {
             const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
@@ -70,8 +59,8 @@ const serviceUpdatePost = async (req) => {
         });
     }
     else {
-        if (req.file) {
-            (0, uploads_utils_1.deleteNewImageOnServer)(req);
+        if (file) {
+            (0, uploads_utils_1.deleteNewImageOnServer)(filename);
             throw Error("forbidden");
         }
         else {
@@ -80,11 +69,10 @@ const serviceUpdatePost = async (req) => {
     }
 };
 exports.serviceUpdatePost = serviceUpdatePost;
-const serviceDeletePost = async (req) => {
-    const postUid = req.params.id;
-    const datas = (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(req, postUid);
+const serviceDeletePost = async (file, postUid, userUid) => {
+    const datas = (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
     const { postOwner, postId, postImgUrl } = datas;
-    if (postOwner === req.userUid) {
+    if (postOwner === userUid) {
         return new Promise((resolve, reject) => {
             const reqDeletePost = `DELETE FROM posts WHERE p_uid = ${postId}`;
             database_1.db.query(reqDeletePost, (err) => {

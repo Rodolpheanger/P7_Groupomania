@@ -4,11 +4,22 @@ exports.deletePost = exports.updatePost = exports.getPostsByAuthor = exports.get
 const errors_utils_1 = require("../utils/errors.utils");
 const posts_services_1 = require("./posts.services");
 const createPost = async (req, res) => {
+    const file = req.file;
+    const { content, title } = req.body;
+    const userUid = req.userUid;
+    const protocol = req.protocol;
+    const host = req.get("host");
     try {
-        const result = await (0, posts_services_1.serviceCreatePost)(req);
-        console.log(result);
-        if (result)
-            res.status(201).json({ message: "Post créé avec succès" });
+        if (req.headers["content-type"].includes("multipart") &&
+            file === undefined) {
+            throw Error("no file");
+        }
+        else {
+            const result = await (0, posts_services_1.serviceCreatePost)(file, content, title, userUid, protocol, host);
+            console.log(result);
+            if (result)
+                res.status(201).json({ message: "Post créé avec succès" });
+        }
     }
     catch (err) {
         (0, errors_utils_1.errorResponse)(err, res);
@@ -27,8 +38,9 @@ const getAllPosts = async (req, res) => {
 };
 exports.getAllPosts = getAllPosts;
 const getOnePost = async (req, res) => {
+    const postUid = req.params.id;
     try {
-        const data = await (0, posts_services_1.serviceGetOnePost)(req);
+        const data = await (0, posts_services_1.serviceGetOnePost)(postUid);
         if (data)
             res.status(200).json(data);
     }
@@ -38,8 +50,9 @@ const getOnePost = async (req, res) => {
 };
 exports.getOnePost = getOnePost;
 const getPostsByAuthor = async (req, res) => {
+    const authorUid = req.params.id;
     try {
-        const data = await (0, posts_services_1.serviceGetPostsByAuthor)(req);
+        const data = await (0, posts_services_1.serviceGetPostsByAuthor)(authorUid);
         if (data)
             res.status(200).json(data);
     }
@@ -49,10 +62,22 @@ const getPostsByAuthor = async (req, res) => {
 };
 exports.getPostsByAuthor = getPostsByAuthor;
 const updatePost = async (req, res) => {
+    const file = req.file;
+    const postUid = req.params.id;
+    const { content, title } = req.body;
+    const userUid = req.userUid;
+    const protocol = req.protocol;
+    const host = req.get("host");
     try {
-        const result = await (0, posts_services_1.serviceUpdatePost)(req);
-        if (result)
-            res.status(200).json({ message: "Post mis à jour avec succès" });
+        if (req.headers["content-type"].includes("multipart") &&
+            file === undefined) {
+            throw Error("no file");
+        }
+        else {
+            const result = await (0, posts_services_1.serviceUpdatePost)(file, postUid, content, title, userUid, protocol, host);
+            if (result)
+                res.status(200).json({ message: "Post mis à jour avec succès" });
+        }
     }
     catch (err) {
         (0, errors_utils_1.errorResponse)(err, res);
@@ -60,8 +85,11 @@ const updatePost = async (req, res) => {
 };
 exports.updatePost = updatePost;
 const deletePost = async (req, res) => {
+    const file = req.file;
+    const postUid = req.params.id;
+    const userUid = req.userUid;
     try {
-        const result = await (0, posts_services_1.serviceDeletePost)(req);
+        const result = await (0, posts_services_1.serviceDeletePost)(file, postUid, userUid);
         if (result)
             res.status(200).json({ message: "Post supprimé avec succès" });
     }
