@@ -1,28 +1,48 @@
+.auth {
+  @include flex-centrer;
+  margin-top: 20vh;
+}
 .auth-box {
   @include flex-centrer;
   position: relative;
   flex-direction: column;
   width: 350px;
-  height: 400px;
-  margin-top: 25vh;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0.75);
   border: solid 1px black;
-  padding: 20px;
+  padding: 25px;
   border-radius: 15px;
   box-shadow: $small-shadow;
 }
 
 .auth-select-box {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   position: absolute;
-  top: 35px;
+  top: 60px;
   margin-bottom: 25px;
   width: 75%;
 }
 
 .form-group {
+  position: relative;
+  margin-top: 5%;
+  & .btn-submit {
+    position: absolute;
+    left: 20%;
+    margin-top: 15%;
+  }
+}
+
+#forgetpassword {
   position: absolute;
-  top: 100px;
-  border: 1px solid purple;
-  padding: 5px;
+  right: 25px;
+  bottom: 10px;
+  color: $color-1;
+  font-size: 14px;
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+    color: $color-2;
+  }
 }

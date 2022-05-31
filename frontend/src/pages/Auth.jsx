@@ -3,8 +3,8 @@ import Log from "../components/Auth/index";
 
 const auth = () => {
   return (
-    <div>
-      <Log login={false} signup={true} />
+    <div className="auth">
+      <Log signin={false} signup={true} />
     </div>
   );
 };

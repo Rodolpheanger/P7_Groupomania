@@ -2,4 +2,18 @@
   color: red;
   font-style: italic;
   font-size: small;
+  width: 180px;
+}
+
+label {
+  font-style: italic;
+}
+
+input {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid $color-2;
+  padding: 5px;
+  margin: 10px 0px;
+  background-color: transparent;
 }

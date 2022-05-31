@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
+import SignInForm from "./SignInForm";
+import SignUpForm from "./SignUpForm";
 
 const Log = (props) => {
   const [signUpModal, setSignUpModal] = useState(props.signup);
-  const [loginModal, setLoginModal] = useState(props.login);
+  const [signInModal, setSignInModal] = useState(props.signin);
+  const [forgetPassword, setForgetPassword] = useState(props.forgetpasssword);
   const handleModals = (e) => {
     if (e.target.id === "signup") {
-      setLoginModal(false);
+      setSignInModal(false);
       setSignUpModal(true);
-    } else if (e.target.id === "login") {
+      setForgetPassword(false);
+    } else if (e.target.id === "signin") {
       setSignUpModal(false);
-      setLoginModal(true);
+      setSignInModal(true);
+      setForgetPassword(true);
     }
   };
   return (
@@ -26,14 +29,15 @@ const Log = (props) => {
         </li>
         <li
           onClick={handleModals}
-          id="login"
-          className={loginModal ? "btn active-btn" : "btn"}
+          id="signin"
+          className={signInModal ? "btn active-btn" : "btn"}
         >
           Se connecter
         </li>
       </ul>
-      {signUpModal && <SignupForm />}
-      {loginModal && <LoginForm />}
+      {signUpModal && <SignUpForm />}
+      {signInModal && <SignInForm />}
+      {forgetPassword && <p id="forgetpassword">Mot de passe oublié ?</p>}
     </div>
   );
 };

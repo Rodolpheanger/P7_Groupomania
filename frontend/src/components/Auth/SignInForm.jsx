@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import * as axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const SignInForm = () => {
   const navigate = useNavigate();
   const UserSchema = Yup.object().shape({
     email: Yup.string()
@@ -21,10 +21,8 @@ const LoginForm = () => {
   const submit = async (values, actions) => {
     actions.setSubmitting(false);
     try {
-      const response = await axios.post("api/user/signin", values);
+      const response = await axios.post("api/users/signin", values);
       const { userUid, userRole, token, message, error } = response.data;
-      console.log(response);
-      console.log(error);
       return error
         ? alert(error)
         : (alert(message),
@@ -63,7 +61,11 @@ const LoginForm = () => {
             />
             <ErrorMessage name="password" component={CustomError} />
             <br />
-            <button type="submit" disabled={isSubmitting}>
+            <button
+              className="btn btn-submit"
+              type="submit"
+              disabled={isSubmitting}
+            >
               Connexion
             </button>
           </form>
@@ -73,4 +75,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignInForm;

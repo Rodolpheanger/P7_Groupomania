@@ -50,7 +50,7 @@ const serviceSignin = (body) => {
                     const result = {
                         token,
                         userUid: u_uid,
-                        useRole: u_role,
+                        userRole: u_role,
                     };
                     resolve(result);
                 }

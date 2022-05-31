@@ -1,22 +1,27 @@
 .btn {
   width: auto;
-  border-radius: 999px;
+  border-radius: 10px;
+  border: none;
   box-shadow: $small-shadow;
-  padding: 5px 15px;
-  color: $color-primary;
+  padding: 10px 20px;
+  color: $color-1;
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s ease-out;
-  background-color: $color-tertiary;
+  background-color: $color-4;
   &:hover {
     color: #fff;
-    background-position: 100%;
-    background-color: $color-primary;
+    background-color: $color-1;
+  }
+  &-submit {
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 100%;
   }
 }
 
 .active-btn {
-  background-color: $color-secondary;
+  background-color: $color-2;
   font-weight: bold;
   color: white;
 }

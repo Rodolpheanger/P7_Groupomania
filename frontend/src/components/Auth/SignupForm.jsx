@@ -34,7 +34,7 @@ const SignupForm = () => {
 
   const submit = async (values, actions) => {
     actions.setSubmitting(true);
-    await axios.post("/api/user/signup", values);
+    await axios.post("/api/users/signup", values);
     navigate("/posts");
   };
 
@@ -70,7 +70,11 @@ const SignupForm = () => {
             />
             <ErrorMessage name="password" component={CustomError} />
             <br />
-            <button type="submit" disabled={isSubmitting}>
+            <button
+              className="btn btn-submit"
+              type="submit"
+              disabled={isSubmitting}
+            >
               Inscription
             </button>
           </form>
