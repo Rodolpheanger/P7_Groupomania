@@ -25,7 +25,7 @@ const SignInForm = () => {
       const { userUid, userRole, token, message, error } = response.data;
       return error
         ? alert(error)
-        : (alert(message),
+        : (console.log(message),
           localStorage.setItem(
             "data",
             JSON.stringify({ userUid, userRole, token })
