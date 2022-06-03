@@ -7,6 +7,7 @@ import {
   setPostImgUrl,
   deleteNewImageOnServer,
 } from "../utils/uploads.utils";
+import { checkUserRole } from "../utils/user-role.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceCreatePost = async (
@@ -95,8 +96,9 @@ export const serviceDeletePost = async (
   requestUserUid: string
 ): Promise<QueryError | boolean | unknown> => {
   const datas: any = await checkIfUserIsPostOwnerAndGetDatas(file, postUid);
+  const userRole: string = await checkUserRole(requestUserUid);
   const { postOwner, postId, postImgUrl } = datas;
-  if (postOwner === requestUserUid) {
+  if (postOwner === requestUserUid || userRole === "admin") {
     return new Promise((resolve, reject) => {
       const reqDeletePost: string = `DELETE FROM posts WHERE p_id = ${postId}`;
       db.query(reqDeletePost, (err: QueryError) => {

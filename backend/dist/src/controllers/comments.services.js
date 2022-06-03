@@ -4,6 +4,7 @@ exports.serviceDeleteComment = exports.serviceModifyComment = exports.serviceGet
 const database_1 = require("../../config/database");
 const comments_utils_1 = require("../utils/comments.utils");
 const posts_utils_1 = require("../utils/posts.utils");
+const user_role_utils_1 = require("../utils/user-role.utils");
 const users_utils_1 = require("../utils/users.utils");
 const serviceCreateComment = async (file, requestUserUid, content, postUid) => {
     const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
@@ -47,8 +48,9 @@ const serviceModifyComment = async (file, requestUserUid, commentUid, content) =
 exports.serviceModifyComment = serviceModifyComment;
 const serviceDeleteComment = async (file, requestUserUid, commentUid) => {
     const datas = await (0, comments_utils_1.checkIfUserIsCommentOwnerAndGetDatas)(file, commentUid);
+    const userRole = await (0, user_role_utils_1.checkUserRole)(requestUserUid);
     const { commentId, commentOwner } = datas;
-    if (commentOwner === requestUserUid) {
+    if (commentOwner === requestUserUid || userRole === "admin") {
         return new Promise((resolve, reject) => {
             const sqlDeleteComment = `DELETE FROM comments WHERE c_id = ${commentId}`;
             database_1.db.query(sqlDeleteComment, (err) => {

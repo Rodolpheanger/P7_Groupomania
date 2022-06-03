@@ -4,6 +4,7 @@ exports.serviceDeletePost = exports.serviceUpdatePost = exports.serviceGetPostsB
 const database_1 = require("../../config/database");
 const posts_utils_1 = require("../utils/posts.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
+const user_role_utils_1 = require("../utils/user-role.utils");
 const users_utils_1 = require("../utils/users.utils");
 const serviceCreatePost = async (file, content, title, requestUserUid, protocol, host) => {
     const postImgUrl = (0, uploads_utils_1.createPostImgUrl)(file, protocol, host);
@@ -70,8 +71,9 @@ const serviceUpdatePost = async (file, postUid, content, title, requestUserUid, 
 exports.serviceUpdatePost = serviceUpdatePost;
 const serviceDeletePost = async (file, postUid, requestUserUid) => {
     const datas = await (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
+    const userRole = await (0, user_role_utils_1.checkUserRole)(requestUserUid);
     const { postOwner, postId, postImgUrl } = datas;
-    if (postOwner === requestUserUid) {
+    if (postOwner === requestUserUid || userRole === "admin") {
         return new Promise((resolve, reject) => {
             const reqDeletePost = `DELETE FROM posts WHERE p_id = ${postId}`;
             database_1.db.query(reqDeletePost, (err) => {

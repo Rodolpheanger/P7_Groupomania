@@ -4,6 +4,7 @@ exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceGetOneUse
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
+const user_role_utils_1 = require("../utils/user-role.utils");
 const users_utils_1 = require("../utils/users.utils");
 const serviceGetAllUsers = () => {
     return new Promise((resolve, reject) => {
@@ -44,8 +45,9 @@ const serviceUpdateUser = async (file, userToModifyUid, requestUserUid, username
 exports.serviceUpdateUser = serviceUpdateUser;
 const serviceDeleteUser = async (file, userToDeleteUid, requestUserUid) => {
     const datas = await (0, users_utils_1.checkIfUserIsUserOwner)(file, userToDeleteUid);
+    const userRole = await (0, user_role_utils_1.checkUserRole)(requestUserUid);
     const { userOwner, userId, avatarUrl } = datas;
-    if (userOwner === requestUserUid) {
+    if (userOwner === requestUserUid || userRole === "admin") {
         return new Promise((resolve, reject) => {
             (0, uploads_utils_1.deleteAvatarImgIfExist)(file, avatarUrl);
             const sqlDeleteUser = `DELETE FROM users WHERE u_id = '${userId}'`;

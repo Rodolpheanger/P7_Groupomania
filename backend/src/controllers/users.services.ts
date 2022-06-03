@@ -2,6 +2,7 @@ import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { hashPassword } from "../utils/password.utils";
 import { deleteAvatarImgIfExist } from "../utils/uploads.utils";
+import { checkUserRole } from "../utils/user-role.utils";
 import {
   checkIfUserExistAndGetDatas,
   checkIfUserIsUserOwner,
@@ -63,8 +64,9 @@ export const serviceDeleteUser = async (
   requestUserUid: string
 ): Promise<QueryError | boolean | unknown> => {
   const datas: any = await checkIfUserIsUserOwner(file, userToDeleteUid);
+  const userRole: string = await checkUserRole(requestUserUid);
   const { userOwner, userId, avatarUrl } = datas;
-  if (userOwner === requestUserUid) {
+  if (userOwner === requestUserUid || userRole === "admin") {
     return new Promise((resolve, reject) => {
       deleteAvatarImgIfExist(file, avatarUrl);
       const sqlDeleteUser: string = `DELETE FROM users WHERE u_id = '${userId}'`;

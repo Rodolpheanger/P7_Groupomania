@@ -2,6 +2,7 @@ import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { checkIfUserIsCommentOwnerAndGetDatas } from "../utils/comments.utils";
 import { checkIfPostExistAndGetDatas } from "../utils/posts.utils";
+import { checkUserRole } from "../utils/user-role.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
 export const serviceCreateComment = async (
@@ -65,8 +66,9 @@ export const serviceDeleteComment = async (
   commentUid: string
 ): Promise<QueryError | boolean> => {
   const datas = await checkIfUserIsCommentOwnerAndGetDatas(file, commentUid);
+  const userRole: string = await checkUserRole(requestUserUid);
   const { commentId, commentOwner } = datas;
-  if (commentOwner === requestUserUid) {
+  if (commentOwner === requestUserUid || userRole === "admin") {
     return new Promise((resolve, reject) => {
       const sqlDeleteComment: string = `DELETE FROM comments WHERE c_id = ${commentId}`;
       db.query(sqlDeleteComment, (err: QueryError) => {
