@@ -7,7 +7,7 @@ const Home = () => {
   const navToAuth = () => {
     setTimeout(() => {
       navigate("/auth");
-    }, 3000);
+    }, 2500);
   };
   navToAuth();
 

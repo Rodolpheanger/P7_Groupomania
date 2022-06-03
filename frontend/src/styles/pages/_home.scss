@@ -1,7 +1,11 @@
 .home-wrapper {
   @include flex-centrer;
+  align-items: center;
   height: 100vh;
+  h1 {
+    text-align: center;
+  }
   img {
-    max-width: 100%;
+    max-width: 75%;
   }
 }

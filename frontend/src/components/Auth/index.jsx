@@ -5,7 +5,7 @@ import SignUpForm from "./SignUpForm";
 const Log = (props) => {
   const [signUpModal, setSignUpModal] = useState(props.signup);
   const [signInModal, setSignInModal] = useState(props.signin);
-  const [forgetPassword, setForgetPassword] = useState(props.forgetpasssword);
+  const [forgetPassword, setForgetPassword] = useState(false);
   const handleModals = (e) => {
     if (e.target.id === "signup") {
       setSignInModal(false);
@@ -20,20 +20,20 @@ const Log = (props) => {
   return (
     <div className="auth-box">
       <ul className="auth-select-box">
-        <li
+        <button
           onClick={handleModals}
           id="signup"
           className={signUpModal ? "btn active-btn" : "btn"}
         >
           S'incrire
-        </li>
-        <li
+        </button>
+        <button
           onClick={handleModals}
           id="signin"
           className={signInModal ? "btn active-btn" : "btn"}
         >
           Se connecter
-        </li>
+        </button>
       </ul>
       {signUpModal && <SignUpForm />}
       {signInModal && <SignInForm />}
