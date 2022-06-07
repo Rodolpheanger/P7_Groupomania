@@ -19,7 +19,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 const client = process.env.CLIENT_URL;
 app.use(express_1.default.json());
-app.use((0, helmet_1.default)());
+app.use((0, helmet_1.default)({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use((0, cors_1.default)({
     origin: client,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",

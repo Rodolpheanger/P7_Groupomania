@@ -1,7 +1,7 @@
 import React from "react";
-import { AuthContext } from "./components/MyContexts";
 import Routes from "./routes";
 import { token } from "./utils/auth.utils";
+import { AuthContext } from "./contexts/auth.context";
 
 const App = () => {
   return (
