@@ -1,29 +1,26 @@
 .btn-add-post {
-  margin: 50px 0px;
+  margin: 50px 0;
 }
 .add-post-box {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.75);
   margin-bottom: 250px;
 }
 .post-card {
-  @include flex-centrer;
-  flex-direction: column;
+  @include flex-center(column);
   width: 90%;
   max-width: 800px;
-  margin: 25px 0px;
+  margin: 25px 0;
   background-color: rgba(255, 255, 255, 0.75);
   border: solid 1px black;
   border-radius: 15px;
   box-shadow: $small-shadow;
 
   &-header {
-    @include flex-centrer;
-    padding: 15px;
+    @include flex-center;
+    padding: 15px 0;
     justify-content: space-between;
-    border-bottom: 1px solid black;
-    width: 100%;
-    margin-bottom: 25px;
-    position: relative;
+    border-bottom: 2px solid $color-2;
+    width: 90%;
     .post-author-avatar,
     .default-avatar {
       border-radius: 999px;
@@ -42,28 +39,38 @@
       }
     }
     .btn-post-header {
-      @include flex-centrer;
-      position: relative;
-      width: 20%;
-      height: 100%;
-      border: solid 1px black;
-    }
-    .btn-post-edit {
-      position: absolute;
-      left: 10%;
-    }
-    .btn-post-delete {
-      position: absolute;
-      right: 5%;
+      @include flex-center;
+      justify-content: space-around;
+      width: 10%;
+      margin-right: 2%;
+      cursor: pointer;
     }
   }
   .post-img {
     width: 90%;
-    height: 33%;
     -o-object-fit: cover;
     object-fit: cover;
     border-radius: 15px;
     box-shadow: $small-shadow;
-    margin-bottom: 25px;
+    margin: 25px 0 10px 0;
+  }
+  .post-title {
+    font-size: 1.75rem;
+    font-weight: 900;
+    font-style: italic;
+    align-self: flex-start;
+    width: 90%;
+    padding-bottom: 15px;
+    margin: 15px 0 25px 5%;
+    border-bottom: 2px solid $color-2;
+  }
+  .post-content {
+    color: $color-1;
+    width: 90%;
+    background-color: #fff;
+    border-radius: 15px;
+    border: 1px solid $color-2;
+    box-shadow: $small-shadow;
+    padding: 20px;
   }
 }

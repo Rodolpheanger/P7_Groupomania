@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Header from "../components/Header";
 
 const Profil = () => {
   return (
-    <div>
+    <Fragment>
+      <Header />
       <div>Profil</div>
-    </div>
+    </Fragment>
   );
 };
 

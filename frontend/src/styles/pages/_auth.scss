@@ -1,11 +1,10 @@
 .auth {
-  @include flex-centrer;
+  @include flex-center;
   margin-top: 20vh;
 }
 .auth-box {
-  @include flex-centrer;
+  @include flex-center(column);
   position: relative;
-  flex-direction: column;
   width: 350px;
   height: 500px;
   background-color: rgba(255, 255, 255, 0.75);

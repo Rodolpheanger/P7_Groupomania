@@ -3,17 +3,17 @@ import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
 
 const Log = (props) => {
-  const [signUpModal, setSignUpModal] = useState(props.signup);
-  const [signInModal, setSignInModal] = useState(props.signin);
+  const [signUpCard, setSignUpCard] = useState(props.signup);
+  const [signInCard, setSignInCard] = useState(props.signin);
   const [forgetPassword, setForgetPassword] = useState(false);
-  const handleModals = (e) => {
+  const handleCards = (e) => {
     if (e.target.id === "signup") {
-      setSignInModal(false);
-      setSignUpModal(true);
+      setSignInCard(false);
+      setSignUpCard(true);
       setForgetPassword(false);
     } else if (e.target.id === "signin") {
-      setSignUpModal(false);
-      setSignInModal(true);
+      setSignUpCard(false);
+      setSignInCard(true);
       setForgetPassword(true);
     }
   };
@@ -21,22 +21,22 @@ const Log = (props) => {
     <div className="auth-box">
       <ul className="auth-select-box">
         <button
-          onClick={handleModals}
+          onClick={handleCards}
           id="signup"
-          className={signUpModal ? "btn active-btn" : "btn"}
+          className={signUpCard ? "btn active-btn" : "btn"}
         >
           S'incrire
         </button>
         <button
-          onClick={handleModals}
+          onClick={handleCards}
           id="signin"
-          className={signInModal ? "btn active-btn" : "btn"}
+          className={signInCard ? "btn active-btn" : "btn"}
         >
           Se connecter
         </button>
       </ul>
-      {signUpModal && <SignUpForm />}
-      {signInModal && <SignInForm />}
+      {signUpCard && <SignUpForm />}
+      {signInCard && <SignInForm />}
       {forgetPassword && <p id="forgetpassword">Mot de passe oublié ?</p>}
     </div>
   );

@@ -1,5 +1,35 @@
-@mixin flex-centrer {
+@mixin flex-center($direction: row) {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: $direction;
+}
+
+@mixin fa-icons {
+  font-size: 1.5rem;
+  color: $color-1;
+  padding: 15px;
+  &:hover {
+    color: $color-2;
+  }
+  @include mobile {
+    font-size: 1.25rem;
+    padding: 8px;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: map-get($breakpoints, mobile)) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (min-width: map-get($breakpoints, tablet-min)) and (max-width: map-get($breakpoints, tablet-max)) {
+    @content;
+  }
+}
+@mixin mobile-and-tablet {
+  @media screen and (min-width: map-get($breakpoints, tablet-min)) {
+    @content;
+  }
 }

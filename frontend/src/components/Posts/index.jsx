@@ -4,11 +4,12 @@ import Card from "./Card";
 const AllPosts = ({ posts }) => {
   console.log("AllPosts");
   return (
-    <Fragment>
+    <main>
+      <h1>Quoi de neuf ???</h1>
       {posts.map((post) => (
         <Card post={post} key={post.p_uid} />
       ))}
-    </Fragment>
+    </main>
   );
 };
 

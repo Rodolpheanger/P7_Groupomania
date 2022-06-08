@@ -16,7 +16,7 @@ const Card = ({ post }) => {
   );
 
   return (
-    <div className="post-card">
+    <article className="post-card">
       <div className="post-card-header">
         {avatar}
         <div className="author">
@@ -27,8 +27,8 @@ const Card = ({ post }) => {
           <p className="italic">{dateToDisplay}</p>
         </div>
         <div className="btn-post-header">
-          <button className="btn-post-edit">edit</button>
-          <button className="btn-post-delete">delete</button>
+          <i className="fa-solid fa-pen" title="Modifier"></i>
+          <i className="fa-solid fa-trash-can" title="Supprimer"></i>
         </div>
       </div>
       {post.p_post_img_url && (
@@ -36,8 +36,8 @@ const Card = ({ post }) => {
       )}
       <p className="post-title">{post.p_title}</p>
       <p className="post-content">{post.p_content}</p>
-      <button className="btn-post-like">like</button>
-    </div>
+      <i className="fa-solid fa-heart" title="J'aime"></i>
+    </article>
   );
 };
 

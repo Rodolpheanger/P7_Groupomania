@@ -12,6 +12,19 @@
     object-fit: cover;
     width: 350%;
     height: 100%;
-    margin-left: 10px;
+    margin-left: 30%;
+    @include mobile {
+      width: 250%;
+    }
+  }
+}
+.nav-right-icons {
+  width: 5%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-right: 5%;
+  @include mobile {
+    margin-right: 12%;
   }
 }
