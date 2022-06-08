@@ -34,13 +34,8 @@ app.listen(port, () => {
 });
 // ***************************************************************************
 // Mise en place des middlewares pour servir les uploads
-// app.use("/avatars", express.static(path.join(__dirname, "../uploads/avatars")));
 app.use("/avatar", express_1.default.static("uploads/avatars"));
 app.use("/post_image", express_1.default.static("uploads/posts_images"));
-// app.use(
-//   "/uploads/images",
-//   express.static(path.join(__dirname, "../uploads/posts_images"))
-// );
 // Mise en place des routes
 app.use("/api/users", users_routes_1.default);
 app.use("/api/posts", posts_routes_1.default);
