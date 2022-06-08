@@ -31,7 +31,7 @@ export const serviceCreatePost = async (
 
 export const serviceGetAllPosts = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
-    const reqGetAllPosts: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
+    const reqGetAllPosts: string = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username, u_avatar_url FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
     db.query(reqGetAllPosts, (err: QueryError, rows: RowDataPacket[]) => {
       err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
     });

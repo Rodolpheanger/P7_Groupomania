@@ -9,7 +9,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const path_1 = __importDefault(require("path"));
 require("../config/database");
 const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const posts_routes_1 = __importDefault(require("./routes/posts.routes"));
@@ -35,8 +34,13 @@ app.listen(port, () => {
 });
 // ***************************************************************************
 // Mise en place des middlewares pour servir les uploads
-app.use("/avatars", express_1.default.static(path_1.default.join(__dirname, "avatars")));
-app.use("/images", express_1.default.static(path_1.default.join(__dirname, "posts_images")));
+// app.use("/avatars", express.static(path.join(__dirname, "../uploads/avatars")));
+app.use("/avatar", express_1.default.static("uploads/avatars"));
+app.use("/post_image", express_1.default.static("uploads/posts_images"));
+// app.use(
+//   "/uploads/images",
+//   express.static(path.join(__dirname, "../uploads/posts_images"))
+// );
 // Mise en place des routes
 app.use("/api/users", users_routes_1.default);
 app.use("/api/posts", posts_routes_1.default);

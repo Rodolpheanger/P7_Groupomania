@@ -7,7 +7,7 @@ export const createAvatarUrl = (
   avatarUrl: string
 ): string => {
   if (file) {
-    return `${protocol}://${host}/uploads/avatars/${file.filename}`;
+    return `${protocol}://${host}/avatar/${file.filename}`;
   } else {
     deleteAvatarImgIfExist(file, avatarUrl);
     return "";
@@ -19,7 +19,7 @@ export const deleteAvatarImgIfExist = (file: any, avatarUrl: string): void => {
 };
 
 const getAvatarFilename = (file: any | any, avatarUrl: string) => {
-  return file ? file.filename : avatarUrl.split("/avatars/")[1];
+  return file ? file.filename : avatarUrl.split("/avatar/")[1];
 };
 
 export const deleteAvatarImgOnServer = (file: any, avatarUrl: string): void => {
@@ -33,7 +33,7 @@ export const createPostImgUrl = (
   host: string
 ): string => {
   if (file) {
-    return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
+    return `${protocol}://${host}/post_image/${file.filename}`;
   } else {
     return "";
   }
@@ -44,11 +44,11 @@ const modifyPostImgUrl = (
   protocol: string,
   host: string
 ): string => {
-  return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
+  return `${protocol}://${host}/post_image/${file.filename}`;
 };
 
 export const deleteOldPostImageOnServer = (oldPostImgUrl: string) => {
-  const filename = oldPostImgUrl.split("/posts_images/")[1];
+  const filename = oldPostImgUrl.split("/post_image/")[1];
   fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 

@@ -27,7 +27,7 @@ exports.setPostImgUrl = exports.deleteNewImageOnServer = exports.deleteOldPostIm
 const fs = __importStar(require("fs"));
 const createAvatarUrl = (file, protocol, host, avatarUrl) => {
     if (file) {
-        return `${protocol}://${host}/uploads/avatars/${file.filename}`;
+        return `${protocol}://${host}/avatar/${file.filename}`;
     }
     else {
         (0, exports.deleteAvatarImgIfExist)(file, avatarUrl);
@@ -41,7 +41,7 @@ const deleteAvatarImgIfExist = (file, avatarUrl) => {
 };
 exports.deleteAvatarImgIfExist = deleteAvatarImgIfExist;
 const getAvatarFilename = (file, avatarUrl) => {
-    return file ? file.filename : avatarUrl.split("/avatars/")[1];
+    return file ? file.filename : avatarUrl.split("/avatar/")[1];
 };
 const deleteAvatarImgOnServer = (file, avatarUrl) => {
     const filename = getAvatarFilename(file, avatarUrl);
@@ -50,7 +50,7 @@ const deleteAvatarImgOnServer = (file, avatarUrl) => {
 exports.deleteAvatarImgOnServer = deleteAvatarImgOnServer;
 const createPostImgUrl = (file, protocol, host) => {
     if (file) {
-        return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
+        return `${protocol}://${host}/post_image/${file.filename}`;
     }
     else {
         return "";
@@ -58,10 +58,10 @@ const createPostImgUrl = (file, protocol, host) => {
 };
 exports.createPostImgUrl = createPostImgUrl;
 const modifyPostImgUrl = (file, protocol, host) => {
-    return `${protocol}://${host}/uploads/posts_images/${file.filename}`;
+    return `${protocol}://${host}/post_image/${file.filename}`;
 };
 const deleteOldPostImageOnServer = (oldPostImgUrl) => {
-    const filename = oldPostImgUrl.split("/posts_images/")[1];
+    const filename = oldPostImgUrl.split("/post_image/")[1];
     fs.unlinkSync(`uploads/posts_images/${filename}`);
 };
 exports.deleteOldPostImageOnServer = deleteOldPostImageOnServer;
