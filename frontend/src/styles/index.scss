@@ -1,8 +1,10 @@
 @import "./utils/variables";
 @import "./utils/mixins";
 @import "./vendors/reset";
+@import "./layouts/header";
 @import "./base/base";
 @import "./pages/home";
 @import "./pages/auth";
+@import "./pages/posts";
 @import "./components/button";
 @import "./components/form";

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AllPosts from "../components/Posts/index.jsx";
 import * as axios from "axios";
+import Header from "../components/Header/index.jsx";
 
 // TODO voir le chargement de la page *2
 
@@ -18,9 +19,10 @@ const Posts = () => {
   }, []);
 
   return (
-    <div>
+    <Fragment>
+      <Header />
       <AllPosts posts={posts} />
-    </div>
+    </Fragment>
   );
 };
 

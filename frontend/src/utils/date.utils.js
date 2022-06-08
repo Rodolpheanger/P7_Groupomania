@@ -1,5 +1,5 @@
-export const dateParser = (num) => {
-  let options = {
+export const dateParser = (dateToParse) => {
+  const options = {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -9,9 +9,9 @@ export const dateParser = (num) => {
     day: "numeric",
   };
 
-  let timestamp = Date.parse(num);
+  const timestamp = Date.parse(dateToParse);
 
-  let date = new Date(timestamp).toLocaleDateString("fr-FR", options);
+  const parsedDate = new Date(timestamp).toLocaleDateString("fr-FR", options);
 
-  return date.toString();
+  return parsedDate.toString();
 };
