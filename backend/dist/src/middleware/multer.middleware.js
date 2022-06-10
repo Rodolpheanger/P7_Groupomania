@@ -51,5 +51,5 @@ exports.uploadPostImage = (0, multer_1.default)({
     limits: { fileSize: 2000000 },
     fileFilter,
     storage: postImageStorage,
-}).single("image");
+}).single("post_image");
 //# sourceMappingURL=multer.middleware.js.map

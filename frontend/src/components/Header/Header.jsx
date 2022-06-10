@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import logo from "../../styles/assets/img/icons/icon-left-font-monochrome-black.png";
 
 const Header = () => {
+  console.log("Header");
   const logout = () => {
     localStorage.clear();
   };
   return (
     <header className="header">
       <nav className="header-nav">
-        <Link to="/posts">
+        <Link to="/posts" className="header-logo">
           <img src={logo} alt="Logo groupomania" />
         </Link>
         <div className="nav-right-icons">

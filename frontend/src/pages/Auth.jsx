@@ -1,7 +1,7 @@
 import React from "react";
 import Log from "../components/Auth/index";
 
-const auth = () => {
+const Auth = () => {
   return (
     <div className="auth">
       <Log signin={false} signup={true} />
@@ -9,4 +9,4 @@ const auth = () => {
   );
 };
 
-export default auth;
+export default Auth;

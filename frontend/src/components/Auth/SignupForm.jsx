@@ -1,11 +1,13 @@
 import React from "react";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, Field, ErrorMessage, Form } from "formik";
 import CustomInput from "../Form/FormInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import "../../config/axios-config.js";
 import * as axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+// TODO gérer l'affichage des erreurs remontées par le back et la modale de connexion réussie
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -34,8 +36,13 @@ const SignupForm = () => {
 
   const submit = async (values, actions) => {
     actions.setSubmitting(true);
-    await axios.post("/api/users/signup", values);
-    navigate("/posts");
+    try {
+      const response = await axios.post("/api/users/signup", values);
+      console.log(response.data);
+      navigate("/posts");
+    } catch (err) {
+      console.log(err.response.data.message);
+    }
   };
 
   return (
@@ -45,8 +52,8 @@ const SignupForm = () => {
         initialValues={{ username: "", email: "", password: "" }}
         validationSchema={UserSchema}
       >
-        {({ handleSubmit, isSubmitting }) => (
-          <form onSubmit={handleSubmit}>
+        {({ isSubmitting }) => (
+          <Form>
             <Field
               name="username"
               displayname="Pseudo"
@@ -77,7 +84,7 @@ const SignupForm = () => {
             >
               Inscription
             </button>
-          </form>
+          </Form>
         )}
       </Formik>
     </div>

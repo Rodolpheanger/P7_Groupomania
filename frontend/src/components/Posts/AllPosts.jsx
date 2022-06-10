@@ -1,11 +1,13 @@
-import { Fragment } from "react";
+import AddNewPost from "./AddNewPost";
 import Card from "./Card";
 
 const AllPosts = ({ posts }) => {
   console.log("AllPosts");
+  console.log(posts);
   return (
     <main>
       <h1>Quoi de neuf ???</h1>
+      <AddNewPost />
       {posts.map((post) => (
         <Card post={post} key={post.p_uid} />
       ))}

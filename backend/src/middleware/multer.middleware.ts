@@ -56,4 +56,4 @@ export const uploadPostImage = multer({
   limits: { fileSize: 2000000 },
   fileFilter,
   storage: postImageStorage,
-}).single("image");
+}).single("post_image");
