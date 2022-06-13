@@ -1,18 +1,18 @@
 import React, { Fragment, useContext, useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import CustomInput from "../Form/FormInput";
+import TextInput from "../Form/TextInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import * as axios from "axios";
-import Modal from "../Modals/Modal";
+import ModalWrapper from "../Modals/ModalWrapper";
 import { AuthContext } from "../../contexts/auth.context";
 import { useNavigate } from "react-router-dom";
-
-// TODO gérer l'affichage des erreurs remontées par le back et la modale de connexion réussie
+import ValidationModal from "../Modals/ValidationModal";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  const [errMsg, setErrMsg] = useState(false);
+  const [serverErrorMessage, setServerErrorMessage] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [message, setMessage] = useState("");
   const [, setToken] = useContext(AuthContext);
@@ -48,17 +48,19 @@ const SignInForm = () => {
       );
     } catch (err) {
       console.log(err);
-      setErrMsg(err.response.data.message);
+      setServerErrorMessage(err.response.data.message);
     }
   };
   const modal = displayModal && (
-    <Modal message={message} className="validation-modal" close={closeModal} />
+    <ModalWrapper close={closeModal}>
+      <ValidationModal message={message} className="validation-modal" />
+    </ModalWrapper>
   );
 
   return (
     <Fragment>
       {modal}
-      <div className="form-group">
+      <div className="sign-form">
         <Formik
           onSubmit={submit}
           initialValues={{ email: "", password: "" }}
@@ -69,7 +71,7 @@ const SignInForm = () => {
               <Field
                 name="email"
                 displayname="Email"
-                component={CustomInput}
+                component={TextInput}
                 type="email"
               />
               <ErrorMessage name="email" component={CustomError} />
@@ -77,7 +79,7 @@ const SignInForm = () => {
               <Field
                 name="password"
                 displayname="Mot de passe"
-                component={CustomInput}
+                component={TextInput}
                 type="password"
               />
               <ErrorMessage name="password" component={CustomError} />
@@ -89,7 +91,7 @@ const SignInForm = () => {
               >
                 Connexion
               </button>
-              {errMsg !== false && <p className="text-danger">{errMsg}</p>}
+              <ServerErrorMessage message={serverErrorMessage} />
             </Form>
           )}
         </Formik>

@@ -1,17 +1,17 @@
 import React, { Fragment, useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import CustomInput from "../Form/FormInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import "../../config/axios-config.js";
 import * as axios from "axios";
-import Modal from "../Modals/Modal";
-
-// TODO gérer l'affichage des erreurs remontées par le back et la modale de connexion réussie
+import ModalWrapper from "../Modals/ModalWrapper";
+import ValidationModal from "../Modals/ValidationModal";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
+import TextInput from "../Form/TextInput";
 
 const SignupForm = (props) => {
   const [displayModal, setDisplayModal] = useState(false);
-  const [errMsg, setErrMsg] = useState(false);
+  const [serverErrorMessage, setServerErrorMessage] = useState(false);
   const [message, setMessage] = useState("");
 
   const openModal = () => {
@@ -56,30 +56,31 @@ const SignupForm = (props) => {
       setMessage(message);
       openModal();
     } catch (err) {
-      console.log(err.response.data.message);
-      setErrMsg(err.response.data.message);
+      console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
   const modal = displayModal && (
-    <Modal
-      message={
-        <>
-          <p>{message}</p>
-          <br />
-          <p>Veuillez vous connecter</p>
-          <br />
-        </>
-      }
-      className="validation-modal"
-      close={closeModal}
-    />
+    <ModalWrapper close={closeModal}>
+      <ValidationModal
+        message={
+          <Fragment>
+            <p>{message}</p>
+            <br />
+            <p>Veuillez vous connecter</p>
+            <br />
+          </Fragment>
+        }
+        className="validation-modal"
+      />
+    </ModalWrapper>
   );
 
   return (
     <Fragment>
       {modal}
 
-      <div className="form-group">
+      <div className="sign-form">
         <Formik
           onSubmit={submit}
           initialValues={{ username: "", email: "", password: "" }}
@@ -90,14 +91,15 @@ const SignupForm = (props) => {
               <Field
                 name="username"
                 displayname="Pseudo"
-                component={CustomInput}
+                component={TextInput}
+                type="text"
               />
               <ErrorMessage name="username" component={CustomError} />
               <br />
               <Field
                 name="email"
                 displayname="Email"
-                component={CustomInput}
+                component={TextInput}
                 type="email"
               />
               <ErrorMessage name="email" component={CustomError} />
@@ -105,12 +107,12 @@ const SignupForm = (props) => {
               <Field
                 name="password"
                 displayname="Mot de passe"
-                component={CustomInput}
+                component={TextInput}
                 type="password"
               />
               <ErrorMessage name="password" component={CustomError} />
               <br />
-              {errMsg !== false && <p className="text-danger">{errMsg}</p>}
+              <ServerErrorMessage message={serverErrorMessage} />
 
               <button
                 className="btn btn-submit"
