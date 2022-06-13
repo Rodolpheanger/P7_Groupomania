@@ -3,6 +3,7 @@ import { dateParser } from "../../utils/date.utils";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
 
 const Card = ({ post }) => {
+  console.log("Card");
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
 

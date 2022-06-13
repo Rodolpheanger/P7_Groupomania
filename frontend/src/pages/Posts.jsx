@@ -11,8 +11,8 @@ const Posts = () => {
   console.log("Posts");
   // const { token } = useToken();
   const [posts, setPosts] = useState([]);
-  const token = useContext(AuthContext);
-  console.log("Token dans Post", token);
+  const [token] = useContext(AuthContext);
+  console.log("Token dans Post: ", token);
 
   useEffect(() => {
     console.log("UseEffect Posts");

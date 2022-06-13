@@ -9,7 +9,8 @@ import CustomError from "../Form/ErrorInput";
 import { AuthContext } from "../../contexts/auth.context";
 
 const AddPostForm = () => {
-  const token = useContext(AuthContext);
+  console.log("AddPostForm");
+  const [token] = useContext(AuthContext);
   // const { token } = useToken();
 
   const navigate = useNavigate();

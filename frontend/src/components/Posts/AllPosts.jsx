@@ -3,7 +3,7 @@ import Card from "./Card";
 
 const AllPosts = ({ posts }) => {
   console.log("AllPosts");
-  console.log(posts);
+  console.log("Log des posts: ", posts);
   return (
     <main>
       <h1>Quoi de neuf ???</h1>

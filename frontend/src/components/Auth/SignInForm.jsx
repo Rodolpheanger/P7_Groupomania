@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import CustomInput from "../Form/FormInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import * as axios from "axios";
 import Modal from "../Modals/Modal";
+import { AuthContext } from "../../contexts/auth.context";
 // import { useAuth } from "../../contexts/useAuth";
 // import { useToken } from "../../utils/auth.utils";
 
@@ -14,6 +15,7 @@ const SignInForm = () => {
   const [errMsg, setErrMsg] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [, setToken] = useContext(AuthContext);
   const showModal = () => {
     setDisplayModal(true);
   };
@@ -32,16 +34,14 @@ const SignInForm = () => {
   });
 
   const submit = async (values, actions) => {
-    console.log("SignIn");
     actions.setSubmitting(false);
     try {
-      console.log("Try");
       const response = await axios.post("api/users/signin", values);
       const { userUid, userRole, token, message } = response.data;
-      await localStorage.setItem(
+      setToken(token);
+      localStorage.setItem(
         "data",
         JSON.stringify({ userUid, userRole, token }),
-        console.log(response),
         // getToken(),
         // login(),
         setMessage(message),

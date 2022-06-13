@@ -1,5 +1,5 @@
 import React from "react";
-import Log from "../components/Auth/index";
+import Log from "../components/Auth/Log";
 
 const Auth = () => {
   return (
