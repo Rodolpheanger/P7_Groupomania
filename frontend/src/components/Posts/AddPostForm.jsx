@@ -8,7 +8,7 @@ import CustomError from "../Form/ErrorInput";
 import { AuthContext } from "../../contexts/auth.context";
 import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
-import ButtonClose from "../ButtonClose";
+import ButtonClose from "../Buttons/ButtonClose";
 
 const AddPostForm = ({ reload, displayForm }) => {
   console.log("AddPostForm");

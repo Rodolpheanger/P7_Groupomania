@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ButtonClose from "../ButtonClose";
+import ButtonClose from "../Buttons/ButtonClose";
 
 const Thumbnail = ({ image, deleteThumbnailImage, deleteImage }) => {
   const [imageUrl, setImageUrl] = useState(null);
