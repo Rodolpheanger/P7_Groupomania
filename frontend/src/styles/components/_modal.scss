@@ -1,12 +1,24 @@
+.modal-background {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
 .modal {
   @include flex-center(column);
   justify-content: space-around;
   width: 300px;
-  min-height: 200px;
+  padding: 25px;
+  min-height: 150px;
   border-radius: 15px;
-  box-shadow: $small-shadow;
-  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.ok-modal {
-  background-color: $color-3;
+.validation-modal {
+  background-color: #a8d6b2;
 }

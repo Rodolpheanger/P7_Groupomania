@@ -1,16 +1,29 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import CustomInput from "../Form/FormInput";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import "../../config/axios-config.js";
 import * as axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Modal from "../Modals/Modal";
 
 // TODO gérer l'affichage des erreurs remontées par le back et la modale de connexion réussie
 
-const SignupForm = () => {
-  const navigate = useNavigate();
+const SignupForm = (props) => {
+  const [displayModal, setDisplayModal] = useState(false);
+  const [errMsg, setErrMsg] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const openModal = () => {
+    setDisplayModal(true);
+  };
+
+  const closeModal = () => {
+    setDisplayModal(false);
+    props.setSignInCard(true);
+    props.setSignUpCard(false);
+  };
+
   const UserSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, "Votre pseudo doit comporter au moins 3 caractères (max 15)")
@@ -38,56 +51,79 @@ const SignupForm = () => {
     actions.setSubmitting(true);
     try {
       const response = await axios.post("/api/users/signup", values);
-      console.log(response.data);
-      navigate("/posts");
+      console.log(response);
+      const message = response.data.message;
+      setMessage(message);
+      openModal();
     } catch (err) {
       console.log(err.response.data.message);
+      setErrMsg(err.response.data.message);
     }
   };
+  const modal = displayModal && (
+    <Modal
+      message={
+        <>
+          <p>{message}</p>
+          <br />
+          <p>Veuillez vous connecter</p>
+          <br />
+        </>
+      }
+      className="validation-modal"
+      close={closeModal}
+    />
+  );
 
   return (
-    <div className="form-group">
-      <Formik
-        onSubmit={submit}
-        initialValues={{ username: "", email: "", password: "" }}
-        validationSchema={UserSchema}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field
-              name="username"
-              displayname="Pseudo"
-              component={CustomInput}
-            />
-            <ErrorMessage name="username" component={CustomError} />
-            <br />
-            <Field
-              name="email"
-              displayname="Email"
-              component={CustomInput}
-              type="email"
-            />
-            <ErrorMessage name="email" component={CustomError} />
-            <br />
-            <Field
-              name="password"
-              displayname="Mot de passe"
-              component={CustomInput}
-              type="password"
-            />
-            <ErrorMessage name="password" component={CustomError} />
-            <br />
-            <button
-              className="btn btn-submit"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              Inscription
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+    <Fragment>
+      {modal}
+
+      <div className="form-group">
+        <Formik
+          onSubmit={submit}
+          initialValues={{ username: "", email: "", password: "" }}
+          validationSchema={UserSchema}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <Field
+                name="username"
+                displayname="Pseudo"
+                component={CustomInput}
+              />
+              <ErrorMessage name="username" component={CustomError} />
+              <br />
+              <Field
+                name="email"
+                displayname="Email"
+                component={CustomInput}
+                type="email"
+              />
+              <ErrorMessage name="email" component={CustomError} />
+              <br />
+              <Field
+                name="password"
+                displayname="Mot de passe"
+                component={CustomInput}
+                type="password"
+              />
+              <ErrorMessage name="password" component={CustomError} />
+              <br />
+              {errMsg !== false && <p className="text-danger">{errMsg}</p>}
+
+              <button
+                className="btn btn-submit"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Inscription
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </Fragment>
   );
 };
 

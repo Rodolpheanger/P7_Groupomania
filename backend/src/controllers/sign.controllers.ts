@@ -6,7 +6,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   const body: any = req.body;
   try {
     const result = await serviceSignup(body);
-    if (result) signin(req, res);
+    if (result) res.status(201).json({ message: "Inscription réussie" });
   } catch (err: any) {
     errorResponse(err, res);
   }

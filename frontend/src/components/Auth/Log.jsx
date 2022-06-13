@@ -5,7 +5,7 @@ import SignUpForm from "./SignUpForm";
 const Log = (props) => {
   const [signUpCard, setSignUpCard] = useState(props.signup);
   const [signInCard, setSignInCard] = useState(props.signin);
-  const [forgetPassword, setForgetPassword] = useState(false);
+  const [forgetPassword, setForgetPassword] = useState(true);
   const handleCards = (e) => {
     if (e.target.id === "signup") {
       setSignInCard(false);
@@ -35,7 +35,12 @@ const Log = (props) => {
           Se connecter
         </button>
       </ul>
-      {signUpCard && <SignUpForm />}
+      {signUpCard && (
+        <SignUpForm
+          setSignInCard={setSignInCard}
+          setSignUpCard={setSignUpCard}
+        />
+      )}
       {signInCard && <SignInForm />}
       {forgetPassword && <p id="forgetpassword">Mot de passe oublié ?</p>}
     </div>

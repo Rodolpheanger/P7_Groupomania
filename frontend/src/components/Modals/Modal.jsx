@@ -1,20 +1,22 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { Fragment } from "react";
+import ReactDOM from "react-dom";
 
-const Modal = ({ message, className, close, navigateTo }) => {
-  const navigate = useNavigate();
-
+const Modal = ({ message, className, close }) => {
+  const modalPortal = document.getElementById("modal-root");
   const closeModal = () => {
     close();
-    navigate(navigateTo);
   };
-  return (
-    <div className={`modal ${className}`} onClick={() => closeModal()}>
-      {message}
-      <button className="btn" onClick={() => closeModal()}>
-        OK
-      </button>
-    </div>
+  return ReactDOM.createPortal(
+    <Fragment>
+      <div className="modal-background" onClick={() => closeModal()}>
+        <div className={`modal ${className}`}>
+          {message}
+          <br />
+          <button className="btn">OK</button>
+        </div>
+      </div>
+    </Fragment>,
+    modalPortal
   );
 };
 

@@ -6,21 +6,22 @@ import * as Yup from "yup";
 import * as axios from "axios";
 import Modal from "../Modals/Modal";
 import { AuthContext } from "../../contexts/auth.context";
-// import { useAuth } from "../../contexts/useAuth";
-// import { useToken } from "../../utils/auth.utils";
+import { useNavigate } from "react-router-dom";
 
 // TODO gérer l'affichage des erreurs remontées par le back et la modale de connexion réussie
 
 const SignInForm = () => {
+  const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [message, setMessage] = useState("");
   const [, setToken] = useContext(AuthContext);
-  const showModal = () => {
+  const openModal = () => {
     setDisplayModal(true);
   };
-  const hideModal = () => {
+  const closeModal = () => {
     setDisplayModal(false);
+    navigate("/posts");
   };
 
   const UserSchema = Yup.object().shape({
@@ -42,10 +43,8 @@ const SignInForm = () => {
       localStorage.setItem(
         "data",
         JSON.stringify({ userUid, userRole, token }),
-        // getToken(),
-        // login(),
         setMessage(message),
-        showModal()
+        openModal()
       );
     } catch (err) {
       console.log(err);
@@ -53,12 +52,7 @@ const SignInForm = () => {
     }
   };
   const modal = displayModal && (
-    <Modal
-      message={message}
-      className="ok-modal"
-      close={hideModal}
-      navigateTo="/posts"
-    />
+    <Modal message={message} className="validation-modal" close={closeModal} />
   );
 
   return (

@@ -4,7 +4,7 @@ import Log from "../components/Auth/Log";
 const Auth = () => {
   return (
     <div className="auth">
-      <Log signin={false} signup={true} />
+      <Log signin={true} signup={false} />
     </div>
   );
 };

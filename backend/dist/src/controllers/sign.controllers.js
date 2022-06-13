@@ -8,7 +8,7 @@ const signup = async (req, res) => {
     try {
         const result = await (0, sign_services_1.serviceSignup)(body);
         if (result)
-            (0, exports.signin)(req, res);
+            res.status(201).json({ message: "Inscription réussie" });
     }
     catch (err) {
         (0, errors_utils_1.errorResponse)(err, res);
