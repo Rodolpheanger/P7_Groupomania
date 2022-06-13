@@ -1,0 +1,12 @@
+.thumbnail-wrapper {
+  position: relative;
+  width: 25%;
+}
+
+.thumbnail {
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: $small-shadow;
+}

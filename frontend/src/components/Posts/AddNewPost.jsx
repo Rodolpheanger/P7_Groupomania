@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from "react";
 import AddPostForm from "./AddPostForm";
 
-const AddNewPost = () => {
+const AddNewPost = ({ reload }) => {
   const [displayForm, setDisplayForm] = useState(false);
   const displayAddPostForm = () => {
+    reload(false);
     setDisplayForm(true);
   };
   return (
@@ -13,7 +14,7 @@ const AddNewPost = () => {
           Ajouter un post
         </button>
       ) : (
-        <AddPostForm />
+        <AddPostForm reload={reload} displayForm={setDisplayForm} />
       )}
     </Fragment>
   );

@@ -1,17 +1,15 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import AllPosts from "../components/Posts/AllPosts.jsx";
+import AddNewPost from "../components/Posts/AddNewPost";
 import * as axios from "axios";
 import Header from "../components/Header/Header.jsx";
-// import { useToken } from "../utils/auth.utils.js";
 import { AuthContext } from "../contexts/auth.context";
-
-// TODO voir le chargement de la page *2
 
 const Posts = () => {
   console.log("Posts");
-  // const { token } = useToken();
   const [posts, setPosts] = useState([]);
   const [token] = useContext(AuthContext);
+  const [reload, setReload] = useState(false);
   console.log("Token dans Post: ", token);
 
   useEffect(() => {
@@ -24,12 +22,16 @@ const Posts = () => {
       })
       .then((res) => setPosts(res.data))
       .catch((err) => console.log(err));
-  }, [token]);
+  }, [token, reload]);
 
   return (
     <Fragment>
       <Header />
-      <AllPosts posts={posts} />
+      <main>
+        <h1>Quoi de neuf ???</h1>
+        <AddNewPost reload={setReload} />
+        <AllPosts posts={posts} />
+      </main>
     </Fragment>
   );
 };

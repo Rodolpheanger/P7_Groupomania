@@ -17,3 +17,13 @@ input {
   margin: 10px 0;
   background-color: transparent;
 }
+
+.label-file {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-bottom: 15px;
+}
+.input-file {
+  display: none;
+}
