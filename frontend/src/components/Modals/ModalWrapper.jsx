@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const Modal = ({ close, children }) => {
+const ModalWrapper = ({ close, children }) => {
   const modalPortal = document.getElementById("modal-root");
   const closeModal = () => {
     close();
@@ -15,4 +15,4 @@ const Modal = ({ close, children }) => {
   );
 };
 
-export default Modal;
+export default ModalWrapper;
