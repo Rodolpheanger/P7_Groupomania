@@ -63,6 +63,10 @@ const AddPostForm = ({ reload, displayForm }) => {
       console.log(err);
     }
   };
+  // ! ------------------------------------------------------------------------------------------------------------
+  // ! FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
+  // ! ------------------------------------------------------------------------------------------------------------
+  //  * TODO: voir largeur de la card quand le thumbnail s'affiche + image trop petite en version mobile.
 
   return (
     <div className="add-post-form">
