@@ -5,14 +5,15 @@ import * as Yup from "yup";
 import axios from "axios";
 import CustomInput from "../Form/TextInput";
 import CustomError from "../Form/ErrorInput";
-import { AuthContext } from "../../contexts/auth.context";
+import { TokenContext } from "../../contexts/token.context";
 import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
 import ButtonClose from "../Buttons/ButtonClose";
+import FileInput from "../Form/FileInput";
 
 const AddPostForm = ({ reload, displayForm }) => {
   console.log("AddPostForm");
-  const [token] = useContext(AuthContext);
+  const [token] = useContext(TokenContext);
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -64,9 +65,8 @@ const AddPostForm = ({ reload, displayForm }) => {
     }
   };
   // ! ------------------------------------------------------------------------------------------------------------
-  // ! FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
+  // FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
   // ! ------------------------------------------------------------------------------------------------------------
-  //  * TODO: voir largeur de la card quand le thumbnail s'affiche + image trop petite en version mobile.
 
   return (
     <div className="add-post-form">
@@ -93,24 +93,14 @@ const AddPostForm = ({ reload, displayForm }) => {
             />
             <ErrorMessage name="content" component={CustomError} />
             <br />
-            <label htmlFor="post_image" className="btn label-file">
-              Ajouter une image
-            </label>
-            <input
-              id="post_image"
-              className="input-file"
-              type="file"
-              name="post_image"
-              accept=".png, .jpg, .jpeg"
-              onChange={(event) => {
-                setFieldValue("post_image", event.currentTarget.files[0]);
-                setSelectedImage(event.target.files[0]);
-              }}
+            <FileInput
+              setFieldValue={setFieldValue}
+              setSelectedImage={setSelectedImage}
             />
             <Thumbnail
               image={selectedImage}
               deleteThumbnailImage={setSelectedImage}
-              deleteImage={setFieldValue}
+              // deleteImage={setFieldValue}
             />
             <button
               type="submit"

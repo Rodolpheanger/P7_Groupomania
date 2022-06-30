@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+// TODO check si util sinon à supprimer
 
-const authContext = React.createContext();
+// import React, { useState } from "react";
 
-export const useAuth = () => {
-  const [authed, setAuthed] = useState(false);
+// const authContext = React.createContext();
 
-  return {
-    authed,
-    login() {
-      return setAuthed(true);
-    },
+// export const useAuth = () => {
+//   const [authed, setAuthed] = useState(false);
 
-    logout() {
-      return setAuthed(false);
-    },
-  };
-};
+//   return {
+//     authed,
+//     login() {
+//       return setAuthed(true);
+//     },
 
-export const AuthProvider = ({ children }) => {
-  const auth = useAuth();
+//     logout() {
+//       return setAuthed(false);
+//     },
+//   };
+// };
 
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-};
+// export const AuthProvider = ({ children }) => {
+//   const auth = useAuth();
 
-export const AuthConsumer = () => {
-  return React.useContext(authContext);
-};
+//   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+// };
+
+// export const AuthConsumer = () => {
+//   return React.useContext(authContext);
+// };

@@ -3,12 +3,12 @@ import AllPosts from "../components/Posts/AllPosts.jsx";
 import AddNewPost from "../components/Posts/AddNewPost";
 import * as axios from "axios";
 import Header from "../components/Header/Header.jsx";
-import { AuthContext } from "../contexts/auth.context";
+import { TokenContext } from "../contexts/token.context";
 
 const Posts = () => {
   console.log("Posts");
   const [posts, setPosts] = useState([]);
-  const [token] = useContext(AuthContext);
+  const [token] = useContext(TokenContext);
   const [reload, setReload] = useState(false);
   console.log("Token dans Post: ", token);
 

@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { dateParser } from "../../utils/date.utils";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
+import { UserRoleContext } from "../../contexts/userRole.context";
+import { UserUidContext } from "../../contexts/userUid.context";
 
 const Card = ({ post }) => {
   console.log("Card");
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
-
+  const [canUpdate, setCanUpdate] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
+  const [userUid] = useContext(UserUidContext);
+  const [userRole] = useContext(UserRoleContext);
   const {
+    u_uid,
     u_username,
     p_creation_date,
     u_avatar_url,
@@ -16,11 +22,14 @@ const Card = ({ post }) => {
     p_content,
     p_modification_date,
   } = post;
+
   useEffect(() => {
+    if (userRole === "admin" || userUid === u_uid) setCanDelete(true);
+    if (userUid === u_uid) setCanUpdate(true);
     setCreationDate(dateParser(p_creation_date));
     if (p_modification_date)
       setModificationDate(dateParser(p_modification_date));
-  }, [p_creation_date, p_modification_date]);
+  }, [userRole, userUid, u_uid, p_creation_date, p_modification_date]);
 
   return (
     <article className="post-card">
@@ -46,8 +55,10 @@ const Card = ({ post }) => {
           <p className="italic">{creationDate}</p>
         </div>
         <div className="btn-post-header">
-          <i className="fa-solid fa-pen" title="Modifier"></i>
-          <i className="fa-solid fa-trash-can" title="Supprimer"></i>
+          {canUpdate && <i className="fa-solid fa-pen" title="Modifier"></i>}
+          {canDelete && (
+            <i className="fa-solid fa-trash-can" title="Supprimer"></i>
+          )}
         </div>
       </div>
       {p_post_img_url && (
@@ -57,7 +68,10 @@ const Card = ({ post }) => {
       <p className="post-content">{p_content}</p>
       <i className="fa-solid fa-heart" title="J'aime"></i>
       {modificationDate && (
-        <p className="post-modification-date">{`Dernière modification le ${modificationDate}`}</p>
+        <p className="post-modification-date">
+          Dernière modification le
+          <span className="italic"> {modificationDate} </span>
+        </p>
       )}
     </article>
   );

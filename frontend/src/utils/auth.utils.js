@@ -1,10 +1,8 @@
-const getToken = () => {
+const getLocalAuthDatas = () => {
   if (localStorage.length !== 0) {
     const datas = localStorage.getItem("data");
     const objectDatas = JSON.parse(datas);
-    console.log("Token dans Auth.utils", objectDatas.token);
-    return objectDatas.token;
+    return objectDatas;
   }
 };
-
-export const newToken = getToken();
+export const localAuthDatas = getLocalAuthDatas();

@@ -3,8 +3,8 @@
 }
 .add-post-form {
   position: relative;
-
   width: 90%;
+  max-width: 800px;
 }
 .add-post-card {
   display: flex;
@@ -89,5 +89,8 @@
     border: 1px solid $color-2;
     box-shadow: $small-shadow;
     padding: 20px;
+  }
+  .post-modification-date {
+    margin-bottom: 15px;
   }
 }

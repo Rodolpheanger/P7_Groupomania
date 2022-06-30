@@ -3,7 +3,9 @@ import { Formik, Field, ErrorMessage, Form } from "formik";
 import CustomError from "../Form/ErrorInput";
 import * as Yup from "yup";
 import * as axios from "axios";
-import { AuthContext } from "../../contexts/auth.context";
+import { TokenContext } from "../../contexts/token.context";
+import { UserRoleContext } from "../../contexts/userRole.context";
+import { UserUidContext } from "../../contexts/userUid.context";
 import { useNavigate } from "react-router-dom";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
 import ModalWrapper from "../Modals/ModalWrapper";
@@ -15,7 +17,9 @@ const SignInForm = () => {
   const [serverErrorMessage, setServerErrorMessage] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [message, setMessage] = useState("");
-  const [, setToken] = useContext(AuthContext);
+  const [, setToken] = useContext(TokenContext);
+  const [, setUserRole] = useContext(UserRoleContext);
+  const [, setUserUid] = useContext(UserUidContext);
   const openModal = () => {
     setDisplayModal(true);
   };
@@ -40,6 +44,8 @@ const SignInForm = () => {
       const response = await axios.post("api/users/signin", values);
       const { userUid, userRole, token, message } = response.data;
       setToken(token);
+      setUserRole(userRole);
+      setUserUid(userUid);
       localStorage.setItem(
         "data",
         JSON.stringify({ userUid, userRole, token }),

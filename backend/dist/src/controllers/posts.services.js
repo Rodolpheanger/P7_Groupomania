@@ -20,7 +20,7 @@ const serviceCreatePost = async (file, content, title, requestUserUid, protocol,
 exports.serviceCreatePost = serviceCreatePost;
 const serviceGetAllPosts = () => {
     return new Promise((resolve, reject) => {
-        const reqGetAllPosts = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username, u_avatar_url FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
+        const reqGetAllPosts = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username, u_avatar_url,u_uid FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
         database_1.db.query(reqGetAllPosts, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
         });
