@@ -79,7 +79,9 @@ const serviceDeletePost = async (file, postUid, requestUserUid) => {
             database_1.db.query(reqDeletePost, (err) => {
                 err
                     ? (console.log(err), reject(Error("query error")))
-                    : ((0, uploads_utils_1.deleteOldPostImageOnServer)(postImgUrl), resolve(true));
+                    : postImgUrl
+                        ? ((0, uploads_utils_1.deleteOldPostImageOnServer)(postImgUrl), resolve(true))
+                        : resolve(true);
             });
         });
     }

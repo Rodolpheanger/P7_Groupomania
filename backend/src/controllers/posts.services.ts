@@ -104,7 +104,9 @@ export const serviceDeletePost = async (
       db.query(reqDeletePost, (err: QueryError) => {
         err
           ? (console.log(err), reject(Error("query error")))
-          : (deleteOldPostImageOnServer(postImgUrl), resolve(true));
+          : postImgUrl
+          ? (deleteOldPostImageOnServer(postImgUrl), resolve(true))
+          : resolve(true);
       });
     });
   } else {

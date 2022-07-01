@@ -3,13 +3,15 @@ import { dateParser } from "../../utils/date.utils";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
 import { UserRoleContext } from "../../contexts/userRole.context";
 import { UserUidContext } from "../../contexts/userUid.context";
+import * as axios from "axios";
+import { TokenContext } from "../../contexts/token.context";
 
-const Card = ({ post }) => {
-  console.log("Card");
+const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
   const [canUpdate, setCanUpdate] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
+  const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
   const {
@@ -21,7 +23,21 @@ const Card = ({ post }) => {
     p_title,
     p_content,
     p_modification_date,
+    p_uid,
   } = post;
+
+  const deletePost = () => {
+    console.log("Delete Click: ", p_uid);
+    axios
+      .delete(`api/posts/${p_uid}`, {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    reload(true);
+  };
 
   useEffect(() => {
     if (userRole === "admin" || userUid === u_uid) setCanDelete(true);
@@ -57,7 +73,13 @@ const Card = ({ post }) => {
         <div className="btn-post-header">
           {canUpdate && <i className="fa-solid fa-pen" title="Modifier"></i>}
           {canDelete && (
-            <i className="fa-solid fa-trash-can" title="Supprimer"></i>
+            <i
+              className="fa-solid fa-trash-can"
+              title="Supprimer"
+              onClick={() => {
+                deletePost();
+              }}
+            ></i>
           )}
         </div>
       </div>

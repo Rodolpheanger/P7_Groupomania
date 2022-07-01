@@ -18,9 +18,10 @@ const AddPostForm = ({ reload, displayForm }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const postSchema = Yup.object().shape({
-    title: Yup.string().required("Ce champ est obligatoire"),
+    title: Yup.string()
+      .max(50, "Votre titre ne doit pas comporter plus de 50 caractères")
+      .required("Ce champ est obligatoire"),
     content: Yup.string()
-      .min(1, "Votre post doit comporter au moins 1 caractères")
       .max(255, "Votre post ne doit pas comporter plus de 255 caractères")
       .required("Ce champ est obligatoire"),
   });
@@ -72,7 +73,11 @@ const AddPostForm = ({ reload, displayForm }) => {
     <div className="add-post-form">
       <Formik
         onSubmit={submit}
-        initialValues={{ title: "Test", content: "Re Test", post_image: "" }}
+        initialValues={{
+          title: "",
+          content: "",
+          post_image: "",
+        }}
         validationSchema={postSchema}
       >
         {({ isSubmitting, setFieldValue }) => (
@@ -100,7 +105,7 @@ const AddPostForm = ({ reload, displayForm }) => {
             <Thumbnail
               image={selectedImage}
               deleteThumbnailImage={setSelectedImage}
-              // deleteImage={setFieldValue}
+              deleteImage={setFieldValue}
             />
             <button
               type="submit"

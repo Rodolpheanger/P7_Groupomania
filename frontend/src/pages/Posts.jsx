@@ -6,14 +6,11 @@ import Header from "../components/Header/Header.jsx";
 import { TokenContext } from "../contexts/token.context";
 
 const Posts = () => {
-  console.log("Posts");
   const [posts, setPosts] = useState([]);
   const [token] = useContext(TokenContext);
   const [reload, setReload] = useState(false);
-  console.log("Token dans Post: ", token);
 
   useEffect(() => {
-    console.log("UseEffect Posts");
     axios
       .get("api/posts", {
         headers: {
@@ -22,6 +19,7 @@ const Posts = () => {
       })
       .then((res) => setPosts(res.data))
       .catch((err) => console.log(err));
+    setReload(false);
   }, [token, reload]);
 
   return (
@@ -30,7 +28,7 @@ const Posts = () => {
       <main>
         <h1>Quoi de neuf ???</h1>
         <AddNewPost reload={setReload} />
-        <AllPosts posts={posts} />
+        <AllPosts posts={posts} reload={setReload} />
       </main>
     </Fragment>
   );

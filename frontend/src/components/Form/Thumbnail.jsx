@@ -6,7 +6,7 @@ const Thumbnail = ({ image, deleteThumbnailImage, deleteImage }) => {
 
   const close = () => {
     deleteThumbnailImage(null);
-    // deleteImage(null);
+    deleteImage("post_image", "");
     setImageUrl(null);
   };
 

@@ -24,6 +24,11 @@ input {
   width: fit-content;
   margin-bottom: 15px;
 }
+
+// todo decommenter:
 // .input-file {
 //   display: none;
 // }
+.input-text-area {
+  resize: none;
+}

@@ -5,7 +5,12 @@ const TextArea = ({ field, form, ...props }) => {
         {props.displayname ? props.displayname : field.name}
       </label>
       <br />
-      <textarea {...field} id={field.name} {...props} />
+      <textarea
+        {...field}
+        id={field.name}
+        {...props}
+        className="input-text-area"
+      />
     </div>
   );
 };

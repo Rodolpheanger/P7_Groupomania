@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import logo from "../../styles/assets/img/icons/icon-left-font-monochrome-black.png";
 
 const Header = () => {
-  console.log("Header");
   const logout = () => {
     localStorage.clear();
   };

@@ -9,7 +9,7 @@ import { UserUidContext } from "./contexts/userUid.context";
 const App = () => {
   const localToken = localAuthDatas.token;
   const localUserRole = localAuthDatas.userRole;
-  const localUserUid = localAuthDatas.token;
+  const localUserUid = localAuthDatas.userUid;
   const [token, setToken] = useState(localToken);
   const [userRole, setUserRole] = useState(localUserRole);
   const [userUid, setUserUid] = useState(localUserUid);
