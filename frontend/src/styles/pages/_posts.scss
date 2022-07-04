@@ -1,12 +1,12 @@
 .btn-add-post {
   margin: 50px 0;
 }
-.add-post-form {
+.post-form {
   position: relative;
   width: 90%;
   max-width: 800px;
 }
-.add-post-card {
+.post-form-card {
   display: flex;
   flex-direction: column;
   @include card-style;
@@ -18,7 +18,7 @@
     width: 75%;
   }
 
-  .add-post-form-button {
+  .post-form-button {
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;

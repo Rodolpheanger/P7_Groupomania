@@ -8,6 +8,7 @@ import { TokenContext } from "../../contexts/token.context";
 import { Avatar } from "../Avatar/Avatar";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ConfirmationModal from "../Modals/ConfirmationModal";
+import ModificationModal from "../Modals/ModificationModal";
 
 const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
@@ -15,6 +16,8 @@ const Card = ({ post, reload }) => {
   const [canUpdate, setCanUpdate] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
   const [displayConfirmationModal, setDisplayConfirmationModal] =
+    useState(false);
+  const [displayModificationModal, setDisplayModificationModal] =
     useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
@@ -43,15 +46,26 @@ const Card = ({ post, reload }) => {
       .catch((err) => console.log(err));
     reload(true);
   };
+  const openModificationModal = () => {
+    setDisplayModificationModal(true);
+  };
+  const closeModificationModal = () => {
+    setDisplayModificationModal(false);
+    reload(true);
+  };
+  const openConfirmationModal = () => {
+    setDisplayConfirmationModal(true);
+  };
   const closeConfirmationModal = () => {
     setDisplayConfirmationModal(false);
     reload(true);
   };
 
-  const openConfirmationModal = () => {
-    setDisplayConfirmationModal(true);
-  };
-
+  const modificationModal = displayModificationModal && (
+    <ModalWrapper close={closeModificationModal}>
+      <ModificationModal className="modification-modal" />
+    </ModalWrapper>
+  );
   const confirmationModal = displayConfirmationModal && (
     <ModalWrapper close={closeConfirmationModal}>
       <ConfirmationModal
@@ -73,6 +87,8 @@ const Card = ({ post, reload }) => {
 
   return (
     <article className="post-card">
+      {confirmationModal}
+      {modificationModal}
       <div className="post-card-header">
         <Avatar
           avatarUrl={u_avatar_url}
@@ -87,7 +103,15 @@ const Card = ({ post, reload }) => {
           <p className="italic">{creationDate}</p>
         </div>
         <div className="btn-post-header">
-          {canUpdate && <i className="fa-solid fa-pen" title="Modifier"></i>}
+          {canUpdate && (
+            <i
+              className="fa-solid fa-pen"
+              title="Modifier"
+              onClick={() => {
+                openModificationModal();
+              }}
+            ></i>
+          )}
           {canDelete && (
             <i
               className="fa-solid fa-trash-can"
@@ -97,7 +121,6 @@ const Card = ({ post, reload }) => {
               }}
             ></i>
           )}
-          {confirmationModal}
         </div>
       </div>
       <p className="post-title">{p_title}</p>

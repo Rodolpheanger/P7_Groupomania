@@ -1,22 +1,18 @@
-import React, { useContext, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import axios from "axios";
 import CustomInput from "../Form/TextInput";
 import CustomError from "../Form/ErrorInput";
-import { TokenContext } from "../../contexts/token.context";
 import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
 import ButtonClose from "../Buttons/ButtonClose";
 import FileInput from "../Form/FileInput";
 
-const AddPostForm = ({ reload, displayForm }) => {
-  console.log("AddPostForm");
-  const [token] = useContext(TokenContext);
-  const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState(null);
-
+const PostForm = ({
+  displayPostForm,
+  submit,
+  selectedImage,
+  setSelectedImage,
+}) => {
   const postSchema = Yup.object().shape({
     title: Yup.string()
       .max(50, "Votre titre ne doit pas comporter plus de 50 caractères")
@@ -26,51 +22,15 @@ const AddPostForm = ({ reload, displayForm }) => {
       .required("Ce champ est obligatoire"),
   });
   const close = () => {
-    displayForm(false);
+    displayPostForm(false);
   };
 
-  const submit = async (values, actions) => {
-    actions.setSubmitting(false);
-    try {
-      if (!values.post_image || !selectedImage) {
-        const { title, content } = values;
-        const datas = { title, content };
-        const response = await axios.post("api/posts", datas, {
-          headers: {
-            Authorization: `BEARER ${token}`,
-          },
-        });
-        const { message, error } = response.data;
-        reload(true);
-        displayForm(false);
-
-        return error
-          ? alert(error)
-          : (console.log(message), navigate("/posts"));
-      } else {
-        const response = await axios.post("api/posts", values, {
-          headers: {
-            Authorization: `BEARER ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        const { message, error } = response.data;
-        reload(true);
-        displayForm(false);
-        return error
-          ? alert(error)
-          : (console.log(message), navigate("/posts"));
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
   // ! ------------------------------------------------------------------------------------------------------------
   //  FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
   // ! ------------------------------------------------------------------------------------------------------------
 
   return (
-    <div className="add-post-form">
+    <div className="post-form">
       <Formik
         onSubmit={submit}
         initialValues={{
@@ -81,7 +41,7 @@ const AddPostForm = ({ reload, displayForm }) => {
         validationSchema={postSchema}
       >
         {({ isSubmitting, setFieldValue }) => (
-          <Form className="add-post-card">
+          <Form className="post-form-card">
             <Field
               name="title"
               displayname="Titre"
@@ -91,6 +51,7 @@ const AddPostForm = ({ reload, displayForm }) => {
             />
             <ErrorMessage name="title" component={CustomError} />
             <FileInput
+              name="post_image"
               setFieldValue={setFieldValue}
               setSelectedImage={setSelectedImage}
             />
@@ -111,7 +72,7 @@ const AddPostForm = ({ reload, displayForm }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn add-post-form-button"
+              className="btn post-form-button"
             >
               Publier
             </button>
@@ -123,4 +84,4 @@ const AddPostForm = ({ reload, displayForm }) => {
   );
 };
 
-export default AddPostForm;
+export default PostForm;
