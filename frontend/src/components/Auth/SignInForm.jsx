@@ -58,8 +58,12 @@ const SignInForm = () => {
     }
   };
   const validationModal = displayModal && (
-    <ModalWrapper close={closeModal}>
-      <ValidationModal message={message} className="validation-modal" />
+    <ModalWrapper>
+      <ValidationModal
+        message={message}
+        className="validation-modal"
+        close={closeModal}
+      />
     </ModalWrapper>
   );
 

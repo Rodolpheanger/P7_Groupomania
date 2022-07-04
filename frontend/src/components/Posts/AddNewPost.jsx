@@ -2,10 +2,10 @@ import React, { Fragment, useState, useContext } from "react";
 import PostForm from "./PostForm";
 import axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
+import ModalWrapper from "../Modals/ModalWrapper";
 
-const AddNewPost = ({ reload }) => {
+const AddNewPost = ({ reload, selectedImage, setSelectedImage }) => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [token] = useContext(TokenContext);
   const openPostForm = () => {
     reload(false);
@@ -35,6 +35,7 @@ const AddNewPost = ({ reload }) => {
           },
         });
         const { message, error } = response.data;
+        setSelectedImage(null);
         reload(true);
         setDisplayPostForm(false);
         return error ? alert(error) : (console.log(message), reload(true));
@@ -44,6 +45,11 @@ const AddNewPost = ({ reload }) => {
     }
   };
 
+  const close = () => {
+    setSelectedImage(null);
+    setDisplayPostForm(false);
+  };
+
   return (
     <Fragment>
       {!displayPostForm ? (
@@ -51,12 +57,14 @@ const AddNewPost = ({ reload }) => {
           Ajouter un post
         </button>
       ) : (
-        <PostForm
-          displayPostForm={setDisplayPostForm}
-          submit={submit}
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-        />
+        <ModalWrapper>
+          <PostForm
+            close={close}
+            submit={submit}
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
+          />
+        </ModalWrapper>
       )}
     </Fragment>
   );

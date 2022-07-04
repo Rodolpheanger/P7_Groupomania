@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import CustomInput from "../Form/TextInput";
+import TextInput from "../Form/TextInput";
 import CustomError from "../Form/ErrorInput";
 import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
@@ -8,10 +8,12 @@ import ButtonClose from "../Buttons/ButtonClose";
 import FileInput from "../Form/FileInput";
 
 const PostForm = ({
-  displayPostForm,
+  close,
   submit,
   selectedImage,
   setSelectedImage,
+  title,
+  content,
 }) => {
   const postSchema = Yup.object().shape({
     title: Yup.string()
@@ -21,9 +23,6 @@ const PostForm = ({
       .max(255, "Votre post ne doit pas comporter plus de 255 caractères")
       .required("Ce champ est obligatoire"),
   });
-  const close = () => {
-    displayPostForm(false);
-  };
 
   // ! ------------------------------------------------------------------------------------------------------------
   //  FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
@@ -34,8 +33,8 @@ const PostForm = ({
       <Formik
         onSubmit={submit}
         initialValues={{
-          title: "",
-          content: "",
+          title: title,
+          content: content,
           post_image: "",
         }}
         validationSchema={postSchema}
@@ -45,7 +44,7 @@ const PostForm = ({
             <Field
               name="title"
               displayname="Titre"
-              component={CustomInput}
+              component={TextInput}
               type="text"
               className="form-post-title"
             />

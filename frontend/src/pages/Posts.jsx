@@ -7,8 +7,9 @@ import { TokenContext } from "../contexts/token.context";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-  const [token] = useContext(TokenContext);
   const [reload, setReload] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [token] = useContext(TokenContext);
 
   useEffect(() => {
     axios
@@ -27,8 +28,17 @@ const Posts = () => {
       <Header />
       <main>
         <h1>Quoi de neuf ???</h1>
-        <AddNewPost reload={setReload} />
-        <AllPosts posts={posts} reload={setReload} />
+        <AddNewPost
+          reload={setReload}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
+        <AllPosts
+          posts={posts}
+          reload={setReload}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
       </main>
     </Fragment>
   );

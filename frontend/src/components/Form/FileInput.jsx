@@ -9,14 +9,12 @@ const FileInput = ({ setFieldValue, setSelectedImage }) => {
       file.type === "image/png"
     ) {
       if (file.size <= 2000000) {
-        console.log("Taille OK");
         return true;
       } else {
         setFileErrorMsg("Fichier trop volumineux (2 Mo max)");
         setSelectedImage(false);
       }
     } else {
-      console.log("Type KO");
       setFileErrorMsg("Type de fichier non accepté (jpg, jpeg, png uniquement");
       setSelectedImage(false);
     }

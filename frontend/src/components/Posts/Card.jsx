@@ -9,6 +9,7 @@ import { Avatar } from "../Avatar/Avatar";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ConfirmationModal from "../Modals/ConfirmationModal";
 import ModificationModal from "../Modals/ModificationModal";
+import ValidationModal from "../Modals/ValidationModal";
 
 const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
@@ -19,6 +20,7 @@ const Card = ({ post, reload }) => {
     useState(false);
   const [displayModificationModal, setDisplayModificationModal] =
     useState(false);
+  const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
@@ -35,7 +37,6 @@ const Card = ({ post, reload }) => {
   } = post;
 
   const deletePost = () => {
-    console.log("Delete Click: ", p_uid);
     axios
       .delete(`api/posts/${p_uid}`, {
         headers: {
@@ -44,7 +45,8 @@ const Card = ({ post, reload }) => {
       })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
-    reload(true);
+    setDisplayConfirmationModal(false);
+    openValidationModal();
   };
   const openModificationModal = () => {
     setDisplayModificationModal(true);
@@ -53,27 +55,50 @@ const Card = ({ post, reload }) => {
     setDisplayModificationModal(false);
     reload(true);
   };
+  const openValidationModal = () => {
+    setDisplayValidationModal(true);
+  };
+  const closeValidationModal = () => {
+    setDisplayValidationModal(false);
+    reload(true);
+  };
   const openConfirmationModal = () => {
     setDisplayConfirmationModal(true);
   };
+
   const closeConfirmationModal = () => {
     setDisplayConfirmationModal(false);
     reload(true);
   };
 
   const modificationModal = displayModificationModal && (
-    <ModalWrapper close={closeModificationModal}>
-      <ModificationModal className="modification-modal" />
+    <ModalWrapper>
+      <ModificationModal
+        className="modification-modal"
+        postTitle={p_title}
+        postContent={p_content}
+        close={closeModificationModal}
+      />
     </ModalWrapper>
   );
   const confirmationModal = displayConfirmationModal && (
-    <ModalWrapper close={closeConfirmationModal}>
+    <ModalWrapper>
       <ConfirmationModal
         message={"Vous allez supprimer ce post, souhaitez-vous continuer ?"}
         className="confirmation-modal"
         validate={deletePost}
         cancel={closeConfirmationModal}
       />
+    </ModalWrapper>
+  );
+
+  const validationModal = displayValidationModal && (
+    <ModalWrapper>
+      <ValidationModal
+        className="validation-modal"
+        message={"Post suprrimé avec succès"}
+        close={closeValidationModal}
+      ></ValidationModal>
     </ModalWrapper>
   );
 
@@ -87,6 +112,7 @@ const Card = ({ post, reload }) => {
 
   return (
     <article className="post-card">
+      {validationModal}
       {confirmationModal}
       {modificationModal}
       <div className="post-card-header">

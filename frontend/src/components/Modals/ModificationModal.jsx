@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import PostForm from "../Posts/PostForm";
 
-const ModificationModal = () => {
+const ModificationModal = ({ postTitle, postContent, close }) => {
   return (
     <Fragment>
-      <PostForm />
+      <PostForm title={postTitle} content={postContent} close={close} />
     </Fragment>
   );
 };

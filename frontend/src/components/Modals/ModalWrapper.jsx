@@ -3,13 +3,8 @@ import ReactDOM from "react-dom";
 
 const ModalWrapper = ({ close, children }) => {
   const modalPortal = document.getElementById("modal-root");
-  const closeModal = () => {
-    close();
-  };
   return ReactDOM.createPortal(
-    <div className="modal-wrapper" onClick={() => closeModal()}>
-      {children}
-    </div>,
+    <div className="modal-wrapper">{children}</div>,
 
     modalPortal
   );
