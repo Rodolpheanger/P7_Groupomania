@@ -18,17 +18,23 @@ input {
   background-color: transparent;
 }
 
+.form-post-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
 .label-file {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  margin-bottom: 15px;
+  margin: 15px 0;
 }
 
 // todo decommenter:
-// .input-file {
-//   display: none;
-// }
+.input-file {
+  display: none;
+}
 .input-text-area {
   resize: none;
 }

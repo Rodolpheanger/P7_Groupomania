@@ -1,4 +1,4 @@
-function ValidationModal({ message, className }) {
+const ValidationModal = ({ message, className }) => {
   return (
     <div className={`modal ${className}`}>
       {message}
@@ -6,6 +6,6 @@ function ValidationModal({ message, className }) {
       <button className="btn">OK</button>
     </div>
   );
-}
+};
 
 export default ValidationModal;

@@ -19,6 +19,9 @@
     font-weight: 500;
     font-size: 100%;
   }
+  &-cancel:hover {
+    background-color: $color-2;
+  }
 }
 
 .active-btn {

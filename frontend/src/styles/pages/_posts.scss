@@ -69,7 +69,7 @@
     object-fit: cover;
     border-radius: 15px;
     box-shadow: $small-shadow;
-    margin: 25px 0 10px 0;
+    margin: 15px 0 25px 0;
   }
   .post-title {
     font-size: 1.75rem;
@@ -78,8 +78,11 @@
     align-self: flex-start;
     width: 90%;
     padding-bottom: 15px;
-    margin: 15px 0 25px 5%;
+    margin: 15px 0 15px 5%;
     border-bottom: 2px solid $color-2;
+    @include mobile {
+      font-size: 1.5rem;
+    }
   }
   .post-content {
     color: $color-1;
@@ -89,6 +92,9 @@
     border: 1px solid $color-2;
     box-shadow: $small-shadow;
     padding: 20px;
+  }
+  .like {
+    @include flex-center;
   }
   .post-modification-date {
     margin-bottom: 15px;

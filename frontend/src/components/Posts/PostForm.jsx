@@ -66,7 +66,7 @@ const AddPostForm = ({ reload, displayForm }) => {
     }
   };
   // ! ------------------------------------------------------------------------------------------------------------
-  // FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
+  //  FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
   // ! ------------------------------------------------------------------------------------------------------------
 
   return (
@@ -87,17 +87,9 @@ const AddPostForm = ({ reload, displayForm }) => {
               displayname="Titre"
               component={CustomInput}
               type="text"
+              className="form-post-title"
             />
             <ErrorMessage name="title" component={CustomError} />
-            <br />
-            <Field
-              name="content"
-              displayname="Contenu"
-              component={TextArea}
-              rows="5"
-            />
-            <ErrorMessage name="content" component={CustomError} />
-            <br />
             <FileInput
               setFieldValue={setFieldValue}
               setSelectedImage={setSelectedImage}
@@ -107,6 +99,15 @@ const AddPostForm = ({ reload, displayForm }) => {
               deleteThumbnailImage={setSelectedImage}
               deleteImage={setFieldValue}
             />
+            <br />
+            <Field
+              name="content"
+              displayname="Contenu"
+              component={TextArea}
+              rows="5"
+            />
+            <ErrorMessage name="content" component={CustomError} />
+            <br />
             <button
               type="submit"
               disabled={isSubmitting}

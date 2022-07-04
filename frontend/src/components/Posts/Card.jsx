@@ -5,12 +5,17 @@ import { UserRoleContext } from "../../contexts/userRole.context";
 import { UserUidContext } from "../../contexts/userUid.context";
 import * as axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
+import { Avatar } from "../Avatar/Avatar";
+import ModalWrapper from "../Modals/ModalWrapper";
+import ConfirmationModal from "../Modals/ConfirmationModal";
 
 const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
   const [canUpdate, setCanUpdate] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+    useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
@@ -38,6 +43,25 @@ const Card = ({ post, reload }) => {
       .catch((err) => console.log(err));
     reload(true);
   };
+  const closeConfirmationModal = () => {
+    setDisplayConfirmationModal(false);
+    reload(true);
+  };
+
+  const openConfirmationModal = () => {
+    setDisplayConfirmationModal(true);
+  };
+
+  const confirmationModal = displayConfirmationModal && (
+    <ModalWrapper close={closeConfirmationModal}>
+      <ConfirmationModal
+        message={"Vous allez supprimer ce post, souhaitez-vous continuer ?"}
+        className="confirmation-modal"
+        validate={deletePost}
+        cancel={closeConfirmationModal}
+      />
+    </ModalWrapper>
+  );
 
   useEffect(() => {
     if (userRole === "admin" || userUid === u_uid) setCanDelete(true);
@@ -50,19 +74,11 @@ const Card = ({ post, reload }) => {
   return (
     <article className="post-card">
       <div className="post-card-header">
-        {u_avatar_url ? (
-          <img
-            src={u_avatar_url}
-            alt={`avatar de ${u_username}`}
-            className="post-author-avatar"
-          />
-        ) : (
-          <img
-            src={defaultAvatar}
-            alt="Avatar Neutre"
-            className="default-avatar"
-          />
-        )}
+        <Avatar
+          avatarUrl={u_avatar_url}
+          username={u_username}
+          defaultAvatar={defaultAvatar}
+        />
         <div className="author">
           <p>
             Publié par <span className="italic bold">{u_username}</span>
@@ -77,18 +93,23 @@ const Card = ({ post, reload }) => {
               className="fa-solid fa-trash-can"
               title="Supprimer"
               onClick={() => {
-                deletePost();
+                openConfirmationModal();
               }}
             ></i>
           )}
+          {confirmationModal}
         </div>
       </div>
+      <p className="post-title">{p_title}</p>
       {p_post_img_url && (
         <img src={p_post_img_url} alt="Test" className="post-img" />
       )}
-      <p className="post-title">{p_title}</p>
       <p className="post-content">{p_content}</p>
-      <i className="fa-solid fa-heart" title="J'aime"></i>
+      <div className="like">
+        <i className="fa-solid fa-heart" title="J'aime"></i>
+        <p className="like-count"></p>
+      </div>
+
       {modificationDate && (
         <p className="post-modification-date">
           Dernière modification le

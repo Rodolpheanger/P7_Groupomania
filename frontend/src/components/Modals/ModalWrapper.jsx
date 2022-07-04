@@ -7,7 +7,7 @@ const ModalWrapper = ({ close, children }) => {
     close();
   };
   return ReactDOM.createPortal(
-    <div className="modal-background" onClick={() => closeModal()}>
+    <div className="modal-wrapper" onClick={() => closeModal()}>
       {children}
     </div>,
 

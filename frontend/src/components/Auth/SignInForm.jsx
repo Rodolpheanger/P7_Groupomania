@@ -57,7 +57,7 @@ const SignInForm = () => {
       setServerErrorMessage(err.response.data.message);
     }
   };
-  const modal = displayModal && (
+  const validationModal = displayModal && (
     <ModalWrapper close={closeModal}>
       <ValidationModal message={message} className="validation-modal" />
     </ModalWrapper>
@@ -65,7 +65,7 @@ const SignInForm = () => {
 
   return (
     <Fragment>
-      {modal}
+      {validationModal}
       <div className="sign-form">
         <Formik
           onSubmit={submit}

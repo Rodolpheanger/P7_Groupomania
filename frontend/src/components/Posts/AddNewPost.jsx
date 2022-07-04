@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import AddPostForm from "./AddPostForm";
+import PostForm from "./PostForm";
 
 const AddNewPost = ({ reload }) => {
   const [displayForm, setDisplayForm] = useState(false);
@@ -14,7 +14,7 @@ const AddNewPost = ({ reload }) => {
           Ajouter un post
         </button>
       ) : (
-        <AddPostForm reload={reload} displayForm={setDisplayForm} />
+        <PostForm reload={reload} displayForm={setDisplayForm} />
       )}
     </Fragment>
   );

@@ -1,6 +1,6 @@
-.modal-background {
+.modal-wrapper {
   background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
@@ -21,4 +21,13 @@
 }
 .validation-modal {
   background-color: #a8d6b2;
+}
+
+.confirmation-modal {
+  background-color: $color-4;
+  text-align: center;
+  line-height: 1.25rem;
+  .btn {
+    margin: 15px 10px 0 10px;
+  }
 }
