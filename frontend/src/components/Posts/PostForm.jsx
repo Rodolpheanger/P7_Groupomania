@@ -6,15 +6,11 @@ import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
 import ButtonClose from "../Buttons/ButtonClose";
 import FileInput from "../Form/FileInput";
+import { useContext } from "react";
+import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 
-const PostForm = ({
-  close,
-  submit,
-  selectedImage,
-  setSelectedImage,
-  title,
-  content,
-}) => {
+const PostForm = ({ close, submit, title, content }) => {
+  const [oldImgUrl] = useContext(OldImgUrlContext);
   const postSchema = Yup.object().shape({
     title: Yup.string()
       .max(50, "Votre titre ne doit pas comporter plus de 50 caractères")
@@ -35,7 +31,7 @@ const PostForm = ({
         initialValues={{
           title: title,
           content: content,
-          post_image: "",
+          post_image: oldImgUrl,
         }}
         validationSchema={postSchema}
       >
@@ -49,16 +45,8 @@ const PostForm = ({
               className="form-post-title"
             />
             <ErrorMessage name="title" component={CustomError} />
-            <FileInput
-              name="post_image"
-              setFieldValue={setFieldValue}
-              setSelectedImage={setSelectedImage}
-            />
-            <Thumbnail
-              image={selectedImage}
-              deleteThumbnailImage={setSelectedImage}
-              deleteImage={setFieldValue}
-            />
+            <FileInput name="post_image" setFieldValue={setFieldValue} />
+            <Thumbnail setFieldValue={setFieldValue} />
             <br />
             <Field
               name="content"

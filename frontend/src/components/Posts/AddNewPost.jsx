@@ -4,12 +4,13 @@ import axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
+import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 
-const AddNewPost = ({ reload, selectedImage, setSelectedImage }) => {
+const AddNewPost = ({ reload }) => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
-
+  const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [token] = useContext(TokenContext);
   const openPostForm = () => {
     reload(false);
@@ -76,12 +77,7 @@ const AddNewPost = ({ reload, selectedImage, setSelectedImage }) => {
         </button>
       ) : (
         <ModalWrapper>
-          <PostForm
-            close={close}
-            submit={submit}
-            selectedImage={selectedImage}
-            setSelectedImage={setSelectedImage}
-          />
+          <PostForm close={close} submit={submit} />
         </ModalWrapper>
       )}
     </Fragment>

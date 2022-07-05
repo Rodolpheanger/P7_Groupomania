@@ -65,6 +65,7 @@ export const serviceUpdatePost = async (
   postUid: string,
   content: string,
   title: string,
+  post_image: string,
   requestUserUid: string,
   protocol: string,
   host: string
@@ -72,7 +73,11 @@ export const serviceUpdatePost = async (
   const datas: any = await checkIfUserIsPostOwnerAndGetDatas(file, postUid);
   const { postOwner, postId, postImgUrl } = datas;
   if (postOwner === requestUserUid) {
-    const postImgUrlToSend = setPostImgUrl(file, protocol, host, postImgUrl);
+    const postImgUrlToSend = post_image
+      ? post_image
+      : post_image === null
+      ? deleteOldPostImageOnServer(postImgUrl)
+      : setPostImgUrl(file, protocol, host, postImgUrl);
     return new Promise((resolve, reject) => {
       const reqUpdatePost: string = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
       db.query(reqUpdatePost, (err: QueryError) => {

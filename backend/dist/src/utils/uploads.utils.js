@@ -63,6 +63,7 @@ const modifyPostImgUrl = (file, protocol, host) => {
 const deleteOldPostImageOnServer = (oldPostImgUrl) => {
     const filename = oldPostImgUrl.split("/post_image/")[1];
     fs.unlinkSync(`uploads/posts_images/${filename}`);
+    return "";
 };
 exports.deleteOldPostImageOnServer = deleteOldPostImageOnServer;
 const deleteNewImageOnServer = (filename) => {

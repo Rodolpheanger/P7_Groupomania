@@ -45,11 +45,15 @@ const serviceGetPostsByAuthor = (authorUid) => {
     });
 };
 exports.serviceGetPostsByAuthor = serviceGetPostsByAuthor;
-const serviceUpdatePost = async (file, postUid, content, title, requestUserUid, protocol, host) => {
+const serviceUpdatePost = async (file, postUid, content, title, post_image, requestUserUid, protocol, host) => {
     const datas = await (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
     const { postOwner, postId, postImgUrl } = datas;
     if (postOwner === requestUserUid) {
-        const postImgUrlToSend = (0, uploads_utils_1.setPostImgUrl)(file, protocol, host, postImgUrl);
+        const postImgUrlToSend = post_image
+            ? post_image
+            : post_image === null
+                ? (0, uploads_utils_1.deleteOldPostImageOnServer)(postImgUrl)
+                : (0, uploads_utils_1.setPostImgUrl)(file, protocol, host, postImgUrl);
         return new Promise((resolve, reject) => {
             const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
             database_1.db.query(reqUpdatePost, (err) => {

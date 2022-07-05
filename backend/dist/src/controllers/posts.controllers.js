@@ -64,17 +64,18 @@ exports.getPostsByAuthor = getPostsByAuthor;
 const updatePost = async (req, res) => {
     const file = req.file;
     const postUid = req.params.id;
-    const { content, title } = req.body;
+    const { content, title, post_image, } = req.body;
     const requestUserUid = req.requestUserUid;
     const protocol = req.protocol;
     const host = req.get("host");
+    console.log(req.body);
     try {
         if (req.headers["content-type"].includes("multipart") &&
             file === undefined) {
             throw Error("no file");
         }
         else {
-            const result = await (0, posts_services_1.serviceUpdatePost)(file, postUid, content, title, requestUserUid, protocol, host);
+            const result = await (0, posts_services_1.serviceUpdatePost)(file, postUid, content, title, post_image, requestUserUid, protocol, host);
             if (result)
                 res.status(200).json({ message: "Post mis à jour avec succès" });
         }

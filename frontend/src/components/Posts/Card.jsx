@@ -10,6 +10,8 @@ import ModalWrapper from "../Modals/ModalWrapper";
 import ConfirmationModal from "../Modals/ConfirmationModal";
 import ModificationModal from "../Modals/ModificationModal";
 import ValidationModal from "../Modals/ValidationModal";
+import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
+import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 
 const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
@@ -22,9 +24,11 @@ const Card = ({ post, reload }) => {
   const [displayModificationModal, setDisplayModificationModal] =
     useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
+  const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
+  const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const {
     u_uid,
     u_username,
@@ -36,7 +40,6 @@ const Card = ({ post, reload }) => {
     p_modification_date,
     p_uid,
   } = post;
-
   const deletePost = async () => {
     try {
       const response = await axios.delete(`api/posts/${p_uid}`, {
@@ -52,15 +55,36 @@ const Card = ({ post, reload }) => {
     }
   };
 
-  const updatePost = async () => {
+  const updatePost = async (values, actions) => {
+    console.log(values);
+    actions.setSubmitting(false);
     try {
-      const response = await axios.put(`api/posts/${p_uid}`, {
-        headers: {
-          Authorization: `BEARER ${token}`,
-        },
-      });
-      setResponseMessage(response.data.message);
-      setDisplayValidationModal(true);
+      if (!values.post_image || !selectedImage) {
+        const { title, content, post_image } = values;
+        const datas = { title, content, post_image };
+        const response = await axios.put(`api/posts/${p_uid}`, datas, {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        });
+        const { message, error } = response.data;
+        setResponseMessage(message);
+        setDisplayValidationModal(true);
+
+        return error ? alert(error) : (console.log(message), reload(true));
+      } else {
+        const response = await axios.put(`api/posts/${p_uid}`, values, {
+          headers: {
+            Authorization: `BEARER ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const { message, error } = response.data;
+        setResponseMessage(message);
+        setDisplayValidationModal(true);
+        setSelectedImage(null);
+        return error ? alert(error) : (console.log(message), reload(true));
+      }
     } catch (err) {
       console.log(err);
     }
@@ -70,6 +94,7 @@ const Card = ({ post, reload }) => {
     reload(true);
   };
   const closeValidationModal = () => {
+    setDisplayModificationModal(false);
     setDisplayValidationModal(false);
     reload(true);
   };
@@ -143,6 +168,7 @@ const Card = ({ post, reload }) => {
               title="Modifier"
               onClick={() => {
                 setDisplayModificationModal(true);
+                setOldImgUrl(p_post_img_url);
               }}
             ></i>
           )}

@@ -1,7 +1,9 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
+import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 
-const FileInput = ({ setFieldValue, setSelectedImage }) => {
+const FileInput = ({ setFieldValue }) => {
   const [fileErrorMsg, setFileErrorMsg] = useState(false);
+  const [, setSelectedImage] = useContext(ThumbImgContext);
   const checkFile = (file) => {
     if (
       file.type === "image/jpeg" ||
@@ -34,9 +36,9 @@ const FileInput = ({ setFieldValue, setSelectedImage }) => {
         onChange={(event) => {
           const valideFile = checkFile(event.target.files[0]);
           if (valideFile === true) {
-            setFieldValue("post_image", event.currentTarget.files[0]);
-            setSelectedImage(event.target.files[0]);
             setFileErrorMsg(false);
+            setSelectedImage(event.target.files[0]);
+            setFieldValue("post_image", event.target.files[0]);
           }
         }}
       />

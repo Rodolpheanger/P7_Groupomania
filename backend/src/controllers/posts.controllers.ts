@@ -85,10 +85,15 @@ export const updatePost = async (
 ): Promise<void> => {
   const file: any = req.file;
   const postUid: string = req.params.id;
-  const { content, title }: { content: string; title: string } = req.body;
+  const {
+    content,
+    title,
+    post_image,
+  }: { content: string; title: string; post_image: string } = req.body;
   const requestUserUid: string = req.requestUserUid;
   const protocol = req.protocol;
   const host = req.get("host");
+  console.log(req.body);
   try {
     if (
       req.headers["content-type"].includes("multipart") &&
@@ -101,6 +106,7 @@ export const updatePost = async (
         postUid,
         content,
         title,
+        post_image,
         requestUserUid,
         protocol,
         host
