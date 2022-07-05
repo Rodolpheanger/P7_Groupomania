@@ -12,15 +12,20 @@ const Posts = () => {
   const [token] = useContext(TokenContext);
 
   useEffect(() => {
-    axios
-      .get("api/posts", {
-        headers: {
-          Authorization: `BEARER ${token}`,
-        },
-      })
-      .then((res) => setPosts(res.data))
-      .catch((err) => console.log(err));
-    setReload(false);
+    const getPosts = async () => {
+      try {
+        const response = await axios.get("api/posts", {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        });
+        setPosts(response.data);
+        setReload(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPosts();
   }, [token, reload]);
 
   return (

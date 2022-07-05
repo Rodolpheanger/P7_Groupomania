@@ -16,6 +16,7 @@ const Card = ({ post, reload }) => {
   const [modificationDate, setModificationDate] = useState("");
   const [canUpdate, setCanUpdate] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
   const [displayModificationModal, setDisplayModificationModal] =
@@ -36,36 +37,42 @@ const Card = ({ post, reload }) => {
     p_uid,
   } = post;
 
-  const deletePost = () => {
-    axios
-      .delete(`api/posts/${p_uid}`, {
+  const deletePost = async () => {
+    try {
+      const response = await axios.delete(`api/posts/${p_uid}`, {
         headers: {
           Authorization: `BEARER ${token}`,
         },
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    setDisplayConfirmationModal(false);
-    openValidationModal();
+      });
+      setResponseMessage(response.data.message);
+      setDisplayConfirmationModal(false);
+      setDisplayValidationModal(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const openModificationModal = () => {
-    setDisplayModificationModal(true);
+
+  const updatePost = async () => {
+    try {
+      const response = await axios.put(`api/posts/${p_uid}`, {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      });
+      setResponseMessage(response.data.message);
+      setDisplayValidationModal(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const closeModificationModal = () => {
     setDisplayModificationModal(false);
     reload(true);
   };
-  const openValidationModal = () => {
-    setDisplayValidationModal(true);
-  };
   const closeValidationModal = () => {
     setDisplayValidationModal(false);
     reload(true);
   };
-  const openConfirmationModal = () => {
-    setDisplayConfirmationModal(true);
-  };
-
   const closeConfirmationModal = () => {
     setDisplayConfirmationModal(false);
     reload(true);
@@ -74,6 +81,7 @@ const Card = ({ post, reload }) => {
   const modificationModal = displayModificationModal && (
     <ModalWrapper>
       <ModificationModal
+        submit={updatePost}
         className="modification-modal"
         postTitle={p_title}
         postContent={p_content}
@@ -96,7 +104,7 @@ const Card = ({ post, reload }) => {
     <ModalWrapper>
       <ValidationModal
         className="validation-modal"
-        message={"Post suprrimé avec succès"}
+        message={responseMessage}
         close={closeValidationModal}
       ></ValidationModal>
     </ModalWrapper>
@@ -134,7 +142,7 @@ const Card = ({ post, reload }) => {
               className="fa-solid fa-pen"
               title="Modifier"
               onClick={() => {
-                openModificationModal();
+                setDisplayModificationModal(true);
               }}
             ></i>
           )}
@@ -143,7 +151,7 @@ const Card = ({ post, reload }) => {
               className="fa-solid fa-trash-can"
               title="Supprimer"
               onClick={() => {
-                openConfirmationModal();
+                setDisplayConfirmationModal(true);
               }}
             ></i>
           )}

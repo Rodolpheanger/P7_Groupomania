@@ -61,7 +61,7 @@ const SignupForm = (props) => {
     }
   };
   const modal = displayModal && (
-    <ModalWrapper close={closeModal}>
+    <ModalWrapper>
       <ValidationModal
         message={
           <Fragment>
@@ -72,6 +72,7 @@ const SignupForm = (props) => {
           </Fragment>
         }
         className="validation-modal"
+        close={closeModal}
       />
     </ModalWrapper>
   );

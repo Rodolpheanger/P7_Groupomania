@@ -3,9 +3,13 @@ import PostForm from "./PostForm";
 import axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
+import ValidationModal from "../Modals/ValidationModal";
 
 const AddNewPost = ({ reload, selectedImage, setSelectedImage }) => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
+  const [displayValidationModal, setDisplayValidationModal] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
   const [token] = useContext(TokenContext);
   const openPostForm = () => {
     reload(false);
@@ -23,8 +27,8 @@ const AddNewPost = ({ reload, selectedImage, setSelectedImage }) => {
           },
         });
         const { message, error } = response.data;
-        reload(true);
-        setDisplayPostForm(false);
+        setResponseMessage(message);
+        setDisplayValidationModal(true);
 
         return error ? alert(error) : (console.log(message), reload(true));
       } else {
@@ -35,23 +39,37 @@ const AddNewPost = ({ reload, selectedImage, setSelectedImage }) => {
           },
         });
         const { message, error } = response.data;
+        setResponseMessage(message);
+        setDisplayValidationModal(true);
         setSelectedImage(null);
-        reload(true);
-        setDisplayPostForm(false);
         return error ? alert(error) : (console.log(message), reload(true));
       }
     } catch (err) {
       console.log(err);
     }
   };
-
   const close = () => {
     setSelectedImage(null);
     setDisplayPostForm(false);
   };
+  const closeValidationModal = () => {
+    setDisplayPostForm(false);
+    setDisplayValidationModal(false);
+    reload(true);
+  };
+  const validationModal = displayValidationModal && (
+    <ModalWrapper>
+      <ValidationModal
+        className="validation-modal"
+        message={responseMessage}
+        close={closeValidationModal}
+      ></ValidationModal>
+    </ModalWrapper>
+  );
 
   return (
     <Fragment>
+      {validationModal}
       {!displayPostForm ? (
         <button onClick={openPostForm} className="btn btn-add-post">
           Ajouter un post
