@@ -5,14 +5,17 @@ import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
+import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 
 const AddNewPost = ({ reload }) => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
+  const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
   const openPostForm = () => {
+    setOldImgUrl(null);
     reload(false);
     setDisplayPostForm(true);
   };

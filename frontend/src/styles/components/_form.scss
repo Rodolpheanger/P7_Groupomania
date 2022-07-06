@@ -32,9 +32,11 @@ input {
 }
 
 // TODO decommenter:
-// .input-file {
-//   display: none;
-// }
+
+.input-file {
+  display: none;
+}
 .input-text-area {
   resize: none;
+  outline: none;
 }

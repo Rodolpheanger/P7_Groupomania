@@ -12,6 +12,7 @@ import ModificationModal from "../Modals/ModificationModal";
 import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
+import Likes from "./Likes";
 
 const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
@@ -188,11 +189,7 @@ const Card = ({ post, reload }) => {
         <img src={p_post_img_url} alt="Test" className="post-img" />
       )}
       <p className="post-content">{p_content}</p>
-      <div className="like">
-        <i className="fa-solid fa-heart" title="J'aime"></i>
-        <p className="like-count"></p>
-      </div>
-
+      <Likes postUid={p_uid} />
       {modificationDate && (
         <p className="post-modification-date">
           Dernière modification le
