@@ -1,8 +1,24 @@
-import { QueryError } from "mysql2";
+import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { checkIfLikeExistAndGetDatas } from "../utils/likes.utils";
 import { checkIfPostExistAndGetDatas } from "../utils/posts.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
+
+export const serviceGetLikeByPost = async (
+  file: any,
+  requestUserUid: string,
+  postUid: string
+): Promise<QueryError | RowDataPacket[]> => {
+  const postDatas = await checkIfPostExistAndGetDatas(file, postUid);
+  const postId = postDatas.p_id;
+  // const userId = await checkIfUserExistAndGetDatas(file, requestUserUid)
+  return new Promise((resolve, reject) => {
+    const sqlGetLikeByPost = `SELECT pl_value, u_uid, pl_fk_post_id FROM posts_likes INNER JOIN users ON pl_fk_user_id = u_id WHERE pl_fk_post_id = '${postId}'`;
+    db.query(sqlGetLikeByPost, (err: QueryError, rows: RowDataPacket[]) => {
+      err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
+    });
+  });
+};
 
 export const serviceSetLike = async (
   file: any,
@@ -10,7 +26,6 @@ export const serviceSetLike = async (
   postUid: string,
   likeValue: number
 ): Promise<any> => {
-  console.log("test", typeof file);
   const postDatas = await checkIfPostExistAndGetDatas(file, postUid);
   const postId = postDatas.p_id;
   const likeUserData = await checkIfUserExistAndGetDatas(file, requestUserUid);

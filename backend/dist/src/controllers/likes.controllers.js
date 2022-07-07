@@ -1,8 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setLike = void 0;
+exports.setLike = exports.getLikeByPost = void 0;
 const errors_utils_1 = require("../utils/errors.utils");
 const likes_services_1 = require("./likes.services");
+const getLikeByPost = async (req, res) => {
+    const file = req.file;
+    const requestUserUid = req.requestUserUid;
+    const postUid = req.params.id;
+    try {
+        const result = await (0, likes_services_1.serviceGetLikeByPost)(file, requestUserUid, postUid);
+        res.status(200).json(result);
+    }
+    catch (err) {
+        console.log("GetLikes error :", err);
+        (0, errors_utils_1.errorResponse)(err, res);
+    }
+};
+exports.getLikeByPost = getLikeByPost;
 const setLike = async (req, res) => {
     const file = req.file;
     const requestUserUid = req.requestUserUid;
@@ -14,7 +28,6 @@ const setLike = async (req, res) => {
             res.status(201).json({ message: result });
     }
     catch (err) {
-        console.log("test", err);
         (0, errors_utils_1.errorResponse)(err, res);
     }
 };

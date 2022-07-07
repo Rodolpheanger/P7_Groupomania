@@ -95,6 +95,15 @@
   }
   .like {
     @include flex-center;
+    &-selected {
+      color: red;
+      &:hover {
+        color: $color-2;
+      }
+    }
+    &:hover {
+      cursor: pointer;
+    }
   }
   .post-modification-date {
     margin-bottom: 15px;

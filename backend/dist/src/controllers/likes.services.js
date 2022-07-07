@@ -1,12 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceSetLike = void 0;
+exports.serviceSetLike = exports.serviceGetLikeByPost = void 0;
 const database_1 = require("../../config/database");
 const likes_utils_1 = require("../utils/likes.utils");
 const posts_utils_1 = require("../utils/posts.utils");
 const users_utils_1 = require("../utils/users.utils");
+const serviceGetLikeByPost = async (file, requestUserUid, postUid) => {
+    const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
+    const postId = postDatas.p_id;
+    // const userId = await checkIfUserExistAndGetDatas(file, requestUserUid)
+    return new Promise((resolve, reject) => {
+        const sqlGetLikeByPost = `SELECT pl_value, u_uid, pl_fk_post_id FROM posts_likes INNER JOIN users ON pl_fk_user_id = u_id WHERE pl_fk_post_id = '${postId}'`;
+        database_1.db.query(sqlGetLikeByPost, (err, rows) => {
+            err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
+        });
+    });
+};
+exports.serviceGetLikeByPost = serviceGetLikeByPost;
 const serviceSetLike = async (file, requestUserUid, postUid, likeValue) => {
-    console.log("test", typeof file);
     const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;
     const likeUserData = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
