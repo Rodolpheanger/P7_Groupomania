@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { dateParser } from "../../utils/date.utils";
-import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
 import { UserRoleContext } from "../../contexts/userRole.context";
 import { UserUidContext } from "../../contexts/userUid.context";
 import * as axios from "axios";
@@ -153,7 +152,7 @@ const Card = ({ post, reload }) => {
         <Avatar
           avatarUrl={u_avatar_url}
           username={u_username}
-          defaultAvatar={defaultAvatar}
+          className="avatar-post-author"
         />
         <div className="author">
           <p>

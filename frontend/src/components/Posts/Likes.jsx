@@ -35,16 +35,16 @@ const Likes = ({ postUid }) => {
     }
   };
 
-  const likeTypeSelected = () => {
-    console.log(
-      "Grrr: ",
-      grrrSelected,
-      " Like: ",
-      likeSelected,
-      " Mdr: ",
-      mdrSelected
-    );
-  };
+  // const likeTypeSelected = () => {
+  //   console.log(
+  //     "Grrr: ",
+  //     grrrSelected,
+  //     " Like: ",
+  //     likeSelected,
+  //     " Mdr: ",
+  //     mdrSelected
+  //   );
+  // };
 
   useEffect(() => {
     const getLikesDatas = async () => {

@@ -1,0 +1,17 @@
+.avatar {
+  border-radius: 999px;
+  border: 1px solid black;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: 50%;
+  object-position: 50%;
+  box-shadow: $small-shadow;
+  &-post-author {
+    width: 60px;
+    height: 60px;
+  }
+  &-profil {
+    width: 200px;
+    height: 200px;
+  }
+}

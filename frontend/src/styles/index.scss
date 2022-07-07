@@ -3,11 +3,14 @@
 @import "./vendors/reset";
 @import "./base/base";
 @import "./layouts/header";
-@import "./components/fa-solid";
+@import "./components/avatar";
 @import "./components/button";
+@import "./components/fa-solid";
 @import "./components/form";
 @import "./components/modal";
 @import "./components/thumbnail";
 @import "./pages/home";
 @import "./pages/auth";
+@import "./pages/not-found";
 @import "./pages/posts";
+@import "./pages/profil";
