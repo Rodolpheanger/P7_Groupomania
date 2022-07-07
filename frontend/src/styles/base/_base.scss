@@ -41,9 +41,17 @@ h1 {
     width: 90%;
   }
 }
+
+hr {
+  width: 25%;
+  border: 1px double $color-2;
+  margin: 15px 0;
+}
+italic,
 .italic {
   font-style: italic;
 }
+bold,
 .bold {
   font-weight: 900;
 }

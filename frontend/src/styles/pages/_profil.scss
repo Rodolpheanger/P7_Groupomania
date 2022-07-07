@@ -2,4 +2,21 @@
   @include card-style;
   @include flex-center(column);
   width: 90%;
+  padding: 15px;
+}
+.profil-bio-box {
+  @include flex-center(column);
+  width: 100%;
+}
+.profil-bio-text {
+  background-color: $color-4;
+  border: 1px solid $color-1;
+  border-radius: 15px;
+  margin-top: 15px;
+  padding: 15px;
+  width: 50%;
+  min-height: 150px;
+  @include mobile {
+    width: 75%;
+  }
 }

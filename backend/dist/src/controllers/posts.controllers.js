@@ -16,7 +16,6 @@ const createPost = async (req, res) => {
         }
         else {
             const result = await (0, posts_services_1.serviceCreatePost)(file, content, title, requestUserUid, protocol, host);
-            console.log(result);
             if (result)
                 res.status(201).json({ message: "Post créé avec succès" });
         }
@@ -68,7 +67,6 @@ const updatePost = async (req, res) => {
     const requestUserUid = req.requestUserUid;
     const protocol = req.protocol;
     const host = req.get("host");
-    console.log(req.body);
     try {
         if (req.headers["content-type"].includes("multipart") &&
             file === undefined) {

@@ -24,10 +24,10 @@ const Card = ({ post, reload }) => {
   const [displayModificationModal, setDisplayModificationModal] =
     useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
-  const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
+  const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const {
     u_uid,

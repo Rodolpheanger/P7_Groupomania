@@ -33,7 +33,6 @@ export const createPost = async (
         protocol,
         host
       );
-      console.log(result);
       if (result) res.status(201).json({ message: "Post créé avec succès" });
     }
   } catch (err) {
@@ -93,7 +92,6 @@ export const updatePost = async (
   const requestUserUid: string = req.requestUserUid;
   const protocol = req.protocol;
   const host = req.get("host");
-  console.log(req.body);
   try {
     if (
       req.headers["content-type"].includes("multipart") &&
