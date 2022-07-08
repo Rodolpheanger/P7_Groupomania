@@ -184,7 +184,7 @@ const Card = ({ post, reload }) => {
         <img src={p_post_img_url} alt="Test" className="post-img" />
       )}
       <p className="post-content">{p_content}</p>
-      <Likes postUid={p_uid} />
+      <Likes postUid={p_uid} reload={reload} />
       {modificationDate && (
         <p className="post-modification-date">
           Dernière modification le

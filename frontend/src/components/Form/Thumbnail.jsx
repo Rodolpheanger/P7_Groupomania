@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
-import ButtonClose from "../Buttons/ButtonClose";
+import CloseBtn from "../Buttons/CloseBtn";
 
 const Thumbnail = ({ setFieldValue }) => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -22,14 +22,14 @@ const Thumbnail = ({ setFieldValue }) => {
   const newImage = selectedImage && imageUrl && (
     <div className="thumbnail-wrapper">
       <img src={imageUrl} alt={selectedImage.name} className="thumbnail" />
-      <ButtonClose close={close} />
+      <CloseBtn close={close} />
     </div>
   );
 
   const oldImage = oldImgUrl && (
     <div className="thumbnail-wrapper">
       <img src={oldImgUrl} alt={"Selection précédente"} className="thumbnail" />
-      <ButtonClose close={closeOld} />
+      <CloseBtn close={closeOld} />
     </div>
   );
 

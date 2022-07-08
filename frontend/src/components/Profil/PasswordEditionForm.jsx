@@ -1,11 +1,14 @@
-import { Fragment } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import CustomError from "../Form/ErrorMessage";
 import TextInput from "../Form/TextInput";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
+import { useContext } from "react";
+import { TokenContext } from "../../contexts/token.context";
 
 const PasswordForm = () => {
+  const [token] = useContext(TokenContext);
+
   const PasswordSchema = Yup.object().shape({
     oldPassword: Yup.string()
       .min(8, "Votre mot de passe doit comporter au moins 8 caractères")
@@ -23,8 +26,14 @@ const PasswordForm = () => {
       .required("Ce champ est obligatoire"),
   });
 
-  const updatePassword = async (values, actions) => {
-    console.log(values);
+  // TODO : créer le controller pour modif du mot de passe dans le backend
+
+  const updatePassword = async (values) => {
+    try {
+      console.log(values);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const serverErrorMessage = "";
 

@@ -4,7 +4,7 @@ import TextInput from "../Form/TextInput";
 import CustomError from "../Form/ErrorMessage";
 import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
-import ButtonClose from "../Buttons/ButtonClose";
+import CloseBtn from "../Buttons/CloseBtn";
 import FileInput from "../Form/FileInput";
 import { useContext } from "react";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
@@ -20,9 +20,9 @@ const PostForm = ({ close, submit, title, content }) => {
       .required("Ce champ est obligatoire"),
   });
 
-  // ! ------------------------------------------------------------------------------------------------------------
+  // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
   //  FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
-  // ! ------------------------------------------------------------------------------------------------------------
+  // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   return (
     <div className="post-form">
@@ -66,7 +66,7 @@ const PostForm = ({ close, submit, title, content }) => {
           </Form>
         )}
       </Formik>
-      <ButtonClose close={close} />
+      <CloseBtn close={close} />
     </div>
   );
 };

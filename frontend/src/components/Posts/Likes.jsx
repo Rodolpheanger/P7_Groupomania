@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
 import { UserUidContext } from "../../contexts/userUid.context";
 
@@ -7,15 +7,18 @@ const Likes = ({ postUid }) => {
   const grrr = 0;
   const like = 1;
   const mdr = 2;
-  const [, setReload] = useState(false);
+  const [reload, setReload] = useState(false);
   const [grrrCount, setGrrrCount] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
   const [mdrCount, setMdrCount] = useState(0);
   const [grrrSelected, setGrrrSelected] = useState(false);
   const [likeSelected, setLikeSelected] = useState(false);
   const [mdrSelected, setMdrSelected] = useState(false);
+  const [likeTypeSelected, setLikeTypeSelected] = useState("");
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
+
+  // TODO : revoir le système de "likeSelected" + voir pour refresh le component au changement de type de like par l'utilisateur
 
   const submit = async (value) => {
     try {
@@ -35,17 +38,6 @@ const Likes = ({ postUid }) => {
     }
   };
 
-  // const likeTypeSelected = () => {
-  //   console.log(
-  //     "Grrr: ",
-  //     grrrSelected,
-  //     " Like: ",
-  //     likeSelected,
-  //     " Mdr: ",
-  //     mdrSelected
-  //   );
-  // };
-
   useEffect(() => {
     const getLikesDatas = async () => {
       const response = await axios.get(`api/likes/${postUid}`, {
@@ -53,51 +45,46 @@ const Likes = ({ postUid }) => {
           Authorization: `BEARER ${token}`,
         },
       });
-      console.log(response.data);
+      await response.data.forEach((like) => {
+        switch (like.pl_value) {
+          case 0:
+            setGrrrCount((prevState) => prevState + 1);
+
+            if (like.u_uid === userUid) {
+              setGrrrSelected(true);
+              // setLikeSelected(false);
+              // setMdrSelected(false);
+              setLikeTypeSelected("grrr");
+            }
+
+            break;
+          case 1:
+            setLikeCount((prevState) => prevState + 1);
+
+            if (like.u_uid === userUid) {
+              // setGrrrSelected(false);
+              setLikeSelected(true);
+              // setMdrSelected(false);
+              setLikeTypeSelected("like");
+            }
+
+            break;
+          case 2:
+            setMdrCount((prevState) => prevState + 1);
+            if (like.u_uid === userUid) {
+              // setGrrrSelected(false);
+              // setLikeSelected(false);
+              setMdrSelected(true);
+              setLikeTypeSelected("mdr");
+            }
+
+            break;
+          default:
+            return;
+        }
+      });
     };
-    //   await response.data.forEach((like) => {
-    //     console.log(like);
-    //     switch (like.pl_value) {
-    //       case 0:
-    //         setGrrrCount(grrrCount + 1);
-
-    //         if (like.u_uid === userUid) {
-    //           setGrrrSelected(true);
-    //           setLikeSelected(false);
-    //           setMdrSelected(false);
-    //           likeTypeSelected();
-    //         }
-
-    //         break;
-    //       case 1:
-    //         setLikeCount(likeCount + 1);
-
-    //         if (like.u_uid === userUid) {
-    //           setGrrrSelected(false);
-    //           setLikeSelected(true);
-    //           setMdrSelected(false);
-    //           likeTypeSelected();
-    //         }
-
-    //         break;
-    //       case 2:
-    //         setMdrCount(mdrCount + 1);
-    //         if (like.u_uid === userUid) {
-    //           setGrrrSelected(false);
-    //           setLikeSelected(false);
-    //           setMdrSelected(true);
-    //           likeTypeSelected();
-    //         }
-
-    //         break;
-    //       default:
-    //         return;
-    //     }
-    // });
-    // };
-
     getLikesDatas();
-    setReload(false);
   }, []);
 
   return (
@@ -111,7 +98,7 @@ const Likes = ({ postUid }) => {
       ></i>
       <p className="grrr-count">{grrrCount}</p>
       <i
-        className="fa-solid fa-heart like-selected"
+        className="fa-solid fa-heart"
         title="J'aime"
         onClick={() => {
           submit(like);

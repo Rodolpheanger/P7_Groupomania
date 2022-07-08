@@ -2,7 +2,9 @@
   @include card-style;
   @include flex-center(column);
   width: 90%;
+  max-width: 800px;
   padding: 15px;
+  margin-bottom: 30px;
 }
 .profil-avatar-box {
   @include flex-center(column);

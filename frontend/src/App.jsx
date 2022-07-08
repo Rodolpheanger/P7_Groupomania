@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// import { AuthProvider } from "./contexts/auth.context";
-import Routes from "./routes";
+import AppRoutes from "./routes";
 import { localAuthDatas } from "./utils/auth.utils";
 import { TokenContext } from "./contexts/token.context";
 import { UserRoleContext } from "./contexts/userRole.context";
@@ -18,7 +17,7 @@ const App = () => {
       <TokenContext.Provider value={[token, setToken]}>
         <UserRoleContext.Provider value={[userRole, setUserRole]}>
           <UserUidContext.Provider value={[userUid, setUserUid]}>
-            <Routes />
+            <AppRoutes />
           </UserUidContext.Provider>
         </UserRoleContext.Provider>
       </TokenContext.Provider>

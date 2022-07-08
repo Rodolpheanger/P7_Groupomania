@@ -4,7 +4,6 @@ import Header from "../components/Header/Header";
 import { TokenContext } from "../contexts/token.context";
 import { UserUidContext } from "../contexts/userUid.context";
 import dateParser from "../utils/date.utils";
-import PasswordForm from "../components/Profil/PasswordEditionForm";
 import ProfilAvatar from "../components/Profil/ProfilAvatar";
 import ModalWrapper from "../components/Modals/ModalWrapper";
 import PasswordEditionModal from "../components/Modals/PasswordEditionModal";
@@ -37,6 +36,10 @@ const Profil = () => {
       />
     </ModalWrapper>
   );
+
+  useEffect(() => {
+    console.log("useEffect");
+  }, []);
 
   useEffect(() => {
     const getUserDatas = async () => {

@@ -6,7 +6,7 @@ import Profil from "./pages/Profil";
 import Posts from "./pages/Posts.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
-const routes = () => {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -18,4 +18,4 @@ const routes = () => {
   );
 };
 
-export default routes;
+export default AppRoutes;

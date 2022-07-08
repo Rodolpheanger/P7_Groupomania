@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../styles/assets/img/icons/icon-left-font-monochrome-white.png";
 
@@ -10,6 +10,10 @@ const Home = () => {
     }, 2500);
   };
   navToAuth();
+
+  useEffect(() => {
+    console.log("Home useEffect");
+  }, []);
 
   return (
     <div className="home-wrapper">
