@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import CustomError from "../Form/ErrorInput";
+import CustomError from "../Form/ErrorMessage";
 import * as Yup from "yup";
 import "../../config/axios-config.js";
 import * as axios from "axios";

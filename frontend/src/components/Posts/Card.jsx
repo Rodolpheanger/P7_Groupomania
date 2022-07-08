@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { dateParser } from "../../utils/date.utils";
+import dateParser from "../../utils/date.utils";
 import { UserRoleContext } from "../../contexts/userRole.context";
 import { UserUidContext } from "../../contexts/userUid.context";
 import * as axios from "axios";
@@ -7,7 +7,7 @@ import { TokenContext } from "../../contexts/token.context";
 import { Avatar } from "../Avatar/Avatar";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ConfirmationModal from "../Modals/ConfirmationModal";
-import ModificationModal from "../Modals/ModificationModal";
+import PostEditionModal from "../Modals/PostEditionModal";
 import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
@@ -21,8 +21,7 @@ const Card = ({ post, reload }) => {
   const [responseMessage, setResponseMessage] = useState("");
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
-  const [displayModificationModal, setDisplayModificationModal] =
-    useState(false);
+  const [displayPostEditionModal, setDisplayPostEditionModal] = useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
@@ -89,12 +88,12 @@ const Card = ({ post, reload }) => {
       console.log(err);
     }
   };
-  const closeModificationModal = () => {
-    setDisplayModificationModal(false);
+  const closePostEditionModal = () => {
+    setDisplayPostEditionModal(false);
     reload(true);
   };
   const closeValidationModal = () => {
-    setDisplayModificationModal(false);
+    setDisplayPostEditionModal(false);
     setDisplayValidationModal(false);
     reload(true);
   };
@@ -103,14 +102,13 @@ const Card = ({ post, reload }) => {
     reload(true);
   };
 
-  const modificationModal = displayModificationModal && (
+  const postEditionModal = displayPostEditionModal && (
     <ModalWrapper>
-      <ModificationModal
+      <PostEditionModal
         submit={updatePost}
-        className="modification-modal"
         postTitle={p_title}
         postContent={p_content}
-        close={closeModificationModal}
+        close={closePostEditionModal}
       />
     </ModalWrapper>
   );
@@ -118,7 +116,6 @@ const Card = ({ post, reload }) => {
     <ModalWrapper>
       <ConfirmationModal
         message={"Vous allez supprimer ce post, souhaitez-vous continuer ?"}
-        className="confirmation-modal"
         validate={deletePost}
         cancel={closeConfirmationModal}
       />
@@ -128,7 +125,6 @@ const Card = ({ post, reload }) => {
   const validationModal = displayValidationModal && (
     <ModalWrapper>
       <ValidationModal
-        className="validation-modal"
         message={responseMessage}
         close={closeValidationModal}
       ></ValidationModal>
@@ -147,7 +143,7 @@ const Card = ({ post, reload }) => {
     <article className="post-card">
       {validationModal}
       {confirmationModal}
-      {modificationModal}
+      {postEditionModal}
       <div className="post-card-header">
         <Avatar
           avatarUrl={u_avatar_url}
@@ -167,7 +163,7 @@ const Card = ({ post, reload }) => {
               className="fa-solid fa-pen"
               title="Modifier"
               onClick={() => {
-                setDisplayModificationModal(true);
+                setDisplayPostEditionModal(true);
                 setOldImgUrl(p_post_img_url);
               }}
             ></i>

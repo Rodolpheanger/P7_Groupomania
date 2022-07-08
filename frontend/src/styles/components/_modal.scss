@@ -12,7 +12,7 @@
   @include flex-center(column);
   justify-content: space-around;
   width: 300px;
-  padding: 25px;
+  padding: 15px;
   min-height: 150px;
   border-radius: 15px;
   position: absolute;
@@ -24,12 +24,32 @@
 .validation-modal {
   background-color: #a8d6b2;
 }
-
+.password-edition-modal {
+  background-color: $color-4;
+  padding: 30px;
+  .btn-close {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+  }
+  form {
+    @include flex-center(column);
+  }
+}
 .confirmation-modal {
   background-color: $color-4;
   text-align: center;
   line-height: 1.25rem;
+  i {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 2rem;
+    color: $color-2;
+  }
+  p {
+    margin-bottom: 15px;
+  }
   .btn {
-    margin: 15px 10px 0 10px;
+    margin: 10px;
   }
 }

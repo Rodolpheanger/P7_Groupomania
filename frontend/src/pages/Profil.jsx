@@ -1,10 +1,13 @@
-import axios from "axios";
+import * as axios from "axios";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Avatar } from "../components/Avatar/Avatar";
 import Header from "../components/Header/Header";
 import { TokenContext } from "../contexts/token.context";
 import { UserUidContext } from "../contexts/userUid.context";
-import { dateParser } from "../utils/date.utils";
+import dateParser from "../utils/date.utils";
+import PasswordForm from "../components/Profil/PasswordEditionForm";
+import ProfilAvatar from "../components/Profil/ProfilAvatar";
+import ModalWrapper from "../components/Modals/ModalWrapper";
+import PasswordEditionModal from "../components/Modals/PasswordEditionModal";
 
 const Profil = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -16,10 +19,24 @@ const Profil = () => {
   const [role, setRole] = useState("");
   const [uid, setUid] = useState("");
   const [username, setUsername] = useState("");
+  const [displayPasswordEditionModal, setDisplayPasswordEditionModal] =
+    useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
 
   const parsedInscriptionDate = dateParser(inscriptionDate);
+
+  const setAvatar = () => {
+    console.log("setAvatar");
+  };
+
+  const passwordEditionModal = displayPasswordEditionModal && (
+    <ModalWrapper>
+      <PasswordEditionModal
+        close={() => setDisplayPasswordEditionModal(false)}
+      />
+    </ModalWrapper>
+  );
 
   useEffect(() => {
     const getUserDatas = async () => {
@@ -40,7 +57,6 @@ const Profil = () => {
           u_uid,
           u_username,
         } = userDatas.data;
-        console.log(userDatas.data);
         setAvatarUrl(u_avatar_url);
         u_bio ? setBio(u_bio) : setBio("A compléter");
         setEmail(u_email);
@@ -62,25 +78,24 @@ const Profil = () => {
   return (
     <Fragment>
       <Header />
+      {passwordEditionModal}
       <main>
         <h1>{username}</h1>
         <article className="profil-card">
-          <Avatar
+          <ProfilAvatar
             avatarUrl={avatarUrl}
             username={username}
-            className="avatar avatar-profil"
-          ></Avatar>
-          <button className="btn onClick">
-            {avatarUrl ? "Modifier avatar" : "Ajouter avatar"}
-          </button>
-          <hr />
-          <p>
-            <bold>Email : </bold>
-            {email}
-          </p>
-          <hr />
-          <div className="profil-name-box">
-            {" "}
+            uid={uid}
+            setAvatar={setAvatar}
+          />
+          <section className="profil-email-box">
+            <p>
+              <bold>Email : </bold>
+              {email}
+            </p>
+            <hr />
+          </section>
+          <section className="profil-name-box">
             <p>
               <bold>Prénom : </bold>
               {firstname}
@@ -89,22 +104,49 @@ const Profil = () => {
               <bold>Nom : </bold>
               {lastname}
             </p>
-          </div>{" "}
-          <hr />
-          <p className="profil-bio-box">
-            <bold>Bio</bold>
+            <hr />
+          </section>
+          <section className="profil-bio-box">
+            <p>
+              <bold>Bio</bold>
+            </p>
             <p className="profil-bio-text">{bio}</p>
-          </p>
-          <hr />
-          <p>
-            <bold>Inscrit depuis le : </bold>
-            <italic>{parsedInscriptionDate}</italic>
-          </p>
-          <hr />
-          <p>
-            <bold>Rôle : </bold>
-            {role}
-          </p>
+            <hr />
+          </section>
+          <section className="profil-inscription-date-box">
+            <p>
+              <bold>Inscrit depuis le : </bold>
+              <italic>{parsedInscriptionDate}</italic>
+            </p>
+            <hr />
+          </section>
+          <section className="profil-role-box">
+            <p>
+              <bold>Rôle : </bold>
+              {role}
+            </p>
+          </section>
+          {uid === userUid && (
+            <Fragment>
+              <hr />
+              <button className="btn profil-edit-btn">
+                Editer votre profil
+              </button>
+            </Fragment>
+          )}
+          {uid === userUid && (
+            <Fragment>
+              <hr className="hr-big" />
+              <section className="profil-password-box">
+                <button
+                  className="btn"
+                  onClick={() => setDisplayPasswordEditionModal(true)}
+                >
+                  Modifier votre mot de passe
+                </button>
+              </section>
+            </Fragment>
+          )}
         </article>
       </main>
     </Fragment>

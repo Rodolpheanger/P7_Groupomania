@@ -1,4 +1,4 @@
-export const dateParser = (dateToParse) => {
+const dateParser = (dateToParse) => {
   const options = {
     hour: "2-digit",
     minute: "2-digit",
@@ -15,3 +15,5 @@ export const dateParser = (dateToParse) => {
 
   return parsedDate.toString();
 };
+
+export default dateParser;

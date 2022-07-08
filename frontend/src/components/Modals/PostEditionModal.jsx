@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PostForm from "../Posts/PostForm";
 
-const ModificationModal = ({ submit, postTitle, postContent, close }) => {
+const PostEditionModal = ({ submit, postTitle, postContent, close }) => {
   return (
     <Fragment>
       <PostForm
@@ -14,4 +14,4 @@ const ModificationModal = ({ submit, postTitle, postContent, close }) => {
   );
 };
 
-export default ModificationModal;
+export default PostEditionModal;

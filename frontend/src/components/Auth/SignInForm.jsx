@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState } from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import CustomError from "../Form/ErrorInput";
+import CustomError from "../Form/ErrorMessage";
 import * as Yup from "yup";
 import * as axios from "axios";
 import { TokenContext } from "../../contexts/token.context";

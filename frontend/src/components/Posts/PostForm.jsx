@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "../Form/TextInput";
-import CustomError from "../Form/ErrorInput";
+import CustomError from "../Form/ErrorMessage";
 import TextArea from "../Form/TexteArea";
 import Thumbnail from "../Form/Thumbnail";
 import ButtonClose from "../Buttons/ButtonClose";

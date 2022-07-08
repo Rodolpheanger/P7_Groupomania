@@ -4,6 +4,19 @@
   width: 90%;
   padding: 15px;
 }
+.profil-avatar-box {
+  @include flex-center(column);
+  width: 100%;
+  padding: 15px;
+}
+.profil-email-box {
+  @include flex-center(column);
+  width: 100%;
+}
+.profil-name-box {
+  @include flex-center(column);
+  width: 100%;
+}
 .profil-bio-box {
   @include flex-center(column);
   width: 100%;
@@ -19,4 +32,21 @@
   @include mobile {
     width: 75%;
   }
+}
+.profil-inscription-date-box {
+  @include flex-center(column);
+  width: 100%;
+}
+.profil-role-box {
+  @include flex-center(column);
+  width: 100%;
+}
+.profil-password-box {
+  @include flex-center(column);
+  width: 100%;
+}
+.password-edition-form {
+  @include flex-center(column);
+  width: 100%;
+  margin-top: 30px;
 }
