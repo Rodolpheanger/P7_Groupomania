@@ -12,6 +12,7 @@ import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import Likes from "./Likes";
+import { Link } from "react-router-dom";
 
 const Card = ({ post, reload }) => {
   const [creationDate, setCreationDate] = useState("");
@@ -152,7 +153,10 @@ const Card = ({ post, reload }) => {
         />
         <div className="author">
           <p>
-            Publié par <span className="italic bold">{u_username}</span>
+            Publié par{" "}
+            <Link to={`/profil/${u_uid}`} className="italic bold">
+              {u_username}
+            </Link>
           </p>
 
           <p className="italic">{creationDate}</p>

@@ -7,6 +7,7 @@ import dateParser from "../utils/date.utils";
 import ProfilAvatar from "../components/Profil/ProfilAvatar";
 import ModalWrapper from "../components/Modals/ModalWrapper";
 import PasswordEditionModal from "../components/Modals/PasswordEditionModal";
+import { useParams } from "react-router-dom";
 
 const Profil = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -22,8 +23,13 @@ const Profil = () => {
     useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
+  const params = useParams();
+  const paramsUserUid = params.uid;
 
   const parsedInscriptionDate = dateParser(inscriptionDate);
+
+  let userProfilUid;
+  paramsUserUid ? (userProfilUid = paramsUserUid) : (userProfilUid = userUid);
 
   const setAvatar = () => {
     console.log("setAvatar");
@@ -40,13 +46,9 @@ const Profil = () => {
   );
 
   useEffect(() => {
-    console.log("useEffect");
-  }, []);
-
-  useEffect(() => {
     const getUserDatas = async () => {
       try {
-        const userDatas = await axios.get(`/api/users/${userUid}`, {
+        const userDatas = await axios.get(`/api/users/${userProfilUid}`, {
           headers: {
             Authorization: `BEARER ${token}`,
           },
@@ -78,7 +80,7 @@ const Profil = () => {
       }
     };
     getUserDatas();
-  }, [token, userUid]);
+  }, [token, userProfilUid]);
 
   return (
     <Fragment>
