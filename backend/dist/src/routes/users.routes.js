@@ -16,6 +16,8 @@ router.post("/signup", user_validation_middleware_1.userValidation, sign_control
 router.post("/signin", user_validation_middleware_1.userValidation, sign_controllers_1.signin);
 //upload
 router.put("/upload", auth_middleware_1.default, multer_middleware_1.uploadAvatar, uploads_controllers_1.setAvatar);
+// password
+router.put("/password", auth_middleware_1.default, users_controllers_1.updatePassword);
 // users
 router.get("/", auth_middleware_1.default, users_controllers_1.getUsers);
 router.get("/:id", auth_middleware_1.default, users_controllers_1.getUser);

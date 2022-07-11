@@ -3,12 +3,18 @@ import * as Yup from "yup";
 import CustomError from "../Form/ErrorMessage";
 import TextInput from "../Form/TextInput";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
+import axios from "axios";
+import ModalWrapper from "../Modals/ModalWrapper";
+import ValidationModal from "../Modals/ValidationModal";
 
-const PasswordForm = () => {
+const PasswordEditionForm = ({ close }) => {
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [displayValidationModal, setDisplayValidationModal] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
   const [token] = useContext(TokenContext);
-
   const PasswordSchema = Yup.object().shape({
     oldPassword: Yup.string()
       .min(8, "Votre mot de passe doit comporter au moins 8 caractères")
@@ -26,19 +32,38 @@ const PasswordForm = () => {
       .required("Ce champ est obligatoire"),
   });
 
-  // TODO : créer le controller pour modif du mot de passe dans le backend
+  const closeValidationModal = () => {
+    setDisplayValidationModal(false);
+    close();
+  };
+
+  const validationModal = displayValidationModal && (
+    <ModalWrapper>
+      <ValidationModal
+        message={responseMessage}
+        close={closeValidationModal}
+      ></ValidationModal>
+    </ModalWrapper>
+  );
 
   const updatePassword = async (values) => {
     try {
-      console.log(values);
+      const response = await axios.put(`/api/users/password`, values, {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      });
+      console.log(response);
+      setDisplayValidationModal(true);
+      setResponseMessage(response.data.message);
     } catch (err) {
       console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
-  const serverErrorMessage = "";
-
   return (
     <div className="password-edition-form">
+      {validationModal}
       <Formik
         onSubmit={updatePassword}
         initialValues={{
@@ -73,6 +98,7 @@ const PasswordForm = () => {
               type="password"
             />
             <ErrorMessage name="confirmPassword" component={CustomError} />
+            <ServerErrorMessage message={serverErrorMessage} />
             <br />
             <button
               className="btn btn-submit"
@@ -81,7 +107,6 @@ const PasswordForm = () => {
             >
               Modifier
             </button>
-            <ServerErrorMessage message={serverErrorMessage} />
           </Form>
         )}
       </Formik>
@@ -89,4 +114,4 @@ const PasswordForm = () => {
   );
 };
 
-export default PasswordForm;
+export default PasswordEditionForm;

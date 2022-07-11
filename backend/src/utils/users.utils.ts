@@ -7,7 +7,7 @@ export const checkIfUserExistAndGetDatas = (
   requestUserUid: string
 ): Promise<QueryError | RowDataPacket[0]> => {
   return new Promise((resolve, reject) => {
-    const sqlFindUser: string = `SELECT u_id, u_uid, u_avatar_url FROM users WHERE u_uid = '${requestUserUid}'`;
+    const sqlFindUser: string = `SELECT u_id, u_uid, u_avatar_url, u_password FROM users WHERE u_uid = '${requestUserUid}'`;
     db.query(sqlFindUser, (err: QueryError, rows: RowDataPacket[0]): any => {
       err
         ? (console.log(err), reject(Error("query error")))

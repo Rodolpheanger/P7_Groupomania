@@ -5,7 +5,7 @@ const PasswordEditionModal = ({ close }) => {
   return (
     <div className="modal password-edition-modal">
       <ButtonClose close={close} />
-      <PasswordEditionForm />
+      <PasswordEditionForm close={close} />
     </div>
   );
 };

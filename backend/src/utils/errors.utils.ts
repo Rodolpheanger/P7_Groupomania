@@ -21,6 +21,7 @@ export const errorResponse = (err: any, res: Response) => {
     err.message.includes("split")
   )
     return authErrors(err.message, res);
+
   if (
     (err.field && err.field.includes("avatar")) ||
     (err.field && err.field.includes("image")) ||
@@ -28,8 +29,10 @@ export const errorResponse = (err: any, res: Response) => {
   )
     return multerErrors(err.message, err.field, res);
   if (err.message.includes("no file")) return fileErrors(err.message, res);
+
   if (err.message.includes("ValidationError"))
     return validationErrors(err.message, res);
+
   if (err.message.includes("query")) return queryError(err.message, res);
   if (
     err.message.includes("email") ||
@@ -37,9 +40,17 @@ export const errorResponse = (err: any, res: Response) => {
     err.message.includes("password")
   )
     return signErrors(err.message, res);
-  if (err.message.includes("user")) return userErrors(err.message, res);
+  if (
+    err.message.includes("user") ||
+    err.message.includes("old") ||
+    err.message.includes("passwords")
+  )
+    return userErrors(err.message, res);
+
   if (err.message.includes("post")) return postErrors(err.message, res);
+
   if (err.message.includes("comment")) return commentErrors(err.message, res);
+
   if (err.message.includes("unlink"))
     return internalServerError(err.message, res);
   else new ErrorToSend(500, "erreur inconnue").sendError(res);
@@ -106,9 +117,12 @@ const signErrors = (err: any, res: Response) => {
 const userErrors = (err: any, res: Response) => {
   if (err.includes("user not found"))
     new ErrorToSend(404, "Utilisateur non trouvé").sendError(res);
-
-  if (err.includes("invalid password"))
-    new ErrorToSend(400, "Mot de passe non valide").sendError(res);
+  if (err.includes("old"))
+    new ErrorToSend(400, "Mot de passe actuel non valide").sendError(res);
+  if (err.includes("passwords don't match"))
+    new ErrorToSend(400, "Les mots de passe ne correspondent pas").sendError(
+      res
+    );
 };
 
 const postErrors = (err: any, res: Response) => {

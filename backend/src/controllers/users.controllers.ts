@@ -5,6 +5,7 @@ import {
   serviceGetOneUser,
   serviceGetAllUsers,
   serviceUpdateUser,
+  serviceUpdatePassword,
 } from "./users.services";
 
 export const getUsers = async (_req: Request, res: Response): Promise<void> => {
@@ -27,6 +28,28 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const updatePassword = async (
+  req: Request | any,
+  res: Response
+): Promise<void> => {
+  const file: any = req.file;
+  const { oldPassword, newPassword, confirmPassword }: any = req.body;
+  const requestUserUid: string = req.requestUserUid;
+  try {
+    const result = await serviceUpdatePassword(
+      file,
+      requestUserUid,
+      oldPassword,
+      newPassword,
+      confirmPassword
+    );
+    if (result)
+      res.status(200).json({ message: "Mot de passse modifié avec succès" });
+  } catch (err) {
+    errorResponse(err, res);
+  }
+};
+
 export const updateUser = async (
   req: Request | any,
   res: Response
@@ -34,7 +57,7 @@ export const updateUser = async (
   const file: any = req.file;
   const userToModifyUid: string = req.params.id;
   const requestUserUid: string = req.requestUserUid;
-  const { username, email, password, firstname, lastname, bio } = req.body;
+  const { username, email, firstname, lastname, bio } = req.body;
   try {
     const result = await serviceUpdateUser(
       file,
@@ -42,7 +65,6 @@ export const updateUser = async (
       requestUserUid,
       username,
       email,
-      password,
       firstname,
       lastname,
       bio

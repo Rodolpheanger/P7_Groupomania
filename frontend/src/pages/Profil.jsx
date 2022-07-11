@@ -29,11 +29,13 @@ const Profil = () => {
     console.log("setAvatar");
   };
 
+  const close = () => {
+    setDisplayPasswordEditionModal(false);
+  };
+
   const passwordEditionModal = displayPasswordEditionModal && (
     <ModalWrapper>
-      <PasswordEditionModal
-        close={() => setDisplayPasswordEditionModal(false)}
-      />
+      <PasswordEditionModal close={close} />
     </ModalWrapper>
   );
 

@@ -33,7 +33,9 @@ const errorResponse = (err, res) => {
         err.message.includes("username") ||
         err.message.includes("password"))
         return signErrors(err.message, res);
-    if (err.message.includes("user"))
+    if (err.message.includes("user") ||
+        err.message.includes("old") ||
+        err.message.includes("passwords"))
         return userErrors(err.message, res);
     if (err.message.includes("post"))
         return postErrors(err.message, res);
@@ -80,8 +82,10 @@ const signErrors = (err, res) => {
 const userErrors = (err, res) => {
     if (err.includes("user not found"))
         new ErrorToSend(404, "Utilisateur non trouvé").sendError(res);
-    if (err.includes("invalid password"))
-        new ErrorToSend(400, "Mot de passe non valide").sendError(res);
+    if (err.includes("old"))
+        new ErrorToSend(400, "Mot de passe actuel non valide").sendError(res);
+    if (err.includes("passwords don't match"))
+        new ErrorToSend(400, "Les mots de passe ne correspondent pas").sendError(res);
 };
 const postErrors = (err, res) => {
     if (err.includes("not found"))

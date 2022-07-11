@@ -64,7 +64,6 @@ const AddNewPost = ({ reload }) => {
   const validationModal = displayValidationModal && (
     <ModalWrapper>
       <ValidationModal
-        className="validation-modal"
         message={responseMessage}
         close={closeValidationModal}
       ></ValidationModal>

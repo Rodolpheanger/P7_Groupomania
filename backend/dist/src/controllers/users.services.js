@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceGetOneUser = exports.serviceGetAllUsers = void 0;
+exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceUpdatePassword = exports.serviceGetOneUser = exports.serviceGetAllUsers = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
@@ -26,13 +26,35 @@ const serviceGetOneUser = async (file, userUid) => {
     });
 };
 exports.serviceGetOneUser = serviceGetOneUser;
-const serviceUpdateUser = async (file, userToModifyUid, requestUserUid, username, email, password, firstname, lastname, bio) => {
+const serviceUpdatePassword = async (file, requestUserUid, oldPassword, newPassword, confirmPassword) => {
+    const datas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
+    const { u_id, u_password } = datas;
+    const isPasswordCorrect = await (0, password_utils_1.checkPassword)(oldPassword, u_password);
+    if (isPasswordCorrect && newPassword === confirmPassword) {
+        const hashedNewPassword = await (0, password_utils_1.hashPassword)(newPassword);
+        return new Promise((resolve, reject) => {
+            const sqlUpdatePassword = `UPDATE users SET u_password = '${hashedNewPassword}' WHERE u_id = ${u_id}`;
+            database_1.db.query(sqlUpdatePassword, (err) => {
+                err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+            });
+        });
+    }
+    else {
+        if (!isPasswordCorrect)
+            throw Error("old");
+        else if (newPassword !== confirmPassword)
+            throw Error("passwords don't match");
+        else
+            throw Error("forbidden");
+    }
+};
+exports.serviceUpdatePassword = serviceUpdatePassword;
+const serviceUpdateUser = async (file, userToModifyUid, requestUserUid, username, email, firstname, lastname, bio) => {
     const datas = await (0, users_utils_1.checkIfUserIsUserOwner)(file, userToModifyUid);
     const { userOwner, userId } = datas;
     if (userOwner === requestUserUid) {
-        return new Promise(async (resolve, reject) => {
-            const hashedPassword = await (0, password_utils_1.hashPassword)(password);
-            const sqlUpdateUser = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_password = '${hashedPassword}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_id = ${userId}`;
+        return new Promise((resolve, reject) => {
+            const sqlUpdateUser = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_id = ${userId}`;
             database_1.db.query(sqlUpdateUser, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });

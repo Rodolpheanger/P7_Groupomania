@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUser = exports.getUsers = void 0;
+exports.deleteUser = exports.updateUser = exports.updatePassword = exports.getUser = exports.getUsers = void 0;
 const errors_utils_1 = require("../utils/errors.utils");
 const users_services_1 = require("./users.services");
 const getUsers = async (_req, res) => {
@@ -27,13 +27,27 @@ const getUser = async (req, res) => {
     }
 };
 exports.getUser = getUser;
+const updatePassword = async (req, res) => {
+    const file = req.file;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const requestUserUid = req.requestUserUid;
+    try {
+        const result = await (0, users_services_1.serviceUpdatePassword)(file, requestUserUid, oldPassword, newPassword, confirmPassword);
+        if (result)
+            res.status(200).json({ message: "Mot de passse modifié avec succès" });
+    }
+    catch (err) {
+        (0, errors_utils_1.errorResponse)(err, res);
+    }
+};
+exports.updatePassword = updatePassword;
 const updateUser = async (req, res) => {
     const file = req.file;
     const userToModifyUid = req.params.id;
     const requestUserUid = req.requestUserUid;
-    const { username, email, password, firstname, lastname, bio } = req.body;
+    const { username, email, firstname, lastname, bio } = req.body;
     try {
-        const result = await (0, users_services_1.serviceUpdateUser)(file, userToModifyUid, requestUserUid, username, email, password, firstname, lastname, bio);
+        const result = await (0, users_services_1.serviceUpdateUser)(file, userToModifyUid, requestUserUid, username, email, firstname, lastname, bio);
         if (result)
             res.status(200).json({ message: "Profil mis à jour avec succès" });
     }

@@ -9,6 +9,7 @@ import {
   getUser,
   updateUser,
   deleteUser,
+  updatePassword,
 } from "../controllers/users.controllers";
 const router = express.Router();
 
@@ -18,6 +19,9 @@ router.post("/signin", userValidation, signin);
 
 //upload
 router.put("/upload", auth, uploadAvatar, setAvatar);
+
+// password
+router.put("/password", auth, updatePassword);
 
 // users
 router.get("/", auth, getUsers);
