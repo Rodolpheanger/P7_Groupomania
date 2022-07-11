@@ -46,6 +46,7 @@ const Header = () => {
             <i className="fa-solid fa-user-gear " title="Mon Compte"></i>
           </Link>
           <i
+            role="link"
             className="fa-solid fa-arrow-right-from-bracket"
             onClick={logout}
             title="Déconnexion"

@@ -6,13 +6,12 @@ import Header from "../components/Header/Header.jsx";
 import { TokenContext } from "../contexts/token.context";
 import { ThumbImgContext } from "../contexts/thumbnailImg.context.jsx";
 import { OldImgUrlContext } from "../contexts/oldImgUrl.context.jsx";
-
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [reload, setReload] = useState(false);
+  const [token] = useContext(TokenContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [oldImgUrl, setOldImgUrl] = useState("");
-  const [token] = useContext(TokenContext);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -34,15 +33,15 @@ const Posts = () => {
   return (
     <Fragment>
       <Header />
-      <main>
-        <h1>Quoi de neuf ???</h1>
-        <ThumbImgContext.Provider value={[selectedImage, setSelectedImage]}>
-          <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
+      <ThumbImgContext.Provider value={[selectedImage, setSelectedImage]}>
+        <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
+          <main>
+            <h1>Quoi de neuf ???</h1>
             <AddNewPost reload={setReload} />
             <AllPosts posts={posts} reload={setReload} />
-          </OldImgUrlContext.Provider>
-        </ThumbImgContext.Provider>
-      </main>
+          </main>
+        </OldImgUrlContext.Provider>
+      </ThumbImgContext.Provider>
     </Fragment>
   );
 };

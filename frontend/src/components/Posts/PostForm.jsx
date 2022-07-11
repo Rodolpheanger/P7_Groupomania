@@ -46,7 +46,10 @@ const PostForm = ({ close, submit, title, content }) => {
             />
             <ErrorMessage name="title" component={CustomError} />
             <FileInput name="post_image" setFieldValue={setFieldValue} />
-            <Thumbnail setFieldValue={setFieldValue} />
+            <Thumbnail
+              setFieldValue={setFieldValue}
+              className="thumbnail-post"
+            />
             <br />
             <Field
               name="content"

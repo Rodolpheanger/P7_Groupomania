@@ -25,7 +25,7 @@ const FileInput = ({ setFieldValue }) => {
   return (
     <Fragment>
       <label htmlFor="post_image" className="btn label-file">
-        Ajouter une image
+        Sélectionner une image
       </label>
       <input
         id="post_image"

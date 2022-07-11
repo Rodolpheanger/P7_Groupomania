@@ -1,13 +1,17 @@
 .thumbnail-wrapper {
   position: relative;
-  width: 60%;
   margin: 15px 0;
 }
-
 .thumbnail {
   width: 100%;
   -o-object-fit: cover;
   object-fit: cover;
   border-radius: 15px;
   box-shadow: $small-shadow;
+}
+.thumbnail-post {
+  width: 60%;
+}
+.thumbnail-avatar {
+  width: 75%;
 }

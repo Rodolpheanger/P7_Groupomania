@@ -154,7 +154,11 @@ const Card = ({ post, reload }) => {
         <div className="author">
           <p>
             Publié par{" "}
-            <Link to={`/profil/${u_uid}`} className="italic bold">
+            <Link
+              to={`/profil/${u_uid}`}
+              className="italic bold"
+              title="Vers le profil de l'auteur"
+            >
               {u_username}
             </Link>
           </p>
@@ -185,7 +189,11 @@ const Card = ({ post, reload }) => {
       </div>
       <p className="post-title">{p_title}</p>
       {p_post_img_url && (
-        <img src={p_post_img_url} alt="Test" className="post-img" />
+        <img
+          src={p_post_img_url}
+          alt="Aucune description disponible"
+          className="post-img"
+        />
       )}
       <p className="post-content">{p_content}</p>
       <Likes postUid={p_uid} reload={reload} />

@@ -15,4 +15,7 @@
     width: 150px;
     height: 150px;
   }
+  &-form-card {
+    @include flex-center(column);
+  }
 }

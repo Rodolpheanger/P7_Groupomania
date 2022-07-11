@@ -8,6 +8,9 @@ import ProfilAvatar from "../components/Profil/ProfilAvatar";
 import ModalWrapper from "../components/Modals/ModalWrapper";
 import PasswordEditionModal from "../components/Modals/PasswordEditionModal";
 import { useParams } from "react-router-dom";
+import { ThumbImgContext } from "../contexts/thumbnailImg.context.jsx";
+import { OldImgUrlContext } from "../contexts/oldImgUrl.context.jsx";
+import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
 
 const Profil = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -19,10 +22,15 @@ const Profil = () => {
   const [role, setRole] = useState("");
   const [uid, setUid] = useState("");
   const [username, setUsername] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [oldImgUrl, setOldImgUrl] = useState("");
   const [displayPasswordEditionModal, setDisplayPasswordEditionModal] =
+    useState(false);
+  const [displayAvatarEditionModal, setDisplayAvatarEditionModal] =
     useState(false);
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
+
   const params = useParams();
   const paramsUserUid = params.uid;
 
@@ -33,18 +41,27 @@ const Profil = () => {
 
   const setAvatar = () => {
     console.log("setAvatar");
+    setDisplayAvatarEditionModal(true);
   };
 
-  const close = () => {
+  const closePasswordEditionModal = () => {
     setDisplayPasswordEditionModal(false);
+  };
+
+  const closeAvatarEditionModal = () => {
+    setDisplayAvatarEditionModal(false);
   };
 
   const passwordEditionModal = displayPasswordEditionModal && (
     <ModalWrapper>
-      <PasswordEditionModal close={close} />
+      <PasswordEditionModal close={closePasswordEditionModal} />
     </ModalWrapper>
   );
-
+  const avatarEditionModal = displayAvatarEditionModal && (
+    <ModalWrapper>
+      <AvatarEditionModal close={closeAvatarEditionModal} />
+    </ModalWrapper>
+  );
   useEffect(() => {
     const getUserDatas = async () => {
       try {
@@ -75,87 +92,93 @@ const Profil = () => {
         u_role === "user" && setRole("Utilisateur");
         setUid(u_uid);
         setUsername(u_username);
+        setOldImgUrl(u_avatar_url);
       } catch (err) {
         console.log(err);
       }
     };
     getUserDatas();
-  }, [token, userProfilUid]);
+  }, [setOldImgUrl, token, userProfilUid]);
 
   return (
     <Fragment>
       <Header />
-      {passwordEditionModal}
-      <main>
-        <h1>{username}</h1>
-        <article className="profil-card">
-          <ProfilAvatar
-            avatarUrl={avatarUrl}
-            username={username}
-            uid={uid}
-            setAvatar={setAvatar}
-          />
-          <section className="profil-email-box">
-            <p>
-              <bold>Email : </bold>
-              {email}
-            </p>
-            <hr />
-          </section>
-          <section className="profil-name-box">
-            <p>
-              <bold>Prénom : </bold>
-              {firstname}
-            </p>
-            <p>
-              <bold>Nom : </bold>
-              {lastname}
-            </p>
-            <hr />
-          </section>
-          <section className="profil-bio-box">
-            <p>
-              <bold>Bio</bold>
-            </p>
-            <p className="profil-bio-text">{bio}</p>
-            <hr />
-          </section>
-          <section className="profil-inscription-date-box">
-            <p>
-              <bold>Inscrit depuis le : </bold>
-              <italic>{parsedInscriptionDate}</italic>
-            </p>
-            <hr />
-          </section>
-          <section className="profil-role-box">
-            <p>
-              <bold>Rôle : </bold>
-              {role}
-            </p>
-          </section>
-          {uid === userUid && (
-            <Fragment>
-              <hr />
-              <button className="btn profil-edit-btn">
-                Editer votre profil
-              </button>
-            </Fragment>
-          )}
-          {uid === userUid && (
-            <Fragment>
-              <hr className="hr-big" />
-              <section className="profil-password-box">
-                <button
-                  className="btn"
-                  onClick={() => setDisplayPasswordEditionModal(true)}
-                >
-                  Modifier votre mot de passe
-                </button>
+      <ThumbImgContext.Provider value={[selectedImage, setSelectedImage]}>
+        <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
+          {passwordEditionModal}
+          {avatarEditionModal}
+          <main>
+            <h1>{username}</h1>
+            <article className="profil-card">
+              <ProfilAvatar
+                avatarUrl={avatarUrl}
+                username={username}
+                uid={uid}
+                setAvatar={setAvatar}
+              />
+              <section className="profil-email-box">
+                <p>
+                  <span className="bold">Email : </span>
+                  {email}
+                </p>
+                <hr />
               </section>
-            </Fragment>
-          )}
-        </article>
-      </main>
+              <section className="profil-name-box">
+                <p>
+                  <span className="bold">Prénom : </span>
+                  {firstname}
+                </p>
+                <p>
+                  <span className="bold">Nom : </span>
+                  {lastname}
+                </p>
+                <hr />
+              </section>
+              <section className="profil-bio-box">
+                <p>
+                  <span className="bold">Bio</span>
+                </p>
+                <p className="profil-bio-text">{bio}</p>
+                <hr />
+              </section>
+              <section className="profil-inscription-date-box">
+                <p>
+                  <span className="bold">Inscrit depuis le : </span>
+                  <span className="italic">{parsedInscriptionDate}</span>
+                </p>
+                <hr />
+              </section>
+              <section className="profil-role-box">
+                <p>
+                  <span className="bold">Rôle : </span>
+                  {role}
+                </p>
+              </section>
+              {uid === userUid && (
+                <Fragment>
+                  <hr />
+                  <button className="btn profil-edit-btn">
+                    Editer votre profil
+                  </button>
+                </Fragment>
+              )}
+              {uid === userUid && (
+                <Fragment>
+                  <hr className="hr-big" />
+                  <section className="profil-password-box">
+                    <button
+                      className="btn"
+                      onClick={() => setDisplayPasswordEditionModal(true)}
+                    >
+                      Modifier votre mot de passe
+                    </button>
+                  </section>
+                </Fragment>
+              )}
+            </article>
+          </main>
+        </OldImgUrlContext.Provider>
+      </ThumbImgContext.Provider>
     </Fragment>
   );
 };
