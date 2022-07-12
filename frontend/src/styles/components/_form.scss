@@ -31,9 +31,13 @@ input {
 }
 
 // TODO decommenter:
-
-.input-file {
-  display: none;
+.input-file-wrapper {
+  margin: 20px 0;
+  position: relative;
+}
+.input-file-input {
+  position: absolute;
+  opacity: 0;
 }
 .input-text-area {
   resize: none;

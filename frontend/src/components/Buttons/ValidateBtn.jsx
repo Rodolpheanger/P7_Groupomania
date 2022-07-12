@@ -2,7 +2,7 @@ import React from "react";
 
 const ValidateBtn = ({ validate }) => {
   return (
-    <button className="btn btn-validate" onClick={validate}>
+    <button className="btn btn-validate" type="button" onClick={validate}>
       Valider
     </button>
   );
