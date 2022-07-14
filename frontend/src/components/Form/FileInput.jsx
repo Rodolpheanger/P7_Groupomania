@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { useLocation } from "react-router-dom";
 import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
-import Thumbnail from "./Thumbnail";
 
 const FileInput = ({ setFieldValue, inputName }) => {
   const [fileErrorMsg, setFileErrorMsg] = useState(false);

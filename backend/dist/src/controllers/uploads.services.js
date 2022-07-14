@@ -35,18 +35,4 @@ const serviceSetAvatarUrl = async (file, requestUserUid, avatarOwner, protocol, 
     }
 };
 exports.serviceSetAvatarUrl = serviceSetAvatarUrl;
-// export const serviceDeleteAvatarUrl = async (
-//   file: any,
-//   requestUserUid: string,
-//   avatarOwner: string
-// ): Promise<QueryError | boolean | unknown> => {
-//   const datas = await checkIfUserExistAndGetDatas(file, avatarOwner);
-//   const reqUser = datas.u_uid;
-//   const oldAvatarUrl = datas.u_avatar_url;
-//   if (reqUser === requestUserUid && oldAvatarUrl) {
-//     return new Promise((resolve, reject) => {
-//       const reqDeleteAvatar: string = `DELETE FROM users SET u_avatar_url = NULL WHERE u_uid = "${requestUserUid}"`;
-//     });
-//   }
-// };
 //# sourceMappingURL=uploads.services.js.map

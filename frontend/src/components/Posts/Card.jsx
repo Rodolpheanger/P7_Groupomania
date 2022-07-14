@@ -27,8 +27,8 @@ const Card = ({ post, reload }) => {
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
-  const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
-  const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
+  const [setOldImgUrl] = useContext(OldImgUrlContext);
+  const [setSelectedImage] = useContext(ThumbImgContext);
   const {
     u_uid,
     u_username,
@@ -54,6 +54,8 @@ const Card = ({ post, reload }) => {
       console.log(err);
     }
   };
+
+  // ! FIXME: A la mise à jour du post, la suppression de l'image ne fonctionne plus ????????????????
 
   const updatePost = async (values, actions) => {
     console.log(values);

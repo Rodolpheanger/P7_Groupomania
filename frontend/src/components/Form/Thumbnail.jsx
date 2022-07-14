@@ -5,27 +5,25 @@ import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import CloseBtn from "../Buttons/CloseBtn";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
 
-const Thumbnail = ({ className, resetForm }) => {
+const Thumbnail = ({ className }) => {
   const [imageToDisplay, setImageToDisplay] = useState("");
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
   const [newImgUrl, setNewImgUrl] = useContext(NewImgUrlContext);
 
-  useEffect(() => {
-    const close = () => {
-      setSelectedImage("");
-      setNewImgUrl("");
-      resetForm();
-      console.log("close: ", selectedImage);
-    };
+  const close = () => {
+    setSelectedImage("");
+    setNewImgUrl("");
+    console.log("close: ", selectedImage);
+  };
 
-    const closeOld = () => {
-      setOldImgUrl("");
-      setNewImgUrl("");
-      setSelectedImage("");
-      // resetForm();
-      console.log("closeOld: ", selectedImage);
-    };
+  const closeOld = () => {
+    setOldImgUrl("");
+    setNewImgUrl("");
+    setSelectedImage("");
+    console.log("closeOld: ", selectedImage);
+  };
+  useEffect(() => {
     if (selectedImage) {
       console.log("selectedImage", selectedImage);
       setImageToDisplay(
