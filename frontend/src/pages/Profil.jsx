@@ -1,13 +1,16 @@
-import * as axios from "axios";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import Header from "../components/Header/Header";
-import { TokenContext } from "../contexts/token.context";
-import { UserUidContext } from "../contexts/userUid.context";
+import * as axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import dateParser from "../utils/date.utils";
+import Header from "../components/Header/Header";
 import ProfilAvatar from "../components/Profil/ProfilAvatar";
 import ModalWrapper from "../components/Modals/ModalWrapper";
 import PasswordEditionModal from "../components/Modals/PasswordEditionModal";
-import { useParams } from "react-router-dom";
+import ConfirmationModal from "../components/Modals/ConfirmationModal";
+import ValidationModal from "../components/Modals/ValidationModal";
+import { TokenContext } from "../contexts/token.context";
+import { UserUidContext } from "../contexts/userUid.context";
+import { UserRoleContext } from "../contexts/userRole.context";
 import { ThumbImgContext } from "../contexts/thumbnailImg.context.jsx";
 import { OldImgUrlContext } from "../contexts/oldImgUrl.context.jsx";
 import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
@@ -26,12 +29,20 @@ const Profil = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [oldImgUrl, setOldImgUrl] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
-  const [displayPasswordEditionModal, setDisplayPasswordEditionModal] =
-    useState(false);
   const [displayAvatarEditionModal, setDisplayAvatarEditionModal] =
     useState(false);
+  const [displayPasswordEditionModal, setDisplayPasswordEditionModal] =
+    useState(false);
+  const [displayDeleteAccountModal, setDisplayDeleteAccountModal] =
+    useState(false);
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [displayValidationModal, setDisplayValidationModal] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
+  const [userRole] = useContext(UserRoleContext);
+  const navigate = useNavigate();
 
   const params = useParams();
   const paramsUserUid = params.uid;
@@ -41,14 +52,6 @@ const Profil = () => {
   let userProfilUid;
   paramsUserUid ? (userProfilUid = paramsUserUid) : (userProfilUid = userUid);
 
-  const setAvatar = () => {
-    setDisplayAvatarEditionModal(true);
-  };
-
-  const closePasswordEditionModal = () => {
-    setDisplayPasswordEditionModal(false);
-  };
-
   const closeAvatarEditionModal = () => {
     console.log("closeAvatar: ", newImgUrl);
     setAvatarUrl(newImgUrl);
@@ -56,11 +59,32 @@ const Profil = () => {
     console.log("closeAvatar: ", oldImgUrl);
   };
 
-  const passwordEditionModal = displayPasswordEditionModal && (
-    <ModalWrapper>
-      <PasswordEditionModal close={closePasswordEditionModal} />
-    </ModalWrapper>
-  );
+  const closePasswordEditionModal = () => {
+    setDisplayPasswordEditionModal(false);
+  };
+
+  const deleteAccount = async () => {
+    try {
+      console.log("deleteAccount: ", userProfilUid);
+      const response = await axios.delete(`/api/users/${userProfilUid}`, {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      });
+      setResponseMessage(response.data.message);
+      setDisplayDeleteAccountModal(false);
+      setDisplayValidationModal(true);
+    } catch (error) {
+      console.log(error);
+      setServerErrorMessage(error.response.data.message);
+    }
+  };
+  const closeValidationModal = () => {
+    localStorage.clear();
+    setDisplayValidationModal(false);
+    navigate("/auth");
+  };
+
   const avatarEditionModal = displayAvatarEditionModal && (
     <ModalWrapper>
       <AvatarEditionModal
@@ -69,6 +93,53 @@ const Profil = () => {
       />
     </ModalWrapper>
   );
+
+  const passwordEditionModal = displayPasswordEditionModal && (
+    <ModalWrapper>
+      <PasswordEditionModal close={closePasswordEditionModal} />
+    </ModalWrapper>
+  );
+
+  const deleteAccountModal = displayDeleteAccountModal && (
+    <ModalWrapper>
+      <ConfirmationModal
+        message={
+          <p>
+            Attention,
+            <br />
+            <hr />
+            vous êtes sur le point de supprimer
+            {uid === userUid && " votre compte !"}
+            {uid !== userUid && userRole === "admin" && ` le compte de `}
+            <span className="bold italic">
+              {uid !== userUid && userRole === "admin" && `${username} !`}
+            </span>
+            <br />
+            <hr />
+            Cette action n'est pas réversible et toutes
+            {uid === userUid ? " vos " : userRole === "admin" && ` ses `}données
+            seront définitivement supprimées, y compris les posts.
+            <br />
+            <hr />
+            Souhaitez-vous continuer ?
+          </p>
+        }
+        validate={() => deleteAccount()}
+        cancel={() => setDisplayDeleteAccountModal(false)}
+        serverErrorMessage={serverErrorMessage}
+      />
+    </ModalWrapper>
+  );
+
+  const validationModal = displayValidationModal && (
+    <ModalWrapper>
+      <ValidationModal
+        message={responseMessage}
+        close={closeValidationModal}
+      ></ValidationModal>
+    </ModalWrapper>
+  );
+
   useEffect(() => {
     console.log("useEffect: Profil");
     const getUserDatas = async () => {
@@ -114,16 +185,18 @@ const Profil = () => {
       <ThumbImgContext.Provider value={[selectedImage, setSelectedImage]}>
         <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
           <NewImgUrlContext.Provider value={[newImgUrl, setNewImgUrl]}>
-            {passwordEditionModal}
             {avatarEditionModal}
+            {passwordEditionModal}
+            {deleteAccountModal}
+            {validationModal}
             <main>
-              <h1>{username}</h1>
               <article className="profil-card">
+                <h1>{username}</h1>
                 <ProfilAvatar
                   avatarUrl={avatarUrl}
                   username={username}
                   uid={uid}
-                  setAvatar={setAvatar}
+                  setAvatar={() => setDisplayAvatarEditionModal(true)}
                 />
                 <section className="profil-email-box">
                   <p>
@@ -180,6 +253,23 @@ const Profil = () => {
                         onClick={() => setDisplayPasswordEditionModal(true)}
                       >
                         Modifier votre mot de passe
+                      </button>
+                    </section>
+                  </Fragment>
+                )}
+
+                {(uid === userUid || userRole === "admin") && (
+                  <Fragment>
+                    <section className="profil-delete-button-box">
+                      <hr className="hr-big" />
+                      <button
+                        className="btn"
+                        onClick={() => setDisplayDeleteAccountModal(true)}
+                      >
+                        {uid === userUid
+                          ? " Supprimer votre compte"
+                          : userRole === "admin" &&
+                            " Supprimer le compte de l'utilisateur"}
                       </button>
                     </section>
                   </Fragment>

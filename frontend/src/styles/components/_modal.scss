@@ -19,27 +19,35 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.validation-modal {
-  background-color: #a8d6b2;
+  &-message {
+    padding: 25px;
+    p {
+      margin: 0;
+    }
+    hr {
+      border: none;
+      margin: 10px;
+    }
+  }
 }
 .confirmation-modal {
   background-color: $color-4;
   text-align: center;
   line-height: 1.25rem;
+  border: 5px solid $color-2;
   i {
     margin-bottom: 10px;
     padding: 10px;
     font-size: 2rem;
     color: $color-2;
   }
-  p {
-    margin-bottom: 15px;
-  }
   .btn {
     margin: 10px;
   }
+}
+.validation-modal {
+  background-color: #a8d6b2;
+  padding: 30px;
 }
 
 .password-edition-modal {

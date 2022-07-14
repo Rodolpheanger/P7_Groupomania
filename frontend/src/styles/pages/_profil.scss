@@ -4,7 +4,11 @@
   width: 90%;
   max-width: 800px;
   padding: 15px;
-  margin-bottom: 30px;
+  margin: 30px 0;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
 }
 .profil-avatar-box {
   @include flex-center(column);
@@ -51,4 +55,11 @@
   @include flex-center(column);
   width: 100%;
   margin-top: 30px;
+}
+.profil-delete-button-box {
+  @include flex-center(column);
+  width: 100%;
+  .btn:hover {
+    background-color: $color-2;
+  }
 }
