@@ -27,7 +27,7 @@ const Card = ({ post, reload }) => {
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
-  const [setOldImgUrl] = useContext(OldImgUrlContext);
+  const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [setSelectedImage] = useContext(ThumbImgContext);
   const {
     u_uid,
@@ -84,7 +84,7 @@ const Card = ({ post, reload }) => {
         const { message, error } = response.data;
         setResponseMessage(message);
         setDisplayValidationModal(true);
-        setSelectedImage(null);
+        setSelectedImage("");
         return error ? alert(error) : (console.log(message), reload(true));
       }
     } catch (err) {
