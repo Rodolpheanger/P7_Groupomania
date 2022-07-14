@@ -1,13 +1,12 @@
 import AvatarForm from "../Profil/AvatarForm";
 import CloseBtn from "../Buttons/CloseBtn";
 
-const AvatarEditionModal = ({ avatarOwnerUid, setFieldValue, close }) => {
+const AvatarEditionModal = ({ avatarOwnerUid, close }) => {
   return (
     <div className="modal avatar-edition-modal">
       <AvatarForm
         avatarOwnerUid={avatarOwnerUid}
-        setFieldValue={setFieldValue}
-        close={close}
+        closeAvatarEditionModal={close}
       />
       <CloseBtn close={close} />
     </div>

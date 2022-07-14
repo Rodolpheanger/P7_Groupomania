@@ -19,7 +19,10 @@ export const setAvatar = async (
       protocol,
       host
     );
-    if (result) res.status(200).json({ message: "Avatar modifié avec succès" });
+    if (result)
+      res
+        .status(200)
+        .json({ message: "Avatar modifié avec succès", avatarUrl: result });
   } catch (err) {
     errorResponse(err, res);
   }

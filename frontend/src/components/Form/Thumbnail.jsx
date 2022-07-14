@@ -5,25 +5,29 @@ import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import CloseBtn from "../Buttons/CloseBtn";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
 
-const Thumbnail = ({ setFieldValue, className }) => {
+const Thumbnail = ({ className, resetForm }) => {
+  const [imageToDisplay, setImageToDisplay] = useState("");
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
-  const [imageToDisplay, setImageToDisplay] = useState(selectedImage);
   const [newImgUrl, setNewImgUrl] = useContext(NewImgUrlContext);
 
-  const close = () => {
-    console.log("close");
-    setSelectedImage(null);
-    setNewImgUrl(null);
-  };
-
-  const closeOld = () => {
-    setOldImgUrl("");
-  };
-
   useEffect(() => {
-    console.log("useEffect Thumbnail");
+    const close = () => {
+      setSelectedImage("");
+      setNewImgUrl("");
+      resetForm();
+      console.log("close: ", selectedImage);
+    };
+
+    const closeOld = () => {
+      setOldImgUrl("");
+      setNewImgUrl("");
+      setSelectedImage("");
+      // resetForm();
+      console.log("closeOld: ", selectedImage);
+    };
     if (selectedImage) {
+      console.log("selectedImage", selectedImage);
       setImageToDisplay(
         <div className={`thumbnail-wrapper ${className}`}>
           <img src={newImgUrl} alt={selectedImage.name} className="thumbnail" />
@@ -31,7 +35,7 @@ const Thumbnail = ({ setFieldValue, className }) => {
         </div>
       );
     } else if (oldImgUrl) {
-      console.log("oldImgUrl: ", oldImgUrl);
+      console.log("oldImgUrl", oldImgUrl);
       setImageToDisplay(
         <div className={`thumbnail-wrapper ${className}`}>
           <img
@@ -44,6 +48,7 @@ const Thumbnail = ({ setFieldValue, className }) => {
       );
     } else {
       if (className.includes("avatar")) {
+        console.log("defaultAvatar", defaultAvatar);
         setImageToDisplay(
           <div className={`thumbnail-wrapper ${className}`}>
             <img
@@ -54,6 +59,7 @@ const Thumbnail = ({ setFieldValue, className }) => {
           </div>
         );
       } else {
+        console.log("Other case");
         setImageToDisplay("");
       }
     }

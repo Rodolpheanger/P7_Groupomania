@@ -12,7 +12,9 @@ const setAvatar = async (req, res) => {
     try {
         const result = await (0, uploads_services_1.serviceSetAvatarUrl)(file, requestUserUid, avatarOwner, protocol, host);
         if (result)
-            res.status(200).json({ message: "Avatar modifié avec succès" });
+            res
+                .status(200)
+                .json({ message: "Avatar modifié avec succès", avatarUrl: result });
     }
     catch (err) {
         (0, errors_utils_1.errorResponse)(err, res);

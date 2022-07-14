@@ -27,7 +27,7 @@ const Card = ({ post, reload }) => {
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
-  const [, setOldImgUrl] = useContext(OldImgUrlContext);
+  const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const {
     u_uid,
@@ -59,10 +59,9 @@ const Card = ({ post, reload }) => {
     console.log(values);
     actions.setSubmitting(false);
     try {
-      if (!values.post_image || !selectedImage) {
-        const { title, content, post_image } = values;
-        const datas = { title, content, post_image };
-        const response = await axios.put(`api/posts/${p_uid}`, datas, {
+      if (typeof values.post_image === "string") {
+        console.log("test");
+        const response = await axios.put(`api/posts/${p_uid}`, values, {
           headers: {
             Authorization: `BEARER ${token}`,
           },
@@ -73,6 +72,7 @@ const Card = ({ post, reload }) => {
 
         return error ? alert(error) : (console.log(message), reload(true));
       } else {
+        console.log("test 2");
         const response = await axios.put(`api/posts/${p_uid}`, values, {
           headers: {
             Authorization: `BEARER ${token}`,

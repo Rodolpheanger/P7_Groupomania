@@ -27,6 +27,7 @@ exports.setPostImgUrl = exports.deleteNewImageOnServer = exports.deleteOldPostIm
 const fs = __importStar(require("fs"));
 const createAvatarUrl = (file, protocol, host, avatarUrl) => {
     if (file) {
+        deleteOldAvatarImgIfExist(file, avatarUrl);
         return `${protocol}://${host}/avatar/${file.filename}`;
     }
     else {
@@ -35,6 +36,11 @@ const createAvatarUrl = (file, protocol, host, avatarUrl) => {
     }
 };
 exports.createAvatarUrl = createAvatarUrl;
+const deleteOldAvatarImgIfExist = (file, avatarUrl) => {
+    const filename = avatarUrl.split("/avatar/")[1];
+    if (avatarUrl)
+        fs.unlinkSync(`uploads/avatars/${filename}`);
+};
 const deleteAvatarImgIfExist = (file, avatarUrl) => {
     if (avatarUrl)
         (0, exports.deleteAvatarImgOnServer)(file, avatarUrl);

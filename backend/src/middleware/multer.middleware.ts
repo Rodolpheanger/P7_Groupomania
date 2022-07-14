@@ -30,7 +30,7 @@ const avatarStorage = multer.diskStorage({
   filename: (req: Request | any, file, cb) => {
     const name = req.requestUserUid;
     const extension = MIME_TYPES[file.mimetype];
-    cb(null, `${name}.${extension}`);
+    cb(null, `${name}_${Date.now()}.${extension}`);
   },
 });
 

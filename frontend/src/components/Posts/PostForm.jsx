@@ -21,7 +21,7 @@ const PostForm = ({ close, submit, title, content }) => {
   });
 
   // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
-  //  FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
+  // ! FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
   // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   return (
@@ -35,7 +35,7 @@ const PostForm = ({ close, submit, title, content }) => {
         }}
         validationSchema={postSchema}
       >
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting, setFieldValue, resetForm }) => (
           <Form className="post-form-card">
             <Field
               name="title"
@@ -45,15 +45,9 @@ const PostForm = ({ close, submit, title, content }) => {
               className="form-post-title"
             />
             <ErrorMessage name="title" component={CustomError} />
-            <FileInput
-              inputName="post_image"
-              name="post_image"
-              setFieldValue={setFieldValue}
-            />
-            <Thumbnail
-              setFieldValue={setFieldValue}
-              className="thumbnail-post"
-            />
+            <FileInput inputName="post_image" setFieldValue={setFieldValue} />
+            <Thumbnail className="thumbnail-post" resetForm={resetForm} />
+
             <br />
             <Field
               name="content"

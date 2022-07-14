@@ -27,7 +27,7 @@ const avatarStorage = multer_1.default.diskStorage({
     filename: (req, file, cb) => {
         const name = req.requestUserUid;
         const extension = MIME_TYPES[file.mimetype];
-        cb(null, `${name}.${extension}`);
+        cb(null, `${name}_${Date.now()}.${extension}`);
     },
 });
 const postImageStorage = multer_1.default.diskStorage({

@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { useLocation } from "react-router-dom";
 import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
+import Thumbnail from "./Thumbnail";
 
 const FileInput = ({ setFieldValue, inputName }) => {
   const [fileErrorMsg, setFileErrorMsg] = useState(false);
@@ -35,9 +36,6 @@ const FileInput = ({ setFieldValue, inputName }) => {
     }
   };
 
-  // ??? on peut pas mettre ce putain de paramètre en dynamique pour "setFieldValue ????
-  // TODO voir pour faire un autre input pour la modification d'avatar
-
   return (
     <div className="input-file-wrapper">
       <label htmlFor={`${inputName}`} className="btn label-file">
@@ -50,6 +48,7 @@ const FileInput = ({ setFieldValue, inputName }) => {
         name={inputName}
         accept=".png, .jpg, .jpeg"
         onChange={(event) => {
+          console.log("event.target", event.target.files[0]);
           const valideFile = checkFile(event.target.files[0]);
           if (valideFile === true) {
             setFileErrorMsg(false);

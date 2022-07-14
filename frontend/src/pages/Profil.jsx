@@ -42,7 +42,6 @@ const Profil = () => {
   paramsUserUid ? (userProfilUid = paramsUserUid) : (userProfilUid = userUid);
 
   const setAvatar = () => {
-    console.log("setAvatar");
     setDisplayAvatarEditionModal(true);
   };
 
@@ -51,9 +50,10 @@ const Profil = () => {
   };
 
   const closeAvatarEditionModal = () => {
-    setOldImgUrl(avatarUrl);
-    // setSelectedImage(oldImgUrl);
+    console.log("closeAvatar: ", newImgUrl);
+    setAvatarUrl(newImgUrl);
     setDisplayAvatarEditionModal(false);
+    console.log("closeAvatar: ", oldImgUrl);
   };
 
   const passwordEditionModal = displayPasswordEditionModal && (
@@ -70,6 +70,7 @@ const Profil = () => {
     </ModalWrapper>
   );
   useEffect(() => {
+    console.log("useEffect: Profil");
     const getUserDatas = async () => {
       try {
         const userDatas = await axios.get(`/api/users/${userProfilUid}`, {

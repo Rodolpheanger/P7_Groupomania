@@ -7,11 +7,17 @@ export const createAvatarUrl = (
   avatarUrl: string
 ): string => {
   if (file) {
+    deleteOldAvatarImgIfExist(file, avatarUrl);
     return `${protocol}://${host}/avatar/${file.filename}`;
   } else {
     deleteAvatarImgIfExist(file, avatarUrl);
     return "";
   }
+};
+
+const deleteOldAvatarImgIfExist = (file: any, avatarUrl: string) => {
+  const filename = avatarUrl.split("/avatar/")[1];
+  if (avatarUrl) fs.unlinkSync(`uploads/avatars/${filename}`);
 };
 
 export const deleteAvatarImgIfExist = (file: any, avatarUrl: string): void => {

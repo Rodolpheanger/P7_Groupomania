@@ -30,15 +30,15 @@ input {
   margin: 15px 0;
 }
 
-// TODO decommenter:
 .input-file-wrapper {
   margin: 20px 0;
   position: relative;
+  // TODO decommenter:
 }
-.input-file-input {
-  position: absolute;
-  opacity: 0;
-}
+// .input-file-input {
+//   position: absolute;
+//   opacity: 0;
+// }
 .input-text-area {
   resize: none;
   outline: none;
