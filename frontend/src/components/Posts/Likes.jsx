@@ -45,7 +45,7 @@ const Likes = ({ postUid }) => {
           Authorization: `BEARER ${token}`,
         },
       });
-      await response.data.forEach((like) => {
+      response.data.forEach((like) => {
         switch (like.pl_value) {
           case 0:
             setGrrrCount((prevState) => prevState + 1);

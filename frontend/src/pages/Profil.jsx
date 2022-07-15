@@ -77,11 +77,14 @@ const Profil = () => {
     }
   };
   const closeValidationModal = () => {
-    userRole === "admin" && userUid !== uid
-      ? setDisplayValidationModal(false)(navigate("/posts"))
-      : localStorage.clear()(setDisplayValidationModal(false))(
-          navigate("/auth")
-        );
+    if (userRole === "admin" && userUid !== uid) {
+      setDisplayValidationModal(false);
+      navigate("/posts");
+    } else {
+      localStorage.clear();
+      setDisplayValidationModal(false);
+      navigate("/auth");
+    }
   };
 
   const avatarEditionModal = displayAvatarEditionModal && (
