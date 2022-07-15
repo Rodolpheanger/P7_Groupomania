@@ -51,7 +51,7 @@ const serviceUpdatePost = async (file, postUid, content, title, post_image, requ
     if (postOwner === requestUserUid) {
         const postImgUrlToSend = post_image
             ? post_image
-            : post_image === ""
+            : post_image === "" && postImgUrl
                 ? (0, uploads_utils_1.deleteOldPostImageOnServer)(postImgUrl)
                 : (0, uploads_utils_1.setPostImgUrl)(file, protocol, host, postImgUrl);
         return new Promise((resolve, reject) => {

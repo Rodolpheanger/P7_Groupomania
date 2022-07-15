@@ -75,7 +75,7 @@ export const serviceUpdatePost = async (
   if (postOwner === requestUserUid) {
     const postImgUrlToSend = post_image
       ? post_image
-      : post_image === ""
+      : post_image === "" && postImgUrl
       ? deleteOldPostImageOnServer(postImgUrl)
       : setPostImgUrl(file, protocol, host, postImgUrl);
     return new Promise((resolve, reject) => {

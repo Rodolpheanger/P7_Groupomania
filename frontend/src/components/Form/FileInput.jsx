@@ -26,14 +26,12 @@ const FileInput = ({ setFieldValue, inputName }) => {
       setSelectedImage(false);
     }
   };
-
-  const setFieldValueFile = (event) => {
+  const getFieldValueName = () => {
     if (pathname === "/profil") {
-      setFieldValue("avatar", event.target.files[0]);
-    } else if (pathname === "/posts") {
-      setFieldValue("post_image", event.target.files[0]);
-    }
+      return "avatar";
+    } else if (pathname === "/posts") return "post_image";
   };
+  const fieldValueName = getFieldValueName();
 
   return (
     <div className="input-file-wrapper">
@@ -52,7 +50,7 @@ const FileInput = ({ setFieldValue, inputName }) => {
           if (valideFile === true) {
             setFileErrorMsg(false);
             setSelectedImage(event.target.files[0]);
-            setFieldValueFile(event);
+            setFieldValue(fieldValueName, event.target.files[0]);
             setNewImgUrl(URL.createObjectURL(event.target.files[0]));
           }
         }}

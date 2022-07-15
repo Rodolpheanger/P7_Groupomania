@@ -7,13 +7,10 @@ const Likes = ({ postUid }) => {
   const grrr = 0;
   const like = 1;
   const mdr = 2;
-  const [reload, setReload] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [grrrCount, setGrrrCount] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
   const [mdrCount, setMdrCount] = useState(0);
-  const [grrrSelected, setGrrrSelected] = useState(false);
-  const [likeSelected, setLikeSelected] = useState(false);
-  const [mdrSelected, setMdrSelected] = useState(false);
   const [likeTypeSelected, setLikeTypeSelected] = useState("");
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
@@ -32,6 +29,7 @@ const Likes = ({ postUid }) => {
           },
         }
       );
+      setRefresh(!refresh);
       console.log(response.data.message);
     } catch (err) {
       console.log(err);
@@ -40,6 +38,10 @@ const Likes = ({ postUid }) => {
 
   useEffect(() => {
     const getLikesDatas = async () => {
+      setGrrrCount(0);
+      setMdrCount(0);
+      setLikeCount(0);
+      setLikeTypeSelected("");
       const response = await axios.get(`api/likes/${postUid}`, {
         headers: {
           Authorization: `BEARER ${token}`,
@@ -49,35 +51,21 @@ const Likes = ({ postUid }) => {
         switch (like.pl_value) {
           case 0:
             setGrrrCount((prevState) => prevState + 1);
-
             if (like.u_uid === userUid) {
-              setGrrrSelected(true);
-              // setLikeSelected(false);
-              // setMdrSelected(false);
               setLikeTypeSelected("grrr");
             }
-
             break;
           case 1:
             setLikeCount((prevState) => prevState + 1);
-
             if (like.u_uid === userUid) {
-              // setGrrrSelected(false);
-              setLikeSelected(true);
-              // setMdrSelected(false);
               setLikeTypeSelected("like");
             }
-
             break;
           case 2:
             setMdrCount((prevState) => prevState + 1);
             if (like.u_uid === userUid) {
-              // setGrrrSelected(false);
-              // setLikeSelected(false);
-              setMdrSelected(true);
               setLikeTypeSelected("mdr");
             }
-
             break;
           default:
             return;
@@ -85,12 +73,14 @@ const Likes = ({ postUid }) => {
       });
     };
     getLikesDatas();
-  }, []);
+  }, [refresh]);
 
   return (
-    <div className="like">
+    <div className={`like `}>
       <i
-        className="fa-solid fa-face-angry"
+        className={`fa-regular fa-face-angry ${
+          likeTypeSelected === "grrr" && likeTypeSelected
+        }`}
         title="Grrr"
         onClick={() => {
           submit(grrr);
@@ -98,7 +88,9 @@ const Likes = ({ postUid }) => {
       ></i>
       <p className="grrr-count">{grrrCount}</p>
       <i
-        className="fa-solid fa-heart"
+        className={`fa-regular fa-heart ${
+          likeTypeSelected === "like" && likeTypeSelected
+        }`}
         title="J'aime"
         onClick={() => {
           submit(like);
@@ -106,7 +98,9 @@ const Likes = ({ postUid }) => {
       ></i>
       <p className="like-count">{likeCount}</p>
       <i
-        className="fa-solid fa-face-grin-squint-tears"
+        className={`fa-regular fa-face-grin-squint-tears ${
+          likeTypeSelected === "mdr" && likeTypeSelected
+        }`}
         title="MDR"
         onClick={() => {
           submit(mdr);

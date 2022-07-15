@@ -6,17 +6,19 @@ import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
+import { ReloadContext } from "../../contexts/reload.context";
 
-const AddNewPost = ({ reload }) => {
+const AddNewPost = () => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
+  const [reload, setReload] = useContext(ReloadContext);
   const openPostForm = () => {
-    setOldImgUrl(null);
-    reload(false);
+    setOldImgUrl("");
+    // reload(false);
     setDisplayPostForm(true);
   };
   const submit = async (values, actions) => {
@@ -34,7 +36,7 @@ const AddNewPost = ({ reload }) => {
         setResponseMessage(message);
         setDisplayValidationModal(true);
 
-        return error ? alert(error) : (console.log(message), reload(true));
+        return error ? alert(error) : console.log(message);
       } else {
         const response = await axios.post("api/posts", values, {
           headers: {
@@ -45,21 +47,21 @@ const AddNewPost = ({ reload }) => {
         const { message, error } = response.data;
         setResponseMessage(message);
         setDisplayValidationModal(true);
-        setSelectedImage(null);
-        return error ? alert(error) : (console.log(message), reload(true));
+        setSelectedImage("");
+        return error ? alert(error) : console.log(message);
       }
     } catch (err) {
       console.log(err);
     }
   };
   const close = () => {
-    setSelectedImage(null);
+    setSelectedImage("");
     setDisplayPostForm(false);
   };
   const closeValidationModal = () => {
     setDisplayPostForm(false);
     setDisplayValidationModal(false);
-    reload(true);
+    setReload(!reload);
   };
   const validationModal = displayValidationModal && (
     <ModalWrapper>

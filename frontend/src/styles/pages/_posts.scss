@@ -85,11 +85,14 @@
   }
   .like {
     @include flex-center;
-    &-selected {
+    .mdr {
+      color: blue;
+      font-weight: 900;
+    }
+    .like,
+    .grrr {
       color: red;
-      &:hover {
-        color: $color-2;
-      }
+      font-weight: 900;
     }
     &:hover {
       cursor: pointer;

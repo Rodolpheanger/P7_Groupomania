@@ -13,8 +13,9 @@ import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import Likes from "./Likes";
 import { Link } from "react-router-dom";
+import { ReloadContext } from "../../contexts/reload.context";
 
-const Card = ({ post, reload }) => {
+const Card = ({ post }) => {
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
   const [canUpdate, setCanUpdate] = useState(false);
@@ -28,7 +29,8 @@ const Card = ({ post, reload }) => {
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
   const [, setOldImgUrl] = useContext(OldImgUrlContext);
-  const [setSelectedImage] = useContext(ThumbImgContext);
+  const [, setSelectedImage] = useContext(ThumbImgContext);
+  const [reload, setReload] = useContext(ReloadContext);
   const {
     u_uid,
     u_username,
@@ -55,8 +57,6 @@ const Card = ({ post, reload }) => {
     }
   };
 
-  // ! FIXME: A la mise à jour du post, la suppression de l'image ne fonctionne plus ????????????????
-
   const updatePost = async (values, actions) => {
     console.log(values);
     actions.setSubmitting(false);
@@ -72,7 +72,7 @@ const Card = ({ post, reload }) => {
         setResponseMessage(message);
         setDisplayValidationModal(true);
 
-        return error ? alert(error) : (console.log(message), reload(true));
+        return error ? alert(error) : console.log(message);
       } else {
         console.log("test 2");
         const response = await axios.put(`api/posts/${p_uid}`, values, {
@@ -85,7 +85,7 @@ const Card = ({ post, reload }) => {
         setResponseMessage(message);
         setDisplayValidationModal(true);
         setSelectedImage("");
-        return error ? alert(error) : (console.log(message), reload(true));
+        return error ? alert(error) : console.log(message);
       }
     } catch (err) {
       console.log(err);
@@ -93,16 +93,16 @@ const Card = ({ post, reload }) => {
   };
   const closePostEditionModal = () => {
     setDisplayPostEditionModal(false);
-    reload(true);
+    setReload(!reload);
   };
   const closeValidationModal = () => {
     setDisplayPostEditionModal(false);
     setDisplayValidationModal(false);
-    reload(true);
+    setReload(!reload);
   };
   const closeConfirmationModal = () => {
     setDisplayConfirmationModal(false);
-    reload(true);
+    setReload(!reload);
   };
 
   const postEditionModal = displayPostEditionModal && (

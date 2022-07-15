@@ -4,25 +4,46 @@ import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import CloseBtn from "../Buttons/CloseBtn";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
+import { useFormikContext } from "formik";
+import { useLocation } from "react-router-dom";
 
 const Thumbnail = ({ className }) => {
   const [imageToDisplay, setImageToDisplay] = useState("");
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
   const [newImgUrl, setNewImgUrl] = useContext(NewImgUrlContext);
+  const { setFieldValue, values, setFieldTouched } = useFormikContext();
+  const location = useLocation();
+  const { pathname } = location;
+  const getFieldValueName = () => {
+    if (pathname === "/profil") {
+      return "avatar";
+    } else if (pathname === "/posts") return "post_image";
+  };
+  const fieldValueName = getFieldValueName();
 
   const close = () => {
+    setFieldValue(fieldValueName, "");
+    setFieldTouched(fieldValueName, true);
+    // setValues(fieldValueName, "");
+    console.log(values);
     setSelectedImage("");
     setNewImgUrl("");
-    console.log("close: ", selectedImage);
+    // console.log("close: ", selectedImage);
   };
 
   const closeOld = () => {
+    setFieldValue(fieldValueName, "");
+    setFieldTouched(fieldValueName, true);
+
+    // setValues(fieldValueName, "");
+    console.log(values);
     setOldImgUrl("");
     setNewImgUrl("");
     setSelectedImage("");
     console.log("closeOld: ", selectedImage);
   };
+
   useEffect(() => {
     if (selectedImage) {
       console.log("selectedImage", selectedImage);

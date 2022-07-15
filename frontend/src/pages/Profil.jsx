@@ -26,7 +26,7 @@ const Profil = () => {
   const [role, setRole] = useState("");
   const [uid, setUid] = useState("");
   const [username, setUsername] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState("");
   const [oldImgUrl, setOldImgUrl] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
   const [displayAvatarEditionModal, setDisplayAvatarEditionModal] =
