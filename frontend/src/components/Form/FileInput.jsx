@@ -2,11 +2,13 @@ import { useContext, useState } from "react";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { useLocation } from "react-router-dom";
 import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
+import { useFormikContext } from "formik";
 
-const FileInput = ({ setFieldValue, inputName }) => {
+const FileInput = () => {
   const [fileErrorMsg, setFileErrorMsg] = useState(false);
   const [, setSelectedImage] = useContext(ThumbImgContext);
   const [, setNewImgUrl] = useContext(NewImgUrlContext);
+  const { setFieldValue } = useFormikContext();
   const location = useLocation();
   const { pathname } = location;
   const checkFile = (file) => {
@@ -22,7 +24,9 @@ const FileInput = ({ setFieldValue, inputName }) => {
         setSelectedImage(false);
       }
     } else {
-      setFileErrorMsg("Type de fichier non accepté (jpg, jpeg, png uniquement");
+      setFileErrorMsg(
+        "Type de fichier non accepté (jpg, jpeg, png uniquement)"
+      );
       setSelectedImage(false);
     }
   };
@@ -35,17 +39,16 @@ const FileInput = ({ setFieldValue, inputName }) => {
 
   return (
     <div className="input-file-wrapper">
-      <label htmlFor={`${inputName}`} className="btn label-file">
+      <label htmlFor={`${fieldValueName}`} className="btn label-file">
         Sélectionner une image
       </label>
       <input
-        id={inputName}
+        id={fieldValueName}
         className="input-file-input"
         type="file"
-        name={inputName}
+        name={fieldValueName}
         accept=".png, .jpg, .jpeg"
         onChange={(event) => {
-          console.log("event.target", event.target.files[0]);
           const valideFile = checkFile(event.target.files[0]);
           if (valideFile === true) {
             setFileErrorMsg(false);
@@ -55,7 +58,9 @@ const FileInput = ({ setFieldValue, inputName }) => {
           }
         }}
       />
-      {fileErrorMsg && <p className="text-danger">{fileErrorMsg}</p>}
+      {fileErrorMsg && (
+        <p className="input-file-error text-danger">{fileErrorMsg}</p>
+      )}
     </div>
   );
 };

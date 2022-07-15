@@ -53,10 +53,8 @@ const Profil = () => {
   paramsUserUid ? (userProfilUid = paramsUserUid) : (userProfilUid = userUid);
 
   const closeAvatarEditionModal = () => {
-    console.log("closeAvatar: ", newImgUrl);
     setAvatarUrl(newImgUrl);
     setDisplayAvatarEditionModal(false);
-    console.log("closeAvatar: ", oldImgUrl);
   };
 
   const closePasswordEditionModal = () => {
@@ -65,7 +63,6 @@ const Profil = () => {
 
   const deleteAccount = async () => {
     try {
-      console.log("deleteAccount: ", userProfilUid);
       const response = await axios.delete(`/api/users/${userProfilUid}`, {
         headers: {
           Authorization: `BEARER ${token}`,
@@ -80,9 +77,11 @@ const Profil = () => {
     }
   };
   const closeValidationModal = () => {
-    localStorage.clear();
-    setDisplayValidationModal(false);
-    navigate("/auth");
+    userRole === "admin" && userUid !== uid
+      ? setDisplayValidationModal(false)(navigate("/posts"))
+      : localStorage.clear()(setDisplayValidationModal(false))(
+          navigate("/auth")
+        );
   };
 
   const avatarEditionModal = displayAvatarEditionModal && (
@@ -141,7 +140,6 @@ const Profil = () => {
   );
 
   useEffect(() => {
-    console.log("useEffect: Profil");
     const getUserDatas = async () => {
       try {
         const userDatas = await axios.get(`/api/users/${userProfilUid}`, {
@@ -177,7 +175,7 @@ const Profil = () => {
       }
     };
     getUserDatas();
-  }, [setOldImgUrl, token, userProfilUid]);
+  }, [token, userProfilUid]);
 
   return (
     <Fragment>

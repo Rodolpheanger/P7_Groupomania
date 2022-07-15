@@ -11,9 +11,9 @@ import PostEditionModal from "../Modals/PostEditionModal";
 import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
+import { ReloadContext } from "../../contexts/reload.context";
 import Likes from "./Likes";
 import { Link } from "react-router-dom";
-import { ReloadContext } from "../../contexts/reload.context";
 
 const Card = ({ post }) => {
   const [creationDate, setCreationDate] = useState("");

@@ -62,11 +62,12 @@
     margin: 15px 0 25px 0;
   }
   .post-title {
+    align-self: flex-start;
+    width: 90%;
     font-size: 1.75rem;
     font-weight: 900;
     font-style: italic;
-    align-self: flex-start;
-    width: 90%;
+    text-align: center;
     padding-bottom: 15px;
     margin: 15px 0 15px 5%;
     border-bottom: 2px solid $color-2;

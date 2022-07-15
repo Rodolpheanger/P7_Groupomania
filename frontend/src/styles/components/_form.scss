@@ -39,6 +39,9 @@ input {
   position: absolute;
   opacity: 0;
 }
+.input-file-error {
+  margin-top: 20px;
+}
 .input-text-area {
   resize: none;
   outline: none;

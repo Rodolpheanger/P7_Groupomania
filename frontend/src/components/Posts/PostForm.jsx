@@ -35,7 +35,7 @@ const PostForm = ({ close, submit, title, content }) => {
         }}
         validationSchema={postSchema}
       >
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting }) => (
           <Form className="post-form-card">
             <Field
               name="title"
@@ -45,7 +45,7 @@ const PostForm = ({ close, submit, title, content }) => {
               className="form-post-title"
             />
             <ErrorMessage name="title" component={CustomError} />
-            <FileInput inputName="post_image" setFieldValue={setFieldValue} />
+            <FileInput />
             <Thumbnail className="thumbnail-post" />
 
             <br />

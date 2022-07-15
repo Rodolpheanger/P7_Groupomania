@@ -25,7 +25,6 @@ const Posts = () => {
           },
         });
         setPosts(response.data);
-        // setReload(false);
       } catch (err) {
         console.log(err);
       }

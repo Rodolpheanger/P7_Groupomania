@@ -12,7 +12,7 @@ const Thumbnail = ({ className }) => {
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
   const [newImgUrl, setNewImgUrl] = useContext(NewImgUrlContext);
-  const { setFieldValue, values, setFieldTouched } = useFormikContext();
+  const { setFieldValue } = useFormikContext();
   const location = useLocation();
   const { pathname } = location;
   const getFieldValueName = () => {
@@ -24,29 +24,19 @@ const Thumbnail = ({ className }) => {
 
   const close = () => {
     setFieldValue(fieldValueName, "");
-    setFieldTouched(fieldValueName, true);
-    // setValues(fieldValueName, "");
-    console.log(values);
     setSelectedImage("");
     setNewImgUrl("");
-    // console.log("close: ", selectedImage);
   };
 
   const closeOld = () => {
     setFieldValue(fieldValueName, "");
-    setFieldTouched(fieldValueName, true);
-
-    // setValues(fieldValueName, "");
-    console.log(values);
     setOldImgUrl("");
     setNewImgUrl("");
     setSelectedImage("");
-    console.log("closeOld: ", selectedImage);
   };
 
   useEffect(() => {
     if (selectedImage) {
-      console.log("selectedImage", selectedImage);
       setImageToDisplay(
         <div className={`thumbnail-wrapper ${className}`}>
           <img src={newImgUrl} alt={selectedImage.name} className="thumbnail" />
@@ -54,7 +44,6 @@ const Thumbnail = ({ className }) => {
         </div>
       );
     } else if (oldImgUrl) {
-      console.log("oldImgUrl", oldImgUrl);
       setImageToDisplay(
         <div className={`thumbnail-wrapper ${className}`}>
           <img
@@ -67,7 +56,6 @@ const Thumbnail = ({ className }) => {
       );
     } else {
       if (className.includes("avatar")) {
-        console.log("defaultAvatar", defaultAvatar);
         setImageToDisplay(
           <div className={`thumbnail-wrapper ${className}`}>
             <img
@@ -78,7 +66,6 @@ const Thumbnail = ({ className }) => {
           </div>
         );
       } else {
-        console.log("Other case");
         setImageToDisplay("");
       }
     }

@@ -15,8 +15,6 @@ const Likes = ({ postUid }) => {
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
 
-  // TODO : revoir le système de "likeSelected" + voir pour refresh le component au changement de type de like par l'utilisateur
-
   const submit = async (value) => {
     try {
       console.log(value);
@@ -73,7 +71,7 @@ const Likes = ({ postUid }) => {
       });
     };
     getLikesDatas();
-  }, [refresh]);
+  }, [postUid, refresh, token, userUid]);
 
   return (
     <div className={`like `}>

@@ -43,8 +43,6 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
           avatarOwnerUid: avatarOwnerUid,
           avatar: values.avatar,
         };
-        console.log(datasToSend);
-
         const response = await axios.put("api/users/upload", datasToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,9 +76,9 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
     <Fragment>
       {validationModal}
       <Formik onSubmit={setAvatar} initialValues={{ avatar: oldImgUrl }}>
-        {({ isSubmitting, setFieldValue }) => (
+        {({ isSubmitting }) => (
           <Form className="avatar-form-card">
-            <FileInput inputName="avatar" setFieldValue={setFieldValue} />
+            <FileInput />
             <Thumbnail className="thumbnail-avatar" />
             <button type="submit" className="btn" disabled={isSubmitting}>
               Valider
