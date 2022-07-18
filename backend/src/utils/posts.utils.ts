@@ -9,19 +9,25 @@ export const checkIfPostExistAndGetDatas = (
 ): Promise<QueryError | any> => {
   let filename = "";
   return new Promise((resolve, reject): any => {
-    const sqlPost: string = `SELECT u_uid, p_post_img_url, p_id FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = '${postUid}'`;
-    db.query(sqlPost, (err: QueryError, rows: RowDataPacket[]): void | any => {
-      err
-        ? (console.log(err), reject(Error("query error")))
-        : rows.length === 0 && file
-        ? ((filename = file.filename),
-          deleteNewImageOnServer(filename),
-          console.log(err),
-          reject(Error("post not found")))
-        : rows.length === 0
-        ? (console.log(err), reject(Error("post not found")))
-        : resolve(rows[0]);
-    });
+    const sql: string =
+      "SELECT u_uid, p_post_img_url, p_id FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = ?";
+    const value: any = [postUid];
+    db.execute(
+      sql,
+      value,
+      (err: QueryError | null, rows: RowDataPacket[]): void | any => {
+        err
+          ? (console.log(err), reject(Error("query error")))
+          : rows.length === 0 && file
+          ? ((filename = file.filename),
+            deleteNewImageOnServer(filename),
+            console.log(err),
+            reject(Error("post not found")))
+          : rows.length === 0
+          ? (console.log(err), reject(Error("post not found")))
+          : resolve(rows[0]);
+      }
+    );
   });
 };
 

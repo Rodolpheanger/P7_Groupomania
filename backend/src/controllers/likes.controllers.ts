@@ -7,10 +7,9 @@ export const getLikeByPost = async (
   res: Response
 ): Promise<void> => {
   const file = req.file;
-  const requestUserUid: string = req.requestUserUid;
   const postUid: string = req.params.id;
   try {
-    const result = await serviceGetLikeByPost(file, requestUserUid, postUid);
+    const result = await serviceGetLikeByPost(file, postUid);
     res.status(200).json(result);
   } catch (err) {
     console.log("GetLikes error :", err);

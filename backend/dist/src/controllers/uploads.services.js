@@ -11,8 +11,9 @@ const serviceSetAvatarUrl = async (file, requestUserUid, avatarOwner, protocol, 
     if (reqUser === requestUserUid && file) {
         return new Promise((resolve, reject) => {
             const avatarUrl = (0, uploads_utils_1.createAvatarUrl)(file, protocol, host, oldAvatarUrl);
-            const reqSetAvatarUrl = `UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = "${requestUserUid}"`;
-            database_1.db.query(reqSetAvatarUrl, (err) => {
+            const sql = 'UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = ?';
+            const value = [requestUserUid];
+            database_1.db.execute(sql, value, (err) => {
                 err
                     ? (console.log(err), reject(Error("query error")))
                     : resolve(avatarUrl);
@@ -23,8 +24,9 @@ const serviceSetAvatarUrl = async (file, requestUserUid, avatarOwner, protocol, 
         const oldAvatarUrl = datas.u_avatar_url;
         (0, uploads_utils_1.deleteAvatarImgOnServer)(file, oldAvatarUrl);
         return new Promise((resolve, reject) => {
-            const reqSetAvatarUrl = `UPDATE users SET u_avatar_url = "" WHERE u_uid = "${requestUserUid}"`;
-            database_1.db.query(reqSetAvatarUrl, (err) => {
+            const sql = 'UPDATE users SET u_avatar_url = "" WHERE u_uid = ?';
+            const value = [requestUserUid];
+            database_1.db.execute(sql, value, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
         });

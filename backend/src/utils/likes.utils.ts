@@ -6,10 +6,13 @@ export const checkIfLikeExistAndGetDatas = (
   likeUserId: number
 ): any => {
   return new Promise((resolve, reject) => {
-    const sqlCheckLikeAndGetDatas: string = `SELECT pl_id, pl_value, pl_fk_user_id FROM posts_likes JOIN posts ON pl_fk_post_id = ${postId} WHERE p_id = ${postId} AND pl_fk_user_id = ${likeUserId}`;
-    db.query(
-      sqlCheckLikeAndGetDatas,
-      (err: QueryError, rows: RowDataPacket[0]): any => {
+    const sql: string =
+      "SELECT pl_id, pl_value, pl_fk_user_id FROM posts_likes JOIN posts ON pl_fk_post_id = ${postId} WHERE p_id = ${postId} AND pl_fk_user_id = ?";
+    const value: any = [likeUserId];
+    db.execute(
+      sql,
+      value,
+      (err: QueryError | null, rows: RowDataPacket[0]): any => {
         err
           ? (console.log(err), reject(Error("query error")))
           : rows.length === 0

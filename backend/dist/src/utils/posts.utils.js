@@ -6,8 +6,9 @@ const uploads_utils_1 = require("./uploads.utils");
 const checkIfPostExistAndGetDatas = (file, postUid) => {
     let filename = "";
     return new Promise((resolve, reject) => {
-        const sqlPost = `SELECT u_uid, p_post_img_url, p_id FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = '${postUid}'`;
-        database_1.db.query(sqlPost, (err, rows) => {
+        const sql = "SELECT u_uid, p_post_img_url, p_id FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = ?";
+        const value = [postUid];
+        database_1.db.execute(sql, value, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
                 : rows.length === 0 && file

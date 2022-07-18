@@ -10,9 +10,9 @@ import {
 
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
-    const sqlGetUsers: string =
+    const sql: string =
       "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
-    db.query(sqlGetUsers, (err: QueryError, rows: RowDataPacket[]) => {
+    db.query(sql, (err: QueryError, rows: RowDataPacket[]) => {
       err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
     });
   });
@@ -25,8 +25,10 @@ export const serviceGetOneUser = async (
   const datas = await checkIfUserExistAndGetDatas(file, userUid);
   const userId = datas.u_id;
   return new Promise((resolve, reject) => {
-    const sqlGetUser: string = `SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_id = '${userId}'`;
-    db.query(sqlGetUser, (err: QueryError, rows: RowDataPacket[0]) => {
+    const sql: string =
+      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_id = ?";
+    const value: any = [userId];
+    db.execute(sql, value, (err: QueryError | null, rows: RowDataPacket[0]) => {
       err ? (console.log(err), reject(Error("query error"))) : resolve(rows[0]);
     });
   });
@@ -45,8 +47,9 @@ export const serviceUpdatePassword = async (
   if (isPasswordCorrect && newPassword === confirmPassword) {
     const hashedNewPassword = await hashPassword(newPassword);
     return new Promise((resolve, reject) => {
-      const sqlUpdatePassword: string = `UPDATE users SET u_password = '${hashedNewPassword}' WHERE u_id = ${u_id}`;
-      db.query(sqlUpdatePassword, (err: QueryError): void => {
+      const sql: string = "UPDATE users SET u_password = ? WHERE u_id = ?";
+      const values: any = [hashedNewPassword, u_id];
+      db.execute(sql, values, (err: QueryError | null): void => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });
     });
@@ -72,8 +75,10 @@ export const serviceUpdateUser = async (
   const { userOwner, userId } = datas;
   if (userOwner === requestUserUid) {
     return new Promise((resolve, reject) => {
-      const sqlUpdateUser: string = `UPDATE users SET u_username = '${username}', u_email = '${email}', u_firstname = '${firstname}', u_lastname = '${lastname}', u_bio = '${bio}' WHERE u_id = ${userId}`;
-      db.query(sqlUpdateUser, (err: QueryError): void => {
+      const sql: string =
+        "UPDATE users SET u_username = ?, u_email = ?, u_firstname = ?, u_lastname = ?, u_bio = ? WHERE u_id = ?";
+      const values: any = [username, email, firstname, lastname, bio, userId];
+      db.execute(sql, values, (err: QueryError | null): any => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });
     });
@@ -93,8 +98,9 @@ export const serviceDeleteUser = async (
   if (userOwner === requestUserUid || userRole === "admin") {
     return new Promise((resolve, reject) => {
       deleteAvatarImgIfExist(file, avatarUrl);
-      const sqlDeleteUser: string = `DELETE FROM users WHERE u_id = '${userId}'`;
-      db.query(sqlDeleteUser, (err: string) => {
+      const sql: string = "DELETE FROM users WHERE u_id = ?";
+      const value: any = [userId];
+      db.execute(sql, value, (err: QueryError | null) => {
         err ? (console.log(err), reject(Error("query error"))) : resolve(true);
       });
     });

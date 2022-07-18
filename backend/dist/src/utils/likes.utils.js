@@ -4,8 +4,9 @@ exports.checkIfLikeExistAndGetDatas = void 0;
 const database_1 = require("../../config/database");
 const checkIfLikeExistAndGetDatas = (postId, likeUserId) => {
     return new Promise((resolve, reject) => {
-        const sqlCheckLikeAndGetDatas = `SELECT pl_id, pl_value, pl_fk_user_id FROM posts_likes JOIN posts ON pl_fk_post_id = ${postId} WHERE p_id = ${postId} AND pl_fk_user_id = ${likeUserId}`;
-        database_1.db.query(sqlCheckLikeAndGetDatas, (err, rows) => {
+        const sql = "SELECT pl_id, pl_value, pl_fk_user_id FROM posts_likes JOIN posts ON pl_fk_post_id = ${postId} WHERE p_id = ${postId} AND pl_fk_user_id = ?";
+        const value = [likeUserId];
+        database_1.db.execute(sql, value, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
                 : rows.length === 0

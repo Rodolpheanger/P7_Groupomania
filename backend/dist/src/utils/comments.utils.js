@@ -6,8 +6,9 @@ const posts_utils_1 = require("./posts.utils");
 const users_utils_1 = require("./users.utils");
 const checkIfCommentExistAndGetDatas = (commentUid) => {
     return new Promise((resolve, reject) => {
-        const sqlPost = `SELECT c_id, p_uid, u_uid FROM comments INNER JOIN posts ON c_fk_post_id = p_id INNER JOIN users ON c_fk_user_id = u_id WHERE c_uid = '${commentUid}'`;
-        database_1.db.query(sqlPost, (err, rows) => {
+        const sql = "SELECT c_id, p_uid, u_uid FROM comments INNER JOIN posts ON c_fk_post_id = p_id INNER JOIN users ON c_fk_user_id = u_id WHERE c_uid = ?";
+        const value = [commentUid];
+        database_1.db.execute(sql, value, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
                 : rows.length === 0

@@ -5,10 +5,9 @@ const errors_utils_1 = require("../utils/errors.utils");
 const likes_services_1 = require("./likes.services");
 const getLikeByPost = async (req, res) => {
     const file = req.file;
-    const requestUserUid = req.requestUserUid;
     const postUid = req.params.id;
     try {
-        const result = await (0, likes_services_1.serviceGetLikeByPost)(file, requestUserUid, postUid);
+        const result = await (0, likes_services_1.serviceGetLikeByPost)(file, postUid);
         res.status(200).json(result);
     }
     catch (err) {

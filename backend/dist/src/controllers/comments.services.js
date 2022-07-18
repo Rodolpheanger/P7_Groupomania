@@ -12,8 +12,9 @@ const serviceCreateComment = async (file, requestUserUid, content, postUid) => {
     const commentUserData = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
     const commentUserId = commentUserData.u_id;
     return new Promise((resolve, reject) => {
-        const sqlCreateComment = `INSERT INTO comments (c_uid, c_content, c_fk_user_id, c_fk_post_id) VALUES (UUID(), '${content}',' ${commentUserId}', '${postId}')`;
-        database_1.db.query(sqlCreateComment, (err) => {
+        const sql = "INSERT INTO comments (c_uid, c_content, c_fk_user_id, c_fk_post_id) VALUES (UUID(), ?, ?, ?)";
+        const values = [content, commentUserId, postId];
+        database_1.db.execute(sql, values, (err) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(true);
         });
     });
@@ -23,8 +24,9 @@ const serviceGetCommentsByPost = async (file, postUid) => {
     const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;
     return new Promise((resolve, reject) => {
-        const sqlGetCommentsByPost = `SELECT c_uid, c_content, c_creation_date, c_modification_date, u_username FROM comments INNER JOIN users ON u_id = c_fk_user_id WHERE c_fk_post_id = '${postId}' ORDER BY c_creation_date`;
-        database_1.db.query(sqlGetCommentsByPost, (err, rows) => {
+        const sql = "SELECT c_uid, c_content, c_creation_date, c_modification_date, u_username FROM comments INNER JOIN users ON u_id = c_fk_user_id WHERE c_fk_post_id = ? ORDER BY c_creation_date";
+        const value = [postId];
+        database_1.db.execute(sql, value, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
         });
     });
@@ -35,8 +37,9 @@ const serviceModifyComment = async (file, requestUserUid, commentUid, content) =
     const { commentId, commentOwner } = datas;
     if (commentOwner === requestUserUid) {
         return new Promise((resolve, reject) => {
-            const sqlModifyComment = `UPDATE comments SET c_content = '${content}' WHERE c_id = ${commentId}`;
-            database_1.db.query(sqlModifyComment, (err) => {
+            const sql = "UPDATE comments SET c_content = ? WHERE c_id = ?";
+            const values = [content, commentId];
+            database_1.db.execute(sql, values, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
         });
@@ -52,8 +55,9 @@ const serviceDeleteComment = async (file, requestUserUid, commentUid) => {
     const { commentId, commentOwner } = datas;
     if (commentOwner === requestUserUid || userRole === "admin") {
         return new Promise((resolve, reject) => {
-            const sqlDeleteComment = `DELETE FROM comments WHERE c_id = ${commentId}`;
-            database_1.db.query(sqlDeleteComment, (err) => {
+            const sql = "DELETE FROM comments WHERE c_id = ?";
+            const value = [commentId];
+            database_1.db.execute(sql, value, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
         });

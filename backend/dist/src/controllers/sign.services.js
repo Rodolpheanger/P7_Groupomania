@@ -8,21 +8,9 @@ const serviceSignup = (body) => {
     const { username, password, email } = body;
     return new Promise(async (resolve, reject) => {
         const hashedPassword = await (0, password_utils_1.hashPassword)(password);
-        const sqlSignUp = `
-        INSERT INTO users (
-          u_username,
-          u_password,
-          u_email,
-          u_inscription_date,
-          u_uid
-          ) VALUES (
-            "${username}",
-            "${hashedPassword}",
-            "${email}",
-            NOW(),
-            UUID());
-          `;
-        database_1.db.query(sqlSignUp, (err) => {
+        const sql = "INSERT INTO users (u_username, u_password, u_email, u_inscription_date, u_uid) VALUES ( ?,?,?,NOW(),UUID())";
+        const values = [username, hashedPassword, email];
+        database_1.db.execute(sql, values, (err) => {
             err ? (console.log(err), reject(err)) : resolve(true);
         });
     });
@@ -31,8 +19,9 @@ exports.serviceSignup = serviceSignup;
 const serviceSignin = (body) => {
     const { email, password } = body;
     return new Promise((resolve, reject) => {
-        const sqlLogin = `SELECT u_uid, u_password, u_role FROM users WHERE u_email = "${email}";`;
-        database_1.db.query(sqlLogin, async (err, rows) => {
+        const sql = "SELECT u_uid, u_password, u_role FROM users WHERE u_email = ?";
+        const value = [email];
+        database_1.db.execute(sql, value, async (err, rows) => {
             if (err) {
                 console.log(err), reject(Error("query error"));
             }

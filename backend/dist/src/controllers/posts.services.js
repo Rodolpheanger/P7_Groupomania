@@ -11,8 +11,9 @@ const serviceCreatePost = async (file, content, title, requestUserUid, protocol,
     const userDatas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, requestUserUid);
     const userId = userDatas.u_id;
     return new Promise((resolve, reject) => {
-        const reqCreatePost = `INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_fk_user_id) VALUES (UUID(), "${content}", "${postImgUrl}", NOW(), "${title}", ${userId}) `;
-        database_1.db.query(reqCreatePost, (err) => {
+        const sql = "INSERT INTO posts (p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_fk_user_id) VALUES (UUID(), ?, ?, NOW(), ?, ?)";
+        const values = [content, postImgUrl, title, userId];
+        database_1.db.execute(sql, values, (err) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(true);
         });
     });
@@ -20,8 +21,8 @@ const serviceCreatePost = async (file, content, title, requestUserUid, protocol,
 exports.serviceCreatePost = serviceCreatePost;
 const serviceGetAllPosts = () => {
     return new Promise((resolve, reject) => {
-        const reqGetAllPosts = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username, u_avatar_url,u_uid FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
-        database_1.db.query(reqGetAllPosts, (err, rows) => {
+        const sql = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username, u_avatar_url,u_uid FROM posts INNER JOIN users ON p_fk_user_id =  u_id ORDER BY p_creation_date DESC`;
+        database_1.db.query(sql, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
         });
     });
@@ -29,8 +30,9 @@ const serviceGetAllPosts = () => {
 exports.serviceGetAllPosts = serviceGetAllPosts;
 const serviceGetOnePost = (postUid) => {
     return new Promise((resolve, reject) => {
-        const reqGetOnePost = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = "${postUid}"`;
-        database_1.db.query(reqGetOnePost, (err, rows) => {
+        const sql = "SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM posts INNER JOIN users ON p_fk_user_id = u_id WHERE p_uid = ?";
+        const value = [postUid];
+        database_1.db.execute(sql, value, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows[0]);
         });
     });
@@ -38,8 +40,9 @@ const serviceGetOnePost = (postUid) => {
 exports.serviceGetOnePost = serviceGetOnePost;
 const serviceGetPostsByAuthor = (authorUid) => {
     return new Promise((resolve, reject) => {
-        const reqGetPostsByAuthor = `SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = "${authorUid}"`;
-        database_1.db.query(reqGetPostsByAuthor, (err, rows) => {
+        const sql = "SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = ?";
+        const value = [authorUid];
+        database_1.db.execute(sql, value, (err, rows) => {
             err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
         });
     });
@@ -55,8 +58,9 @@ const serviceUpdatePost = async (file, postUid, content, title, post_image, requ
                 ? (0, uploads_utils_1.deleteOldPostImageOnServer)(postImgUrl)
                 : (0, uploads_utils_1.setPostImgUrl)(file, protocol, host, postImgUrl);
         return new Promise((resolve, reject) => {
-            const reqUpdatePost = `UPDATE posts SET p_content = '${content}', p_post_img_url = '${postImgUrlToSend}',p_title = '${title}' WHERE p_id = ${postId}`;
-            database_1.db.query(reqUpdatePost, (err) => {
+            const sql = "UPDATE posts SET p_content = ?, p_post_img_url = ?, p_title = ? WHERE p_id = ?";
+            const values = [content, postImgUrlToSend, title, postId];
+            database_1.db.execute(sql, values, (err) => {
                 err ? (console.log(err), reject(Error("query error"))) : resolve(true);
             });
         });
@@ -79,8 +83,9 @@ const serviceDeletePost = async (file, postUid, requestUserUid) => {
     const { postOwner, postId, postImgUrl } = datas;
     if (postOwner === requestUserUid || userRole === "admin") {
         return new Promise((resolve, reject) => {
-            const reqDeletePost = `DELETE FROM posts WHERE p_id = ${postId}`;
-            database_1.db.query(reqDeletePost, (err) => {
+            const sql = "DELETE FROM posts WHERE p_id = ?";
+            const value = [postId];
+            database_1.db.execute(sql, value, (err) => {
                 err
                     ? (console.log(err), reject(Error("query error")))
                     : postImgUrl

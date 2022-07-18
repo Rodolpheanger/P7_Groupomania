@@ -5,8 +5,9 @@ const database_1 = require("../../config/database");
 const uploads_utils_1 = require("./uploads.utils");
 const checkIfUserExistAndGetDatas = (file, requestUserUid) => {
     return new Promise((resolve, reject) => {
-        const sqlFindUser = `SELECT u_id, u_uid, u_avatar_url, u_password FROM users WHERE u_uid = '${requestUserUid}'`;
-        database_1.db.query(sqlFindUser, (err, rows) => {
+        const sql = `SELECT u_id, u_uid, u_avatar_url, u_password FROM users WHERE u_uid = ?`;
+        const values = [requestUserUid];
+        database_1.db.execute(sql, values, (err, rows) => {
             err
                 ? (console.log(err), reject(Error("query error")))
                 : rows.length === 0 && file

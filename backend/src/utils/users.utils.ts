@@ -7,19 +7,24 @@ export const checkIfUserExistAndGetDatas = (
   requestUserUid: string
 ): Promise<QueryError | RowDataPacket[0]> => {
   return new Promise((resolve, reject) => {
-    const sqlFindUser: string = `SELECT u_id, u_uid, u_avatar_url, u_password FROM users WHERE u_uid = '${requestUserUid}'`;
-    db.query(sqlFindUser, (err: QueryError, rows: RowDataPacket[0]): any => {
-      err
-        ? (console.log(err), reject(Error("query error")))
-        : rows.length === 0 && file
-        ? (deleteAvatarImgOnServer(file, ""),
-          console.log(`User "${requestUserUid}" not found`),
-          reject(Error(`user not found`)))
-        : rows.length === 0
-        ? (console.log(`User "${requestUserUid}" not found`),
-          reject(Error(`user not found`)))
-        : resolve(rows[0]);
-    });
+    const sql: any = `SELECT u_id, u_uid, u_avatar_url, u_password FROM users WHERE u_uid = ?`;
+    const values: any = [requestUserUid];
+    db.execute(
+      sql,
+      values,
+      (err: QueryError | null, rows: RowDataPacket[0]): any => {
+        err
+          ? (console.log(err), reject(Error("query error")))
+          : rows.length === 0 && file
+          ? (deleteAvatarImgOnServer(file, ""),
+            console.log(`User "${requestUserUid}" not found`),
+            reject(Error(`user not found`)))
+          : rows.length === 0
+          ? (console.log(`User "${requestUserUid}" not found`),
+            reject(Error(`user not found`)))
+          : resolve(rows[0]);
+      }
+    );
   });
 };
 
