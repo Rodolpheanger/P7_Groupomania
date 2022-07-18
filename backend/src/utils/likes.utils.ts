@@ -7,8 +7,8 @@ export const checkIfLikeExistAndGetDatas = (
 ): any => {
   return new Promise((resolve, reject) => {
     const sql: string =
-      "SELECT pl_id, pl_value, pl_fk_user_id FROM posts_likes JOIN posts ON pl_fk_post_id = ${postId} WHERE p_id = ${postId} AND pl_fk_user_id = ?";
-    const value: any = [likeUserId];
+      "SELECT pl_id, pl_value, pl_fk_user_id FROM posts_likes JOIN posts ON pl_fk_post_id = ? WHERE p_id = ? AND pl_fk_user_id = ?";
+    const value: any = [postId, postId, likeUserId];
     db.execute(
       sql,
       value,
