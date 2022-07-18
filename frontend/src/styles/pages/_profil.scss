@@ -28,13 +28,16 @@
   width: 100%;
 }
 .profil-bio-text {
+  width: 50%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 150px;
   background-color: $color-4;
   border: 1px solid $color-1;
   border-radius: 15px;
-  margin-top: 15px;
   padding: 15px;
-  width: 50%;
-  min-height: 150px;
+  margin-top: 15px;
   @include mobile {
     width: 75%;
   }
@@ -61,5 +64,30 @@
   width: 100%;
   .btn:hover {
     background-color: $color-2;
+  }
+}
+
+.profil-body-form {
+  width: 100%;
+  label {
+    font-weight: 900;
+  }
+  input {
+    margin-bottom: 15px;
+  }
+  textarea {
+    margin: 15px 0;
+    width: 75%;
+  }
+  &-card {
+    display: flex;
+    flex-direction: column;
+  }
+  &-button {
+    width: 25%;
+    align-self: center;
+  }
+  .text-danger {
+    margin-bottom: 15px;
   }
 }

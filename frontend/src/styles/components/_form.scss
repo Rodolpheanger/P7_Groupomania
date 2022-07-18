@@ -45,4 +45,9 @@ input {
 .input-text-area {
   resize: none;
   outline: none;
+  overflow: hidden;
+  background-color: $color-4;
+  border: 1px solid $color-1;
+  border-radius: 15px;
+  padding: 15px;
 }

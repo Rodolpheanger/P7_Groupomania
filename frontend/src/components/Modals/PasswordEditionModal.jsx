@@ -1,11 +1,11 @@
-import PasswordEditionForm from "../Profil/PasswordEditionForm";
+import PasswordForm from "../Profil/PasswordForm";
 import ButtonClose from "../Buttons/CloseBtn";
 
 const PasswordEditionModal = ({ close }) => {
   return (
     <div className="modal password-edition-modal">
       <ButtonClose close={close} />
-      <PasswordEditionForm close={close} />
+      <PasswordForm close={close} />
     </div>
   );
 };

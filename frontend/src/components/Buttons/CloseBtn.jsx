@@ -1,6 +1,6 @@
 import React from "react";
 
-function ButtonClose({ close }) {
+function CloseBtn({ close }) {
   return (
     <button className="btn btn-close" type="button" onClick={close}>
       X
@@ -8,4 +8,4 @@ function ButtonClose({ close }) {
   );
 }
 
-export default ButtonClose;
+export default CloseBtn;

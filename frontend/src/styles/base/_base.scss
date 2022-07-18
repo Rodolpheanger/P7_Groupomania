@@ -42,6 +42,12 @@ h1 {
   }
 }
 
+button,
+input,
+textarea {
+  font-family: "Roboto", sans-serif;
+}
+
 hr {
   width: 25%;
   border: 1px double $color-2;

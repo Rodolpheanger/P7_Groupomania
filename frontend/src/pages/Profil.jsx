@@ -15,6 +15,7 @@ import { ThumbImgContext } from "../contexts/thumbnailImg.context.jsx";
 import { OldImgUrlContext } from "../contexts/oldImgUrl.context.jsx";
 import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
+import ProfilBodyEditionModal from "../components/Modals/ProfilBodyEditionModal";
 
 const Profil = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -31,12 +32,15 @@ const Profil = () => {
   const [newImgUrl, setNewImgUrl] = useState("");
   const [displayAvatarEditionModal, setDisplayAvatarEditionModal] =
     useState(false);
+  const [displayProfilBodyEditionModal, setDisplayProfilBodyEditionModal] =
+    useState(false);
   const [displayPasswordEditionModal, setDisplayPasswordEditionModal] =
     useState(false);
   const [displayDeleteAccountModal, setDisplayDeleteAccountModal] =
     useState(false);
   const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [displayValidationModal, setDisplayValidationModal] = useState(false);
+  const [displayDeleteValidationModal, setDisplayDeleteValidationModal] =
+    useState(false);
   const [responseMessage, setResponseMessage] = useState("");
 
   const [token] = useContext(TokenContext);
@@ -57,6 +61,10 @@ const Profil = () => {
     setDisplayAvatarEditionModal(false);
   };
 
+  const closeProfilEditionModal = () => {
+    setDisplayProfilBodyEditionModal(false);
+  };
+
   const closePasswordEditionModal = () => {
     setDisplayPasswordEditionModal(false);
   };
@@ -70,19 +78,19 @@ const Profil = () => {
       });
       setResponseMessage(response.data.message);
       setDisplayDeleteAccountModal(false);
-      setDisplayValidationModal(true);
+      setDisplayDeleteValidationModal(true);
     } catch (error) {
       console.log(error);
       setServerErrorMessage(error.response.data.message);
     }
   };
-  const closeValidationModal = () => {
+  const closeDeleteValidationModal = () => {
     if (userRole === "admin" && userUid !== uid) {
-      setDisplayValidationModal(false);
+      setDisplayDeleteValidationModal(false);
       navigate("/posts");
     } else {
       localStorage.clear();
-      setDisplayValidationModal(false);
+      setDisplayDeleteValidationModal(false);
       navigate("/auth");
     }
   };
@@ -92,6 +100,20 @@ const Profil = () => {
       <AvatarEditionModal
         avatarOwnerUid={uid}
         close={closeAvatarEditionModal}
+      />
+    </ModalWrapper>
+  );
+
+  const profilBodyEditionModal = displayProfilBodyEditionModal && (
+    <ModalWrapper>
+      <ProfilBodyEditionModal
+        userUid={uid}
+        username={username}
+        email={email}
+        firstname={firstname}
+        lastname={lastname}
+        bio={bio}
+        close={closeProfilEditionModal}
       />
     </ModalWrapper>
   );
@@ -133,11 +155,11 @@ const Profil = () => {
     </ModalWrapper>
   );
 
-  const validationModal = displayValidationModal && (
+  const deleteValidationModal = displayDeleteValidationModal && (
     <ModalWrapper>
       <ValidationModal
         message={responseMessage}
-        close={closeValidationModal}
+        close={closeDeleteValidationModal}
       ></ValidationModal>
     </ModalWrapper>
   );
@@ -187,9 +209,10 @@ const Profil = () => {
         <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
           <NewImgUrlContext.Provider value={[newImgUrl, setNewImgUrl]}>
             {avatarEditionModal}
+            {profilBodyEditionModal}
             {passwordEditionModal}
             {deleteAccountModal}
-            {validationModal}
+            {deleteValidationModal}
             <main>
               <article className="profil-card">
                 <h1>{username}</h1>
@@ -211,6 +234,7 @@ const Profil = () => {
                     <span className="bold">Prénom : </span>
                     {firstname}
                   </p>
+                  <br />
                   <p>
                     <span className="bold">Nom : </span>
                     {lastname}
@@ -240,7 +264,10 @@ const Profil = () => {
                 {uid === userUid && (
                   <Fragment>
                     <hr />
-                    <button className="btn profil-edit-btn">
+                    <button
+                      className="btn profil-edit-btn"
+                      onClick={() => setDisplayProfilBodyEditionModal(true)}
+                    >
                       Editer votre profil
                     </button>
                   </Fragment>

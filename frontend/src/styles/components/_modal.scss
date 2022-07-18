@@ -50,6 +50,27 @@
   padding: 30px;
 }
 
+.avatar-edition-modal {
+  @include card-style;
+  padding: 30px;
+  img {
+    border-radius: 999px;
+    width: 150px;
+    height: 150px;
+  }
+}
+.profil-body-edition-modal {
+  background-color: $color-4;
+  padding: 40px;
+  width: 75%;
+  align-items: flex-start;
+  @include card-style;
+  .btn-close {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+  }
+}
 .password-edition-modal {
   background-color: $color-4;
   padding: 30px;
@@ -57,26 +78,5 @@
     position: absolute;
     top: 5%;
     right: 5%;
-  }
-  form {
-    @include flex-center(column);
-  }
-}
-
-.avatar-edition-modal {
-  background-color: $color-4;
-  padding: 40px;
-  .btn-close {
-    position: absolute;
-    top: 5%;
-    right: 5%;
-  }
-  form {
-    @include flex-center(column);
-  }
-  img {
-    border-radius: 999px;
-    width: 150px;
-    height: 150px;
   }
 }
