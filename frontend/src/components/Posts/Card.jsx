@@ -166,6 +166,12 @@ const Card = ({ post }) => {
           </p>
 
           <p className="italic">{creationDate}</p>
+          {modificationDate && (
+            <p className="post-modification-date">
+              Dernière modification le
+              <span className="italic"> {modificationDate} </span>
+            </p>
+          )}
         </div>
         <div className="btn-post-header">
           {canUpdate && (
@@ -199,12 +205,6 @@ const Card = ({ post }) => {
       )}
       <p className="post-content">{p_content}</p>
       <Likes postUid={p_uid} reload={reload} />
-      {modificationDate && (
-        <p className="post-modification-date">
-          Dernière modification le
-          <span className="italic"> {modificationDate} </span>
-        </p>
-      )}
     </article>
   );
 };

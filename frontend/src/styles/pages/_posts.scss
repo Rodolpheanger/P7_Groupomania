@@ -11,12 +11,6 @@
   flex-direction: column;
   @include card-style;
   padding: 25px;
-  textarea {
-    margin-top: 10px;
-    border-radius: 15px;
-    padding: 10px;
-    width: 75%;
-  }
 
   .post-form-button {
     width: -webkit-fit-content;
@@ -39,8 +33,7 @@
     border-bottom: 2px solid $color-2;
     width: 90%;
     .author {
-      display: flex;
-      flex-direction: column;
+      @include flex-center(column);
       p {
         padding: 5px;
       }
@@ -89,6 +82,8 @@
     border: 1px solid $color-2;
     box-shadow: $small-shadow;
     padding: 20px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
   .like {
     @include flex-center;
@@ -106,6 +101,6 @@
     }
   }
   .post-modification-date {
-    margin-bottom: 15px;
+    font-size: 0.85rem;
   }
 }

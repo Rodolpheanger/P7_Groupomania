@@ -52,8 +52,8 @@ const PostForm = ({ close, submit, title, content }) => {
             <Field
               name="content"
               displayname="Contenu"
+              currentCharCount={content.length}
               component={TextArea}
-              rows="5"
             />
             <ErrorMessage name="content" component={CustomError} />
             <br />

@@ -38,6 +38,8 @@
   border-radius: 15px;
   padding: 15px;
   margin-top: 15px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   @include mobile {
     width: 75%;
   }
@@ -75,10 +77,6 @@
   input {
     margin-bottom: 15px;
   }
-  textarea {
-    margin: 15px 0;
-    width: 75%;
-  }
   &-card {
     display: flex;
     flex-direction: column;
@@ -86,6 +84,9 @@
   &-button {
     width: 25%;
     align-self: center;
+    @include mobile {
+      width: 50%;
+    }
   }
   .text-danger {
     margin-bottom: 15px;

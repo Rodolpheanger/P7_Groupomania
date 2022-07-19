@@ -188,6 +188,8 @@ const Profil = () => {
           u_uid,
           u_username,
         } = userDatas.data;
+        // const bio = userDatas.data.u_bio.replace(/\n/g, "</p><br /><p>");
+        // console.log(bio);
         setAvatarUrl(u_avatar_url);
         u_bio ? setBio(u_bio) : setBio("A compléter");
         setEmail(u_email);

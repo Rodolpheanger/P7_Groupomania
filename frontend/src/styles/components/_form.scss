@@ -34,7 +34,8 @@ input {
   margin: 20px 0;
   position: relative;
 }
-// TODO cacher l'input file de base:
+// * INFO cacher l'input file de base:
+
 .input-file-input {
   position: absolute;
   opacity: 0;
@@ -42,12 +43,28 @@ input {
 .input-file-error {
   margin-top: 20px;
 }
+.text-area-box {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex start;
+  @include mobile {
+    width: 100%;
+  }
+}
 .input-text-area {
   resize: none;
   outline: none;
-  overflow: hidden;
+  width: 100%;
   background-color: $color-4;
   border: 1px solid $color-1;
   border-radius: 15px;
   padding: 15px;
+}
+.text-area-char-count {
+  font-size: 0.75rem;
+  font-style: italic;
+  align-self: flex-end;
+  margin-right: 10px;
+  margin-top: 2.5px;
 }
