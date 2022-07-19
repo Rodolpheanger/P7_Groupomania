@@ -19,10 +19,9 @@ export const serviceSetAvatarUrl = async (
   if (reqUser === requestUserUid && file) {
     return new Promise((resolve, reject) => {
       const avatarUrl = createAvatarUrl(file, protocol, host, oldAvatarUrl);
-      const sql: string =
-        'UPDATE users SET u_avatar_url = "${avatarUrl}" WHERE u_uid = ?';
-      const value: any = [requestUserUid];
-      db.execute(sql, value, (err: QueryError | null) => {
+      const sql: string = "UPDATE users SET u_avatar_url = ? WHERE u_uid = ?";
+      const values: any = [avatarUrl, requestUserUid];
+      db.execute(sql, values, (err: QueryError | null) => {
         err
           ? (console.log(err), reject(Error("query error")))
           : resolve(avatarUrl);

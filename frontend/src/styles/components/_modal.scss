@@ -36,7 +36,6 @@
   line-height: 1.25rem;
   border: 5px solid $color-2;
   i {
-    margin-bottom: 10px;
     padding: 10px;
     font-size: 2rem;
     color: $color-2;
@@ -47,7 +46,16 @@
 }
 .validation-modal {
   background-color: #a8d6b2;
-  padding: 30px;
+  padding: 20px;
+  border: 5px solid #4da760;
+  i {
+    padding: 10px;
+    font-size: 2rem;
+    color: #4da760;
+  }
+  .btn {
+    margin-top: 30px;
+  }
 }
 
 .avatar-edition-modal {
