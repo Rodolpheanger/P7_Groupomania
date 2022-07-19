@@ -94,6 +94,9 @@ const SignInForm = () => {
               />
               <ErrorMessage name="password" component={CustomError} />
               <br />
+              {serverErrorMessage && (
+                <ServerErrorMessage message={serverErrorMessage} />
+              )}
               <button
                 className="btn btn-submit"
                 type="submit"
@@ -101,7 +104,6 @@ const SignInForm = () => {
               >
                 Connexion
               </button>
-              <ServerErrorMessage message={serverErrorMessage} />
             </Form>
           )}
         </Formik>

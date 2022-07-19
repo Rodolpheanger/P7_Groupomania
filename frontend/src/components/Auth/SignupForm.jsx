@@ -11,7 +11,7 @@ import TextInput from "../Form/TextInput";
 
 const SignupForm = (props) => {
   const [displayModal, setDisplayModal] = useState(false);
-  const [serverErrorMessage, setServerErrorMessage] = useState(false);
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [message, setMessage] = useState("");
 
   const openModal = () => {
@@ -113,7 +113,9 @@ const SignupForm = (props) => {
               />
               <ErrorMessage name="password" component={CustomError} />
               <br />
-              <ServerErrorMessage message={serverErrorMessage} />
+              {serverErrorMessage && (
+                <ServerErrorMessage message={serverErrorMessage} />
+              )}
 
               <button
                 className="btn btn-submit"

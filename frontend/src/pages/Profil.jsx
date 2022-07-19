@@ -16,6 +16,7 @@ import { OldImgUrlContext } from "../contexts/oldImgUrl.context.jsx";
 import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
 import ProfilBodyEditionModal from "../components/Modals/ProfilBodyEditionModal";
+import { ReloadContext } from "../contexts/reload.context";
 
 const Profil = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -42,6 +43,7 @@ const Profil = () => {
   const [displayDeleteValidationModal, setDisplayDeleteValidationModal] =
     useState(false);
   const [responseMessage, setResponseMessage] = useState("");
+  const [reload, setReload] = useState(false);
 
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
@@ -113,7 +115,7 @@ const Profil = () => {
         firstname={firstname}
         lastname={lastname}
         bio={bio}
-        close={closeProfilEditionModal}
+        closeProfilEditionModal={closeProfilEditionModal}
       />
     </ModalWrapper>
   );
@@ -200,7 +202,7 @@ const Profil = () => {
       }
     };
     getUserDatas();
-  }, [token, userProfilUid]);
+  }, [token, userProfilUid, reload]);
 
   return (
     <Fragment>
@@ -208,102 +210,104 @@ const Profil = () => {
       <ThumbImgContext.Provider value={[selectedImage, setSelectedImage]}>
         <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
           <NewImgUrlContext.Provider value={[newImgUrl, setNewImgUrl]}>
-            {avatarEditionModal}
-            {profilBodyEditionModal}
-            {passwordEditionModal}
-            {deleteAccountModal}
-            {deleteValidationModal}
-            <main>
-              <article className="profil-card">
-                <h1>{username}</h1>
-                <ProfilAvatar
-                  avatarUrl={avatarUrl}
-                  username={username}
-                  uid={uid}
-                  setAvatar={() => setDisplayAvatarEditionModal(true)}
-                />
-                <section className="profil-email-box">
-                  <p>
-                    <span className="bold">Email : </span>
-                    {email}
-                  </p>
-                  <hr />
-                </section>
-                <section className="profil-name-box">
-                  <p>
-                    <span className="bold">Prénom : </span>
-                    {firstname}
-                  </p>
-                  <br />
-                  <p>
-                    <span className="bold">Nom : </span>
-                    {lastname}
-                  </p>
-                  <hr />
-                </section>
-                <section className="profil-bio-box">
-                  <p>
-                    <span className="bold">Bio</span>
-                  </p>
-                  <p className="profil-bio-text">{bio}</p>
-                  <hr />
-                </section>
-                <section className="profil-inscription-date-box">
-                  <p>
-                    <span className="bold">Inscrit depuis le : </span>
-                    <span className="italic">{parsedInscriptionDate}</span>
-                  </p>
-                  <hr />
-                </section>
-                <section className="profil-role-box">
-                  <p>
-                    <span className="bold">Rôle : </span>
-                    {role}
-                  </p>
-                </section>
-                {uid === userUid && (
-                  <Fragment>
+            <ReloadContext.Provider value={[reload, setReload]}>
+              {avatarEditionModal}
+              {profilBodyEditionModal}
+              {passwordEditionModal}
+              {deleteAccountModal}
+              {deleteValidationModal}
+              <main>
+                <article className="profil-card">
+                  <h1>{username}</h1>
+                  <ProfilAvatar
+                    avatarUrl={avatarUrl}
+                    username={username}
+                    uid={uid}
+                    setAvatar={() => setDisplayAvatarEditionModal(true)}
+                  />
+                  <section className="profil-email-box">
+                    <p>
+                      <span className="bold">Email : </span>
+                      {email}
+                    </p>
                     <hr />
-                    <button
-                      className="btn profil-edit-btn"
-                      onClick={() => setDisplayProfilBodyEditionModal(true)}
-                    >
-                      Editer votre profil
-                    </button>
-                  </Fragment>
-                )}
-                {uid === userUid && (
-                  <Fragment>
-                    <hr className="hr-big" />
-                    <section className="profil-password-box">
+                  </section>
+                  <section className="profil-name-box">
+                    <p>
+                      <span className="bold">Prénom : </span>
+                      {firstname}
+                    </p>
+                    <br />
+                    <p>
+                      <span className="bold">Nom : </span>
+                      {lastname}
+                    </p>
+                    <hr />
+                  </section>
+                  <section className="profil-bio-box">
+                    <p>
+                      <span className="bold">Bio</span>
+                    </p>
+                    <p className="profil-bio-text">{bio}</p>
+                    <hr />
+                  </section>
+                  <section className="profil-inscription-date-box">
+                    <p>
+                      <span className="bold">Inscrit depuis le : </span>
+                      <span className="italic">{parsedInscriptionDate}</span>
+                    </p>
+                    <hr />
+                  </section>
+                  <section className="profil-role-box">
+                    <p>
+                      <span className="bold">Rôle : </span>
+                      {role}
+                    </p>
+                  </section>
+                  {uid === userUid && (
+                    <Fragment>
+                      <hr />
                       <button
-                        className="btn"
-                        onClick={() => setDisplayPasswordEditionModal(true)}
+                        className="btn profil-edit-btn"
+                        onClick={() => setDisplayProfilBodyEditionModal(true)}
                       >
-                        Modifier votre mot de passe
+                        Editer votre profil
                       </button>
-                    </section>
-                  </Fragment>
-                )}
-
-                {(uid === userUid || userRole === "admin") && (
-                  <Fragment>
-                    <section className="profil-delete-button-box">
+                    </Fragment>
+                  )}
+                  {uid === userUid && (
+                    <Fragment>
                       <hr className="hr-big" />
-                      <button
-                        className="btn"
-                        onClick={() => setDisplayDeleteAccountModal(true)}
-                      >
-                        {uid === userUid
-                          ? " Supprimer votre compte"
-                          : userRole === "admin" &&
-                            " Supprimer le compte de l'utilisateur"}
-                      </button>
-                    </section>
-                  </Fragment>
-                )}
-              </article>
-            </main>
+                      <section className="profil-password-box">
+                        <button
+                          className="btn"
+                          onClick={() => setDisplayPasswordEditionModal(true)}
+                        >
+                          Modifier votre mot de passe
+                        </button>
+                      </section>
+                    </Fragment>
+                  )}
+
+                  {(uid === userUid || userRole === "admin") && (
+                    <Fragment>
+                      <section className="profil-delete-button-box">
+                        <hr className="hr-big" />
+                        <button
+                          className="btn"
+                          onClick={() => setDisplayDeleteAccountModal(true)}
+                        >
+                          {uid === userUid
+                            ? " Supprimer votre compte"
+                            : userRole === "admin" &&
+                              " Supprimer le compte de l'utilisateur"}
+                        </button>
+                      </section>
+                    </Fragment>
+                  )}
+                </article>
+              </main>
+            </ReloadContext.Provider>
           </NewImgUrlContext.Provider>
         </OldImgUrlContext.Provider>
       </ThumbImgContext.Provider>

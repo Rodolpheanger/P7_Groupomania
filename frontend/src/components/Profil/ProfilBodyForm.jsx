@@ -4,8 +4,12 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomError from "../Form/ErrorMessage";
 import TextInput from "../Form/TextInput";
 import TextArea from "../Form/TexteArea";
-import { useContext } from "react";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
+import { Fragment, useContext, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
+import { ReloadContext } from "../../contexts/reload.context";
+import ModalWrapper from "../Modals/ModalWrapper";
+import ValidationModal from "../Modals/ValidationModal";
 
 const ProfilBodyForm = ({
   userUid,
@@ -14,8 +18,13 @@ const ProfilBodyForm = ({
   firstname,
   lastname,
   bio,
+  close,
 }) => {
+  const [responseMessage, setResponseMessage] = useState("");
+  const [displayValidationModal, setDisplayValidationModal] = useState(false);
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [token] = useContext(TokenContext);
+  const [reload, setReload] = useContext(ReloadContext);
   const ProfilBodySchema = Yup.object().shape({
     username: Yup.string()
       .min(3, "Votre pseudo doit comporter au moins 3 caractères (max 15)")
@@ -48,73 +57,102 @@ const ProfilBodyForm = ({
         },
       });
       console.log(response);
+      setResponseMessage(response.data.message);
+      setDisplayValidationModal(true);
     } catch (err) {
       console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
 
+  const closeValidationModal = () => {
+    close();
+    setDisplayValidationModal(false);
+    setReload(!reload);
+  };
+
+  const validationModal = displayValidationModal && (
+    <ModalWrapper>
+      <ValidationModal
+        message={responseMessage}
+        close={closeValidationModal}
+      ></ValidationModal>
+    </ModalWrapper>
+  );
+
   return (
-    <div className="profil-body-form">
-      <Formik
-        onSubmit={submit}
-        initialValues={{
-          username: username,
-          email: email,
-          firstname: firstname,
-          lastname: lastname,
-          bio: bio,
-        }}
-        validationSchema={ProfilBodySchema}
-      >
-        {({ isSubmitting }) => (
-          <Form className="profil-body-form-card">
-            <Field
-              name="username"
-              displayname="Pseudo"
-              component={TextInput}
-              type="text"
-              className="profil-body-form-username"
-            />
-            <ErrorMessage name="username" component={CustomError} />
-            <Field
-              name="email"
-              displayname="Email"
-              component={TextInput}
-              type="text"
-              className="profil-body-form-email"
-            />
-            <ErrorMessage name="email" component={CustomError} />
-            <Field
-              name="firstname"
-              displayname="Prénom"
-              component={TextInput}
-              type="text"
-              className="profil-body-form-firstname"
-            />
-            <ErrorMessage name="firstname" component={CustomError} />
-            <Field
-              name="lastname"
-              displayname="Nom"
-              component={TextInput}
-              type="text"
-              className="profil-body-form-lastname"
-            />
-            <ErrorMessage name="lastname" component={CustomError} />
-            <br />
-            <Field name="bio" displayname="Bio" component={TextArea} rows="5" />
-            <ErrorMessage name="bio" component={CustomError} />
-            <br />
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="btn profil-body-form-button"
-            >
-              Valider
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+    <Fragment>
+      {validationModal}
+      <div className="profil-body-form">
+        <Formik
+          onSubmit={submit}
+          initialValues={{
+            username: username,
+            email: email,
+            firstname: firstname,
+            lastname: lastname,
+            bio: bio,
+          }}
+          validationSchema={ProfilBodySchema}
+        >
+          {({ isSubmitting }) => (
+            <Form className="profil-body-form-card">
+              <Field
+                name="username"
+                displayname="Pseudo"
+                component={TextInput}
+                type="text"
+                className="profil-body-form-username"
+              />
+              <ErrorMessage name="username" component={CustomError} />
+              <Field
+                name="email"
+                displayname="Email"
+                component={TextInput}
+                type="text"
+                className="profil-body-form-email"
+              />
+              <ErrorMessage name="email" component={CustomError} />
+              <Field
+                name="firstname"
+                displayname="Prénom"
+                component={TextInput}
+                type="text"
+                className="profil-body-form-firstname"
+              />
+              <ErrorMessage name="firstname" component={CustomError} />
+              <Field
+                name="lastname"
+                displayname="Nom"
+                component={TextInput}
+                type="text"
+                className="profil-body-form-lastname"
+              />
+              <ErrorMessage name="lastname" component={CustomError} />
+              <br />
+              <Field
+                name="bio"
+                displayname="Bio"
+                component={TextArea}
+                rows="5"
+              />
+              <ErrorMessage name="bio" component={CustomError} />
+              <br />
+              {serverErrorMessage && (
+                <ServerErrorMessage message={serverErrorMessage} />
+              )}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn profil-body-form-button"
+              >
+                Valider
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </Fragment>
   );
 };
 

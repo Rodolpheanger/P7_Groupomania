@@ -10,7 +10,7 @@ const serviceGetAllUsers = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
         database_1.db.query(sql, (err, rows) => {
-            err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
+            err ? (console.log(err), reject(err)) : resolve(rows);
         });
     });
 };
@@ -22,7 +22,7 @@ const serviceGetOneUser = async (file, userUid) => {
         const sql = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_id = ?";
         const value = [userId];
         database_1.db.execute(sql, value, (err, rows) => {
-            err ? (console.log(err), reject(Error("query error"))) : resolve(rows[0]);
+            err ? (console.log(err), reject(err)) : resolve(rows[0]);
         });
     });
 };
@@ -37,7 +37,7 @@ const serviceUpdatePassword = async (file, requestUserUid, oldPassword, newPassw
             const sql = "UPDATE users SET u_password = ? WHERE u_id = ?";
             const values = [hashedNewPassword, u_id];
             database_1.db.execute(sql, values, (err) => {
-                err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+                err ? (console.log(err), reject(err)) : resolve(true);
             });
         });
     }
@@ -59,7 +59,7 @@ const serviceUpdateUser = async (file, userToModifyUid, requestUserUid, username
             const sql = "UPDATE users SET u_username = ?, u_email = ?, u_firstname = ?, u_lastname = ?, u_bio = ? WHERE u_id = ?";
             const values = [username, email, firstname, lastname, bio, userId];
             database_1.db.execute(sql, values, (err) => {
-                err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+                err ? (console.log(err), reject(err)) : resolve(true);
             });
         });
     }
@@ -78,7 +78,7 @@ const serviceDeleteUser = async (file, userToDeleteUid, requestUserUid) => {
             const sql = "DELETE FROM users WHERE u_id = ?";
             const value = [userId];
             database_1.db.execute(sql, value, (err) => {
-                err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+                err ? (console.log(err), reject(err)) : resolve(true);
             });
         });
     }

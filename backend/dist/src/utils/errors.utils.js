@@ -29,6 +29,7 @@ const errorResponse = (err, res) => {
         return validationErrors(err.message, res);
     if (err.message.includes("query"))
         return queryError(err.message, res);
+    console.log("erreur: ", err.message);
     if (err.message.includes("email") ||
         err.message.includes("username") ||
         err.message.includes("password"))

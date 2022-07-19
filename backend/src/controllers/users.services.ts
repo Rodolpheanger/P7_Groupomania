@@ -1,3 +1,4 @@
+import { errorMonitor } from "events";
 import { QueryError, RowDataPacket } from "mysql2";
 import { db } from "../../config/database";
 import { checkPassword, hashPassword } from "../utils/password.utils";
@@ -13,7 +14,7 @@ export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
     const sql: string =
       "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
     db.query(sql, (err: QueryError, rows: RowDataPacket[]) => {
-      err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
+      err ? (console.log(err), reject(err)) : resolve(rows);
     });
   });
 };
@@ -29,7 +30,7 @@ export const serviceGetOneUser = async (
       "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users WHERE u_id = ?";
     const value: any = [userId];
     db.execute(sql, value, (err: QueryError | null, rows: RowDataPacket[0]) => {
-      err ? (console.log(err), reject(Error("query error"))) : resolve(rows[0]);
+      err ? (console.log(err), reject(err)) : resolve(rows[0]);
     });
   });
 };
@@ -50,7 +51,7 @@ export const serviceUpdatePassword = async (
       const sql: string = "UPDATE users SET u_password = ? WHERE u_id = ?";
       const values: any = [hashedNewPassword, u_id];
       db.execute(sql, values, (err: QueryError | null): void => {
-        err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+        err ? (console.log(err), reject(err)) : resolve(true);
       });
     });
   } else {
@@ -79,7 +80,7 @@ export const serviceUpdateUser = async (
         "UPDATE users SET u_username = ?, u_email = ?, u_firstname = ?, u_lastname = ?, u_bio = ? WHERE u_id = ?";
       const values: any = [username, email, firstname, lastname, bio, userId];
       db.execute(sql, values, (err: QueryError | null): any => {
-        err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+        err ? (console.log(err), reject(err)) : resolve(true);
       });
     });
   } else {
@@ -101,7 +102,7 @@ export const serviceDeleteUser = async (
       const sql: string = "DELETE FROM users WHERE u_id = ?";
       const value: any = [userId];
       db.execute(sql, value, (err: QueryError | null) => {
-        err ? (console.log(err), reject(Error("query error"))) : resolve(true);
+        err ? (console.log(err), reject(err)) : resolve(true);
       });
     });
   } else {
