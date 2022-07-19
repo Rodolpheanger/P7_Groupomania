@@ -44,6 +44,12 @@
       p {
         padding: 5px;
       }
+      &-username {
+        color: $color-1;
+        &:hover {
+          color: $color-2;
+        }
+      }
     }
     .btn-post-header {
       @include flex-center;

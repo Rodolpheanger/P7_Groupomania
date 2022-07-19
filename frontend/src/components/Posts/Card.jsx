@@ -158,7 +158,7 @@ const Card = ({ post }) => {
             Publié par{" "}
             <Link
               to={`/profil/${u_uid}`}
-              className="italic bold"
+              className="italic bold author-username"
               title="Vers le profil de l'auteur"
             >
               {u_username}

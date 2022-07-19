@@ -17,8 +17,10 @@ import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
 import ProfilBodyEditionModal from "../components/Modals/ProfilBodyEditionModal";
 import { ReloadContext } from "../contexts/reload.context";
+import Loader from "../components/Loader/Loader";
 
 const Profil = () => {
+  const [isLoading, setIsloading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [bio, setBio] = useState("");
   const [email, setEmail] = useState("");
@@ -167,6 +169,7 @@ const Profil = () => {
   );
 
   useEffect(() => {
+    setIsloading(true);
     const getUserDatas = async () => {
       try {
         const userDatas = await axios.get(`/api/users/${userProfilUid}`, {
@@ -197,6 +200,7 @@ const Profil = () => {
         setUid(u_uid);
         setUsername(u_username);
         setOldImgUrl(u_avatar_url);
+        setIsloading(false);
       } catch (err) {
         console.log(err);
       }
@@ -216,6 +220,7 @@ const Profil = () => {
               {passwordEditionModal}
               {deleteAccountModal}
               {deleteValidationModal}
+              {isLoading && <Loader />}
               <main>
                 <article className="profil-card">
                   <h1>{username}</h1>

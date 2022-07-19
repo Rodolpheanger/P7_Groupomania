@@ -8,16 +8,19 @@ import { ThumbImgContext } from "../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../contexts/oldImgUrl.context";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
 import { ReloadContext } from "../contexts/reload.context";
+import Loader from "../components/Loader/Loader";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [reload, setReload] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [oldImgUrl, setOldImgUrl] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
+  const [isLoading, setIsloading] = useState(false);
   const [token] = useContext(TokenContext);
 
   useEffect(() => {
     const getPosts = async () => {
+      setIsloading(true);
       try {
         const response = await axios.get("api/posts", {
           headers: {
@@ -25,6 +28,7 @@ const Posts = () => {
           },
         });
         setPosts(response.data);
+        setIsloading(false);
       } catch (err) {
         console.log(err);
       }
@@ -40,9 +44,13 @@ const Posts = () => {
           <NewImgUrlContext.Provider value={[newImgUrl, setNewImgUrl]}>
             <ReloadContext.Provider value={[reload, setReload]}>
               <main>
-                <h1>Quoi de neuf ???</h1>
-                <AddNewPost />
-                <AllPosts posts={posts} />
+                {isLoading && <Loader />}
+
+                <Fragment>
+                  <h1>Quoi de neuf ???</h1>
+                  <AddNewPost />
+                  <AllPosts posts={posts} />
+                </Fragment>
               </main>
             </ReloadContext.Provider>
           </NewImgUrlContext.Provider>

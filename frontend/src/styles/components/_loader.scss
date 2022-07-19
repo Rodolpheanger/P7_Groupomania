@@ -1,0 +1,15 @@
+.loader {
+  @include flex-center(column);
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  .fas,
+  p {
+    font-size: 2rem;
+    color: $color-4;
+    max-width: 90%;
+  }
+}
