@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 const TextArea = ({ field, form, currentCharCount, ...props }) => {
-  const [charCount, setCharCount] = useState("");
+  const [charCount, setCharCount] = useState(0);
   const [charCountOver, setCharCountOver] = useState(false);
   useEffect(() => {
     if (charCount > 255) setCharCountOver(true);
     else setCharCountOver(false);
   }, [charCount]);
   useEffect(() => {
-    setCharCount(currentCharCount);
+    currentCharCount && setCharCount(currentCharCount);
   }, [currentCharCount]);
   return (
     <div className="text-area-box">
@@ -28,7 +28,6 @@ const TextArea = ({ field, form, currentCharCount, ...props }) => {
             setCharCount(0);
           }
         }}
-        rows="10"
       />
       <p className={`text-area-char-count ${charCountOver && "text-danger"}`}>
         ({charCount}/255)

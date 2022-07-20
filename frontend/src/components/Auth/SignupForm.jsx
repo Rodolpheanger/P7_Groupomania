@@ -68,7 +68,6 @@ const SignupForm = (props) => {
             <p>{message}</p>
             <br />
             <p>Veuillez vous connecter</p>
-            <br />
           </Fragment>
         }
         className="validation-modal"

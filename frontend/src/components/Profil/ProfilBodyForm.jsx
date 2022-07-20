@@ -133,8 +133,9 @@ const ProfilBodyForm = ({
               <Field
                 name="bio"
                 displayname="Bio"
-                currentCharCount={bio.length}
+                currentCharCount={bio && bio.length}
                 component={TextArea}
+                rows="10"
               />
               <ErrorMessage name="bio" component={CustomError} />
               <br />

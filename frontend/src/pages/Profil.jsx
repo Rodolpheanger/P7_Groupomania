@@ -132,7 +132,7 @@ const Profil = () => {
     <ModalWrapper>
       <ConfirmationModal
         message={
-          <p>
+          <span>
             Attention,
             <br />
             <hr />
@@ -145,12 +145,12 @@ const Profil = () => {
             <br />
             <hr />
             Cette action n'est pas réversible et toutes
-            {uid === userUid ? " vos " : userRole === "admin" && ` ses `}données
-            seront définitivement supprimées, y compris les posts.
+            {uid === userUid ? " vos " : userRole === "admin" && ` ses `}
+            données seront définitivement supprimées, y compris les posts.
             <br />
             <hr />
-            Souhaitez-vous continuer ?
-          </p>
+            <span>Souhaitez-vous continuer ?</span>
+          </span>
         }
         validate={() => deleteAccount()}
         cancel={() => setDisplayDeleteAccountModal(false)}
@@ -188,8 +188,6 @@ const Profil = () => {
           u_uid,
           u_username,
         } = userDatas.data;
-        // const bio = userDatas.data.u_bio.replace(/\n/g, "</p><br /><p>");
-        // console.log(bio);
         setAvatarUrl(u_avatar_url);
         u_bio ? setBio(u_bio) : setBio("A compléter");
         setEmail(u_email);

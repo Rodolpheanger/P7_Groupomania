@@ -34,7 +34,7 @@ const updatePassword = async (req, res) => {
     try {
         const result = await (0, users_services_1.serviceUpdatePassword)(file, requestUserUid, oldPassword, newPassword, confirmPassword);
         if (result)
-            res.status(200).json({ message: "Mot de passse modifié avec succès" });
+            res.status(200).json({ message: "Mot de passe modifié avec succès" });
     }
     catch (err) {
         (0, errors_utils_1.errorResponse)(err, res);

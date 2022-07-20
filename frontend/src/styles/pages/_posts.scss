@@ -11,7 +11,9 @@
   flex-direction: column;
   @include card-style;
   padding: 25px;
-
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
   .post-form-button {
     width: -webkit-fit-content;
     width: -moz-fit-content;

@@ -10,7 +10,7 @@ const ConfirmationModal = ({
   return (
     <div className={`modal confirmation-modal`}>
       <i className="fa-solid fa-triangle-exclamation"></i>
-      <p className="modal-message">{message}</p>
+      <span className="modal-message">{message}</span>
       {serverErrorMessage && (
         <p className="text-danger">{serverErrorMessage}</p>
       )}

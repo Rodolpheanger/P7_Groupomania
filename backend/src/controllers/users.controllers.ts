@@ -44,7 +44,7 @@ export const updatePassword = async (
       confirmPassword
     );
     if (result)
-      res.status(200).json({ message: "Mot de passse modifié avec succès" });
+      res.status(200).json({ message: "Mot de passe modifié avec succès" });
   } catch (err) {
     errorResponse(err, res);
   }

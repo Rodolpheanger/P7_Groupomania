@@ -22,6 +22,7 @@ const PostForm = ({ close, submit, title, content }) => {
 
   // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
   // ! FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
+  // ??? Fonctionne sur Firefox uniquement ????
   // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   return (
@@ -52,8 +53,9 @@ const PostForm = ({ close, submit, title, content }) => {
             <Field
               name="content"
               displayname="Contenu"
-              currentCharCount={content.length}
+              currentCharCount={content && content.length}
               component={TextArea}
+              rows="8"
             />
             <ErrorMessage name="content" component={CustomError} />
             <br />

@@ -31,7 +31,7 @@ const FileInput = () => {
     }
   };
   const getFieldValueName = () => {
-    if (pathname === "/profil") {
+    if (pathname.includes("/profil")) {
       return "avatar";
     } else if (pathname === "/posts") return "post_image";
   };

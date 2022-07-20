@@ -4,7 +4,6 @@ const ValidationModal = ({ message, close }) => {
       <i className="far fa-check-circle"></i>
       <br />
       {message}
-      <br />
       <button className="btn" onClick={close}>
         OK
       </button>
