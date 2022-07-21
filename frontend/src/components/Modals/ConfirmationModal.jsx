@@ -11,9 +11,7 @@ const ConfirmationModal = ({
     <div className={`modal confirmation-modal`}>
       <i className="fa-solid fa-triangle-exclamation"></i>
       <span className="modal-message">{message}</span>
-      {serverErrorMessage && (
-        <p className="text-danger">{serverErrorMessage}</p>
-      )}
+      <p className="text-danger">{serverErrorMessage}</p>
       <div>
         <ValidateBtn validate={validate} />
         <CancelBtn cancel={cancel} />

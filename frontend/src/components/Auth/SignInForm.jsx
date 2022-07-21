@@ -94,9 +94,7 @@ const SignInForm = () => {
               />
               <ErrorMessage name="password" component={CustomError} />
               <br />
-              {serverErrorMessage && (
-                <ServerErrorMessage message={serverErrorMessage} />
-              )}
+              <ServerErrorMessage message={serverErrorMessage} />
               <button
                 className="btn btn-submit"
                 type="submit"
