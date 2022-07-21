@@ -10,16 +10,15 @@ import ConfirmationModal from "../Modals/ConfirmationModal";
 import PostEditionModal from "../Modals/PostEditionModal";
 import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
-import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import { ReloadContext } from "../../contexts/reload.context";
-import Likes from "./Likes";
-import { Link } from "react-router-dom";
+import Likes from "../Likes/Likes";
+import PostHeaderAuthor from "./PostHeaderAuthor";
+import PostHeaderButtons from "./PostHeaderButtons";
+import CommentsByPost from "../Comments/CommentsByPost";
 
 const Card = ({ post }) => {
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
-  const [canUpdate, setCanUpdate] = useState(false);
-  const [canDelete, setCanDelete] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
@@ -28,7 +27,6 @@ const Card = ({ post }) => {
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
   const [userRole] = useContext(UserRoleContext);
-  const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [, setSelectedImage] = useContext(ThumbImgContext);
   const [reload, setReload] = useContext(ReloadContext);
   const {
@@ -135,8 +133,6 @@ const Card = ({ post }) => {
   );
 
   useEffect(() => {
-    if (userRole === "admin" || userUid === u_uid) setCanDelete(true);
-    if (userUid === u_uid) setCanUpdate(true);
     setCreationDate(dateParser(p_creation_date));
     if (p_modification_date)
       setModificationDate(dateParser(p_modification_date));
@@ -153,47 +149,20 @@ const Card = ({ post }) => {
           username={u_username}
           className="avatar-post-author"
         />
-        <div className="author">
-          <p>
-            Publié par{" "}
-            <Link
-              to={`/profil/${u_uid}`}
-              className="italic bold author-username"
-              title="Vers le profil de l'auteur"
-            >
-              {u_username}
-            </Link>
-          </p>
-
-          <p className="italic">{creationDate}</p>
-          {modificationDate && (
-            <p className="post-modification-date">
-              Dernière modification le
-              <span className="italic"> {modificationDate} </span>
-            </p>
-          )}
-        </div>
-        <div className="btn-post-header">
-          {canUpdate && (
-            <i
-              className="fa-solid fa-pen"
-              title="Modifier"
-              onClick={() => {
-                setDisplayPostEditionModal(true);
-                setOldImgUrl(p_post_img_url);
-              }}
-            ></i>
-          )}
-          {canDelete && (
-            <i
-              className="fa-solid fa-trash-can"
-              title="Supprimer"
-              onClick={() => {
-                setDisplayConfirmationModal(true);
-              }}
-            ></i>
-          )}
-        </div>
+        <PostHeaderAuthor
+          userUid={u_uid}
+          username={u_username}
+          creationDate={creationDate}
+          modificationDate={modificationDate}
+        />
+        <PostHeaderButtons
+          userRole={userRole}
+          userUid={userUid}
+          postUserUid={u_uid}
+          postImgUrl={p_post_img_url}
+          setDisplayPostEditionModal={setDisplayPostEditionModal}
+          setDisplayConfirmationModal={setDisplayConfirmationModal}
+        />
       </div>
       <p className="post-title">{p_title}</p>
       {p_post_img_url && (
@@ -205,6 +174,7 @@ const Card = ({ post }) => {
       )}
       <p className="post-content">{p_content}</p>
       <Likes postUid={p_uid} reload={reload} />
+      <CommentsByPost postUid={p_uid} />
     </article>
   );
 };

@@ -139,9 +139,8 @@ const ProfilBodyForm = ({
               />
               <ErrorMessage name="bio" component={CustomError} />
               <br />
-              {serverErrorMessage && (
-                <ServerErrorMessage message={serverErrorMessage} />
-              )}
+              <ServerErrorMessage message={serverErrorMessage} />
+
               <button
                 type="submit"
                 disabled={isSubmitting}

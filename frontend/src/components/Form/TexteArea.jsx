@@ -20,7 +20,7 @@ const TextArea = ({ field, form, currentCharCount, ...props }) => {
         {...field}
         id={field.name}
         {...props}
-        className="input-text-area"
+        className="text-area-input"
         onKeyUp={(e) => {
           if (e.target.value !== "") {
             setCharCount(e.target.value.length);

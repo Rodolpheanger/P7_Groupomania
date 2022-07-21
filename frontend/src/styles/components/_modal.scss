@@ -89,3 +89,24 @@
     right: 5%;
   }
 }
+
+.comment-edition-modal {
+  background-color: $color-4;
+  padding: 30px;
+  width: 90%;
+  @include mobile {
+    height: 500px;
+  }
+  .btn-close {
+    position: absolute;
+    top: 10%;
+    right: 2.5%;
+    @include mobile {
+      top: 5%;
+      right: 5%;
+    }
+  }
+  .text-area-input {
+    height: 250px;
+  }
+}

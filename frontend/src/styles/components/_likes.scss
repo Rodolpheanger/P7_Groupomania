@@ -1,0 +1,15 @@
+.like {
+  @include flex-center;
+  .mdr {
+    color: blue;
+    font-weight: 900;
+  }
+  .like,
+  .grrr {
+    color: red;
+    font-weight: 900;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}

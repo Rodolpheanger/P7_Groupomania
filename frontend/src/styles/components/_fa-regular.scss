@@ -1,3 +1,7 @@
 .fa-regular {
   @include fa-icons;
 }
+
+.fa-comment-dots:hover {
+  cursor: pointer;
+}

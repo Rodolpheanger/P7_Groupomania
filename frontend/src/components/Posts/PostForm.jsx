@@ -43,7 +43,7 @@ const PostForm = ({ close, submit, title, content }) => {
               displayname="Titre"
               component={TextInput}
               type="text"
-              className="form-post-title"
+              className="post-form-title"
             />
             <ErrorMessage name="title" component={CustomError} />
             <FileInput />

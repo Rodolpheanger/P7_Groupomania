@@ -39,7 +39,7 @@ const FileInput = () => {
 
   return (
     <div className="input-file-wrapper">
-      <label htmlFor={`${fieldValueName}`} className="btn label-file">
+      <label htmlFor={`${fieldValueName}`} className="btn input-file-label">
         Sélectionner une image
       </label>
       <input

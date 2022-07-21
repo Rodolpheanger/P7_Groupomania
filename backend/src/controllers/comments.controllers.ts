@@ -49,7 +49,6 @@ export const modifyComment = async (
 ): Promise<void> => {
   const file: any = req.file;
   const requestUserUid: string = req.requestUserUid;
-
   const commentUid: string = req.params.id;
   const content: string = req.body.content;
   try {

@@ -36,7 +36,7 @@ export const serviceGetCommentsByPost = async (
   const postId = postDatas.p_id;
   return new Promise((resolve, reject) => {
     const sql: string =
-      "SELECT c_uid, c_content, c_creation_date, c_modification_date, u_username FROM comments INNER JOIN users ON u_id = c_fk_user_id WHERE c_fk_post_id = ? ORDER BY c_creation_date";
+      "SELECT c_uid, c_content, c_creation_date, c_modification_date, u_username, u_uid, u_avatar_url FROM comments INNER JOIN users ON u_id = c_fk_user_id WHERE c_fk_post_id = ? ORDER BY c_creation_date";
     const value: any = [postId];
     db.execute(sql, value, (err: QueryError | null, rows: RowDataPacket[]) => {
       err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
