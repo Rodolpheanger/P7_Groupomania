@@ -43,3 +43,15 @@
   font-weight: 700;
   border-radius: 999px;
 }
+
+// TODO revoir les propriétés
+
+.scroll-btn {
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
+  width: 45px;
+  font-size: 3rem !important;
+  z-index: 10;
+  cursor: pointer;
+}

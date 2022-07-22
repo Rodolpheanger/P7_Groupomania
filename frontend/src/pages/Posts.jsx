@@ -9,6 +9,7 @@ import { OldImgUrlContext } from "../contexts/oldImgUrl.context";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
 import { ReloadContext } from "../contexts/reload.context";
 import Loader from "../components/Loader/Loader";
+import ScrollBtn from "../components/Buttons/ScrollBtn";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [reload, setReload] = useState(false);
@@ -50,6 +51,7 @@ const Posts = () => {
                   <h1>Quoi de neuf ???</h1>
                   <AddNewPost />
                   <AllPosts posts={posts} />
+                  <ScrollBtn />
                 </Fragment>
               </main>
             </ReloadContext.Provider>
