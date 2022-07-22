@@ -1,3 +1,4 @@
+import { useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 
 const TextArea = ({ field, form, currentCharCount, ...props }) => {
@@ -7,6 +8,8 @@ const TextArea = ({ field, form, currentCharCount, ...props }) => {
     if (charCount > 255) setCharCountOver(true);
     else setCharCountOver(false);
   }, [charCount]);
+  const { setFieldValue } = useFormikContext();
+
   useEffect(() => {
     currentCharCount && setCharCount(currentCharCount);
   }, [currentCharCount]);
@@ -22,7 +25,8 @@ const TextArea = ({ field, form, currentCharCount, ...props }) => {
         {...props}
         className="text-area-input"
         // ! FIXME: réinitialiser le compteur à 0 à la validation d'un nouveau commentaire
-        onKeyUp={(e) => {
+        onChange={(e) => {
+          setFieldValue(`${field.name}`, e.target.value);
           if (e.target.value !== "") {
             setCharCount(e.target.value.length);
           } else {

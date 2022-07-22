@@ -21,7 +21,10 @@ const ScrollBtn = () => {
   return (
     <Fragment>
       {displayBtn && (
-        <i class="fa-regular fa-circle-up scroll-btn" onClick={scrollToTop}></i>
+        <i
+          className="fa-regular fa-circle-up scroll-btn"
+          onClick={scrollToTop}
+        ></i>
       )}
     </Fragment>
   );
