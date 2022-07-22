@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 function ServerErrorMessage({ message }) {
   return (
-    !message === "" && (
+    message && (
       <Fragment>
         <br />
         <p className="text-danger">{message}</p>

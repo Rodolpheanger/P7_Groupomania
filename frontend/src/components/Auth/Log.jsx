@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
 
-const Log = (props) => {
-  const [signUpCard, setSignUpCard] = useState(props.signup);
-  const [signInCard, setSignInCard] = useState(props.signin);
+const Log = ({ signup, signin }) => {
+  const [signUpCard, setSignUpCard] = useState(signup);
+  const [signInCard, setSignInCard] = useState(signin);
   const [forgetPassword, setForgetPassword] = useState(true);
   const handleCards = (e) => {
     if (e.target.id === "signup") {
@@ -17,6 +17,7 @@ const Log = (props) => {
       setForgetPassword(true);
     }
   };
+
   return (
     <div className="auth-box">
       <ul className="auth-select-box">
@@ -39,6 +40,7 @@ const Log = (props) => {
         <SignUpForm
           setSignInCard={setSignInCard}
           setSignUpCard={setSignUpCard}
+          setForgetPassword={setForgetPassword}
         />
       )}
       {signInCard && <SignInForm />}

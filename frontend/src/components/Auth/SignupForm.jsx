@@ -9,7 +9,7 @@ import ValidationModal from "../Modals/ValidationModal";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
 import TextInput from "../Form/TextInput";
 
-const SignupForm = (props) => {
+const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
   const [displayModal, setDisplayModal] = useState(false);
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [message, setMessage] = useState("");
@@ -20,8 +20,9 @@ const SignupForm = (props) => {
 
   const closeModal = () => {
     setDisplayModal(false);
-    props.setSignInCard(true);
-    props.setSignUpCard(false);
+    setSignInCard(true);
+    setSignUpCard(false);
+    setForgetPassword(true);
   };
 
   const UserSchema = Yup.object().shape({
