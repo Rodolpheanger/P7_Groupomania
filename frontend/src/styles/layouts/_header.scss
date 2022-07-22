@@ -11,21 +11,21 @@
     width: 100%;
   }
   & img {
-    -o-object-fit: cover;
-    object-fit: cover;
     width: 25%;
     height: 100%;
     margin-left: 5%;
+    -o-object-fit: cover;
+    object-fit: cover;
     @include mobile {
       width: 60%;
     }
   }
 }
 .nav-right-icons {
-  width: 5%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  width: 5%;
   margin-right: 5%;
   @include mobile {
     margin-right: 12%;

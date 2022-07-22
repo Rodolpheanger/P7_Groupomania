@@ -21,6 +21,7 @@ const TextArea = ({ field, form, currentCharCount, ...props }) => {
         id={field.name}
         {...props}
         className="text-area-input"
+        // ! FIXME: réinitialiser le compteur à 0 à la validation d'un nouveau commentaire
         onKeyUp={(e) => {
           if (e.target.value !== "") {
             setCharCount(e.target.value.length);

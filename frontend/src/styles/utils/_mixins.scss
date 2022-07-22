@@ -1,21 +1,21 @@
 @mixin flex-center($direction: row) {
   display: flex;
+  flex-direction: $direction;
   justify-content: center;
   align-items: center;
-  flex-direction: $direction;
 }
 
 @mixin fa-icons {
-  font-size: 1.5rem;
-  color: $color-1;
   padding: 15px;
+  color: $color-1;
+  font-size: 1.5rem;
   &:hover {
-    font-weight: 900;
     color: $color-2;
+    font-weight: 900;
   }
   @include mobile {
-    font-size: 1.25rem;
     padding: 8px;
+    font-size: 1.25rem;
   }
 }
 
@@ -36,8 +36,8 @@
 }
 
 @mixin card-style {
-  background-color: rgba(255, 255, 255, 0.75);
   border: solid 1px black;
   border-radius: 15px;
   box-shadow: $small-shadow;
+  background-color: rgba(255, 255, 255, 0.75);
 }

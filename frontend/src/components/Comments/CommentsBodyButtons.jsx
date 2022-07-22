@@ -33,7 +33,6 @@ const CommentsBodyButtons = ({
           className="fa-solid fa-trash-can"
           title="Supprimer"
           onClick={() => {
-            console.log("delete");
             setDisplayCommentDeleteModal(true);
           }}
         ></i>

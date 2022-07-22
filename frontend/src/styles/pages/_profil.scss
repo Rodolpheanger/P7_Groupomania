@@ -6,8 +6,8 @@
   padding: 15px;
   margin: 30px 0;
   h1 {
-    font-size: 2rem;
     margin-bottom: 0;
+    font-size: 2rem;
   }
 }
 .profil-avatar-box {
@@ -33,13 +33,13 @@
   height: -moz-fit-content;
   height: fit-content;
   min-height: 150px;
-  background-color: $color-4;
-  border: 1px solid $color-1;
-  border-radius: 15px;
   padding: 15px;
   margin-top: 15px;
   white-space: pre-wrap;
   word-wrap: break-word;
+  border: 1px solid $color-1;
+  border-radius: 15px;
+  background-color: $color-4;
   @include mobile {
     width: 75%;
   }
@@ -82,8 +82,8 @@
     flex-direction: column;
   }
   &-button {
-    width: 25%;
     align-self: center;
+    width: 25%;
     @include mobile {
       width: 50%;
     }

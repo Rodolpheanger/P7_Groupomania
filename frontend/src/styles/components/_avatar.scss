@@ -1,19 +1,19 @@
 .avatar {
   border-radius: 999px;
   border: 1px solid black;
-  -o-object-fit: cover;
-  object-fit: cover;
-  -o-object-position: 50%;
-  object-position: 50%;
   box-shadow: $small-shadow;
+  object-fit: cover;
+  -o-object-fit: cover;
+  object-position: 50%;
+  -o-object-position: 50%;
   &-post-author {
     width: 60px;
     height: 60px;
   }
   &-profil {
-    margin: 15px;
     width: 150px;
     height: 150px;
+    margin: 15px;
   }
   &-form-card {
     @include flex-center(column);

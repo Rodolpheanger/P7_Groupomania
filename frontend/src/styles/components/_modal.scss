@@ -1,54 +1,54 @@
 .modal-wrapper {
   @include flex-center;
-  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal {
   @include flex-center(column);
   justify-content: space-around;
-  width: 300px;
-  padding: 15px;
-  min-height: 150px;
-  border-radius: 15px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 300px;
+  min-height: 150px;
+  padding: 15px;
+  border-radius: 15px;
   &-message {
     padding: 25px;
     p {
       margin: 0;
     }
     hr {
-      border: none;
       margin: 10px;
+      border: none;
     }
   }
 }
 .confirmation-modal {
-  background-color: $color-4;
   text-align: center;
   line-height: 1.25rem;
   border: 5px solid $color-2;
+  background-color: $color-4;
   i {
     padding: 10px;
-    font-size: 2rem;
     color: $color-2;
+    font-size: 2rem;
   }
   .btn {
     margin: 10px;
   }
 }
 .validation-modal {
-  background-color: #a8d6b2;
   padding: 20px;
-  border: 5px solid #4da760;
   text-align: center;
+  border: 5px solid #4da760;
+  background-color: #a8d6b2;
   i {
     padding: 10px;
     font-size: 2rem;
@@ -59,41 +59,11 @@
   }
 }
 
-.avatar-edition-modal {
-  @include card-style;
-  padding: 30px;
-  img {
-    border-radius: 999px;
-    width: 150px;
-    height: 150px;
-  }
-}
-.profil-body-edition-modal {
-  background-color: $color-4;
-  padding: 40px;
-  width: 75%;
-  align-items: flex-start;
-  @include card-style;
-  .btn-close {
-    position: absolute;
-    top: 5%;
-    right: 5%;
-  }
-}
-.password-edition-modal {
-  background-color: $color-4;
-  padding: 30px;
-  .btn-close {
-    position: absolute;
-    top: 5%;
-    right: 5%;
-  }
-}
-
 .comment-edition-modal {
-  background-color: $color-4;
-  padding: 30px;
   width: 90%;
+  max-width: 800px;
+  padding: 30px;
+  background-color: $color-4;
   @include mobile {
     height: 500px;
   }
@@ -108,5 +78,36 @@
   }
   .text-area-input {
     height: 250px;
+  }
+}
+.avatar-edition-modal {
+  @include card-style;
+  padding: 30px;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+  }
+}
+.profil-body-edition-modal {
+  align-items: flex-start;
+  width: 75%;
+  max-width: 800px;
+  padding: 40px;
+  background-color: $color-4;
+  @include card-style;
+  .btn-close {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+  }
+}
+.password-edition-modal {
+  padding: 30px;
+  background-color: $color-4;
+  .btn-close {
+    position: absolute;
+    top: 5%;
+    right: 5%;
   }
 }

@@ -3,18 +3,18 @@ label {
 }
 
 input {
-  outline: none;
-  border: none;
-  border-bottom: 1px solid $color-2;
   padding: 5px;
   margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid $color-2;
   background-color: transparent;
+  outline: none;
 }
 
 .text-danger {
   color: red;
-  font-style: italic;
   font-size: small;
+  font-style: italic;
 }
 
 .post-form {
@@ -22,20 +22,20 @@ input {
   width: 90%;
   max-width: 800px;
   &-card {
+    @include card-style;
     display: flex;
     flex-direction: column;
-    @include card-style;
-    padding: 25px;
     max-height: -webkit-fit-content;
     max-height: -moz-fit-content;
     max-height: fit-content;
+    padding: 25px;
   }
   &-button {
+    align-self: center;
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
     margin-top: 15px;
-    align-self: center;
   }
   &-title {
     font-family: "Roboto", sans-serif;
@@ -46,8 +46,8 @@ input {
 
 .input-file {
   &-wrapper {
-    margin: 20px 0;
     position: relative;
+    margin: 20px 0;
   }
   &-label {
     width: -webkit-fit-content;
@@ -67,35 +67,35 @@ input {
 
 .text-area {
   &-box {
-    width: 65%;
     display: flex;
     flex-direction: column;
     align-items: flex start;
+    width: 65%;
     @include mobile {
       width: 100%;
     }
   }
   &-input {
-    resize: none;
-    outline: none;
     width: 100%;
-    background-color: $color-4;
+    padding: 15px;
     border: 1px solid $color-1;
     border-radius: 15px;
-    padding: 15px;
+    outline: none;
+    background-color: $color-4;
+    resize: none;
   }
   &-char-count {
+    align-self: flex-end;
+    margin-top: 2.5px;
+    margin-right: 10px;
     font-size: 0.75rem;
     font-style: italic;
-    align-self: flex-end;
-    margin-right: 10px;
-    margin-top: 2.5px;
   }
 }
 
 .comment-form {
-  margin-top: 25px;
   width: 100%;
+  margin-top: 25px;
   .text-area-box {
     width: 100%;
   }
@@ -128,9 +128,9 @@ input {
   }
 
   &-button {
-    margin-top: 15px;
     align-self: center;
     height: 46px;
+    margin-top: 15px;
     @include mobile {
       margin-top: 20px;
     }

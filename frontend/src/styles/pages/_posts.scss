@@ -9,10 +9,10 @@
   @include card-style;
   &-header {
     @include flex-center;
-    padding: 15px 0;
     justify-content: space-between;
-    border-bottom: 2px solid $color-2;
     width: 90%;
+    padding: 15px 0;
+    border-bottom: 2px solid $color-2;
     .author {
       @include flex-center(column);
       p {
@@ -35,42 +35,42 @@
   }
   .post-img {
     width: 90%;
-    -o-object-fit: cover;
-    object-fit: cover;
+    margin: 15px 0 25px 0;
     border-radius: 15px;
     box-shadow: $small-shadow;
-    margin: 15px 0 25px 0;
+    -o-object-fit: cover;
+    object-fit: cover;
   }
   .post-title {
     align-self: flex-start;
     width: 90%;
+    padding-bottom: 15px;
+    margin: 15px 0 15px 5%;
     font-size: 1.75rem;
     font-weight: 900;
     font-style: italic;
     text-align: center;
-    padding-bottom: 15px;
-    margin: 15px 0 15px 5%;
     border-bottom: 2px solid $color-2;
     @include mobile {
       font-size: 1.5rem;
     }
   }
   .post-content {
-    color: $color-1;
     width: 90%;
-    background-color: #fff;
+    padding: 20px;
+    color: $color-1;
+    white-space: pre-wrap;
+    word-wrap: break-word;
     border-radius: 15px;
     border: 1px solid $color-2;
     box-shadow: $small-shadow;
-    padding: 20px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    background-color: #fff;
   }
   .post-modification-date {
     font-size: 0.85rem;
     @include mobile {
-      text-align: center;
       max-width: 75%;
+      text-align: center;
     }
   }
 }

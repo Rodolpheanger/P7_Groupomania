@@ -10,6 +10,7 @@ const CommentsByPost = ({ postUid }) => {
   const [displayComment, setDisplayComment] = useState(false);
   const [comments, setComments] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [oldComment, setOldComment] = useState("");
   const [token] = useContext(TokenContext);
 
   const getComments = async () => {
@@ -32,6 +33,7 @@ const CommentsByPost = ({ postUid }) => {
           Authorization: `BEARER ${token}`,
         },
       });
+      setOldComment("");
       setRefresh(!refresh);
       setDisplayComment(true);
     } catch (err) {
@@ -46,7 +48,11 @@ const CommentsByPost = ({ postUid }) => {
 
   return (
     <div className="comment-box">
-      <CommentsForm submit={addComment} label={"Ajouter un commentaire"} />
+      <CommentsForm
+        submit={addComment}
+        oldComment={oldComment}
+        label={"Ajouter un commentaire"}
+      />
       <div className="comment-count">
         <p>
           {commentsCount}

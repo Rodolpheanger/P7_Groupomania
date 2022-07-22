@@ -54,7 +54,6 @@ const Comment = ({ comment, refresh, displayComment, setRefresh }) => {
           Authorization: `BEARER ${token}`,
         },
       });
-      console.log(response);
       setResponseMessage(response.data.message);
       setDisplayValidationModal(true);
     } catch (err) {

@@ -6,10 +6,12 @@ import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const CommentsForm = ({ submit, oldComment, label, serverErrorMessage }) => {
   const commentSchema = Yup.object().shape({
-    content: Yup.string().max(
-      255,
-      "Votre commentaire ne doit pas comporter plus de 255 caractères"
-    ),
+    content: Yup.string()
+      .max(
+        255,
+        "Votre commentaire ne doit pas comporter plus de 255 caractères"
+      )
+      .required(" "),
   });
 
   return (

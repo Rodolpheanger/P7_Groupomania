@@ -1,8 +1,8 @@
 .comment-box {
   @include flex-center(column);
-  border-top: 2px solid $color-2;
   width: 90%;
   margin-bottom: 30px;
+  border-top: 2px solid $color-2;
 }
 
 .comment-content-box {
@@ -31,13 +31,13 @@
   justify-content: space-between;
   width: 100%;
   &-content {
-    color: $color-1;
     width: 90%;
-    background-color: #fff;
+    padding: 20px;
+    color: $color-1;
     border-radius: 15px;
     border: 1px solid $color-2;
+    background-color: #fff;
     box-shadow: $small-shadow;
-    padding: 20px;
     white-space: pre-wrap;
     word-wrap: break-word;
     @include mobile {
@@ -47,6 +47,6 @@
 }
 .comment-modification-date {
   align-self: flex-end;
-  font-size: 0.75rem;
   margin: 5px 10px 0 0;
+  font-size: 0.75rem;
 }
