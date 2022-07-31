@@ -7,6 +7,7 @@ import ValidationModal from "../Modals/ValidationModal";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import { ReloadContext } from "../../contexts/reload.context";
+import { CharCountContext } from "../../contexts/charCount.context";
 
 const AddNewPost = () => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
@@ -16,6 +17,7 @@ const AddNewPost = () => {
   const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
   const [reload, setReload] = useContext(ReloadContext);
+  const [, setCharCount] = useContext(CharCountContext);
   const openPostForm = () => {
     setOldImgUrl("");
     // reload(false);
@@ -33,6 +35,7 @@ const AddNewPost = () => {
           },
         });
         const { message, error } = response.data;
+        setCharCount(0);
         setResponseMessage(message);
         setDisplayValidationModal(true);
 
@@ -45,6 +48,7 @@ const AddNewPost = () => {
           },
         });
         const { message, error } = response.data;
+        setCharCount(0);
         setResponseMessage(message);
         setDisplayValidationModal(true);
         setSelectedImage("");

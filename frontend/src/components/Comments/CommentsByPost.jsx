@@ -4,6 +4,7 @@ import axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
 import Comment from "./Comment";
 import CommentsForm from "./CommentsForm";
+import { CharCountContext } from "../../contexts/charCount.context";
 
 const CommentsByPost = ({ postUid }) => {
   const [commentsCount, setCommentsCount] = useState(0);
@@ -12,6 +13,7 @@ const CommentsByPost = ({ postUid }) => {
   const [refresh, setRefresh] = useState(false);
   const [oldComment, setOldComment] = useState("");
   const [token] = useContext(TokenContext);
+  const [, setCharCount] = useContext(CharCountContext);
 
   const getComments = async () => {
     try {
@@ -20,6 +22,7 @@ const CommentsByPost = ({ postUid }) => {
           Authorization: `BEARER ${token}`,
         },
       });
+      setCharCount(0);
       setComments(response.data);
       setCommentsCount(response.data.length);
     } catch (err) {
@@ -33,6 +36,7 @@ const CommentsByPost = ({ postUid }) => {
           Authorization: `BEARER ${token}`,
         },
       });
+      setCharCount(0);
       setOldComment("");
       setRefresh(!refresh);
       setDisplayComment(true);

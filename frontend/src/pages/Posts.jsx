@@ -10,6 +10,7 @@ import { NewImgUrlContext } from "../contexts/newImageUrl.context";
 import { ReloadContext } from "../contexts/reload.context";
 import Loader from "../components/Loader/Loader";
 import ScrollBtn from "../components/Buttons/ScrollBtn";
+import { CharCountContext } from "../contexts/charCount.context";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [reload, setReload] = useState(false);
@@ -17,6 +18,7 @@ const Posts = () => {
   const [oldImgUrl, setOldImgUrl] = useState("");
   const [newImgUrl, setNewImgUrl] = useState("");
   const [isLoading, setIsloading] = useState(false);
+  const [charCount, setCharCount] = useState(0);
   const [token] = useContext(TokenContext);
 
   useEffect(() => {
@@ -44,16 +46,18 @@ const Posts = () => {
         <OldImgUrlContext.Provider value={[oldImgUrl, setOldImgUrl]}>
           <NewImgUrlContext.Provider value={[newImgUrl, setNewImgUrl]}>
             <ReloadContext.Provider value={[reload, setReload]}>
-              <main>
-                {isLoading && <Loader />}
+              <CharCountContext.Provider value={[charCount, setCharCount]}>
+                <main>
+                  {isLoading && <Loader />}
 
-                <Fragment>
-                  <h1>Quoi de neuf ???</h1>
-                  <AddNewPost />
-                  <AllPosts posts={posts} />
-                  <ScrollBtn />
-                </Fragment>
-              </main>
+                  <Fragment>
+                    <h1>Quoi de neuf ???</h1>
+                    <AddNewPost />
+                    <AllPosts posts={posts} />
+                    <ScrollBtn />
+                  </Fragment>
+                </main>
+              </CharCountContext.Provider>
             </ReloadContext.Provider>
           </NewImgUrlContext.Provider>
         </OldImgUrlContext.Provider>
