@@ -5,14 +5,14 @@ import Auth from "./pages/Auth";
 import Profil from "./pages/Profil";
 import Posts from "./pages/Posts.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import AuthentificatedRoute from "./components/ProtectedRoutes/AuthentificatedRoute.jsx";
+import AuthenticatedRoute from "./components/ProtectedRoutes/AuthenticatedRoute.jsx";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/auth" element={<Auth />} />
-      <Route element={<AuthentificatedRoute />}>
+      <Route element={<AuthenticatedRoute />}>
         <Route path="/profil" element={<Profil />} />
         <Route path="/profil/:uid" element={<Profil />} />
         <Route path="/posts" element={<Posts />} />
