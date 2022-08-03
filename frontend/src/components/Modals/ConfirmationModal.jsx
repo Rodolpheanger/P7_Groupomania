@@ -1,5 +1,6 @@
 import CancelBtn from "../Buttons/CancelBtn";
 import ValidateBtn from "../Buttons/ValidateBtn";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const ConfirmationModal = ({
   message,
@@ -11,7 +12,7 @@ const ConfirmationModal = ({
     <div className={`modal confirmation-modal`}>
       <i className="fa-solid fa-triangle-exclamation"></i>
       <span className="modal-message">{message}</span>
-      <p className="text-danger">{serverErrorMessage}</p>
+      <ServerErrorMessage message={serverErrorMessage} />
       <div>
         <ValidateBtn validate={validate} />
         <CancelBtn cancel={cancel} />

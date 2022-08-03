@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
 import { UserUidContext } from "../../contexts/userUid.context";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const Likes = ({ postUid }) => {
   const grrr = 0;
@@ -12,6 +13,7 @@ const Likes = ({ postUid }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [mdrCount, setMdrCount] = useState(0);
   const [likeTypeSelected, setLikeTypeSelected] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [token] = useContext(TokenContext);
   const [userUid] = useContext(UserUidContext);
 
@@ -31,6 +33,7 @@ const Likes = ({ postUid }) => {
       console.log(response.data.message);
     } catch (err) {
       console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
 
@@ -105,6 +108,7 @@ const Likes = ({ postUid }) => {
         }}
       ></i>
       <p className="mdr-count">{mdrCount}</p>
+      <ServerErrorMessage message={serverErrorMessage} />
     </div>
   );
 };

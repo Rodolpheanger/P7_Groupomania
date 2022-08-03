@@ -140,7 +140,6 @@ const ProfilBodyForm = ({
               <ErrorMessage name="bio" component={CustomError} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
-
               <button
                 type="submit"
                 disabled={isSubmitting}

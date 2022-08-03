@@ -14,9 +14,9 @@ import TextInput from "../Form/TextInput";
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  const [serverErrorMessage, setServerErrorMessage] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState(false);
   const [, setToken] = useContext(TokenContext);
   const [, setUserRole] = useContext(UserRoleContext);
   const [, setUserUid] = useContext(UserUidContext);

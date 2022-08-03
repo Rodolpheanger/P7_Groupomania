@@ -8,22 +8,24 @@ import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
 import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [oldImgUrl, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
   const [, setNewImgUrl] = useContext(NewImgUrlContext);
 
   const setAvatar = async (values) => {
-    if (typeof values.avatar === "string") {
-      const datasToSend = {
-        avatarOwnerUid: avatarOwnerUid,
-        avatar: "",
-      };
+    try {
+      if (typeof values.avatar === "string") {
+        const datasToSend = {
+          avatarOwnerUid: avatarOwnerUid,
+          avatar: "",
+        };
 
-      try {
         const response = await axios.put("api/users/upload", datasToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,11 +36,7 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
         setResponseMessage(response.data.message);
         setNewImgUrl("");
         setOldImgUrl("");
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      try {
+      } else {
         const datasToSend = {
           avatarOwnerUid: avatarOwnerUid,
           avatar: values.avatar,
@@ -53,9 +51,10 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
         setResponseMessage(response.data.message);
         setNewImgUrl(response.data.avatarUrl);
         setOldImgUrl(response.data.avatarUrl);
-      } catch (err) {
-        console.log(err);
       }
+    } catch (err) {
+      console.log(err);
+      setServerErrorMessage(err.response.dat.message);
     }
   };
 
@@ -80,6 +79,7 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
           <Form className="avatar-form-card">
             <FileInput />
             <Thumbnail className="thumbnail-avatar" />
+            <ServerErrorMessage message={serverErrorMessage} />
             <button type="submit" className="btn" disabled={isSubmitting}>
               Valider
             </button>

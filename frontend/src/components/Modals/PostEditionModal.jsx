@@ -1,7 +1,13 @@
 import React, { Fragment } from "react";
 import PostForm from "../Posts/PostForm";
 
-const PostEditionModal = ({ submit, postTitle, postContent, close }) => {
+const PostEditionModal = ({
+  submit,
+  postTitle,
+  postContent,
+  close,
+  serverErrorMessage,
+}) => {
   return (
     <Fragment>
       <PostForm
@@ -9,6 +15,7 @@ const PostEditionModal = ({ submit, postTitle, postContent, close }) => {
         title={postTitle}
         content={postContent}
         close={close}
+        serverErrorMessage={serverErrorMessage}
       />
     </Fragment>
   );

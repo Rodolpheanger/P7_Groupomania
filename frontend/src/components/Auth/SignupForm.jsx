@@ -11,8 +11,8 @@ import TextInput from "../Form/TextInput";
 
 const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
   const [displayModal, setDisplayModal] = useState(false);
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [message, setMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
 
   const openModal = () => {
     setDisplayModal(true);

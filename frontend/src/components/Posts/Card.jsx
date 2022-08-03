@@ -20,6 +20,7 @@ const Card = ({ post }) => {
   const [creationDate, setCreationDate] = useState("");
   const [modificationDate, setModificationDate] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [displayConfirmationModal, setDisplayConfirmationModal] =
     useState(false);
   const [displayPostEditionModal, setDisplayPostEditionModal] = useState(false);
@@ -51,8 +52,8 @@ const Card = ({ post }) => {
       setDisplayConfirmationModal(false);
       setDisplayValidationModal(true);
     } catch (err) {
-      // TODO: rajouter le message d'erreur dans la modal de confirmation notament...
       console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
 
@@ -88,6 +89,7 @@ const Card = ({ post }) => {
       }
     } catch (err) {
       console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
   const closePostEditionModal = () => {
@@ -111,6 +113,7 @@ const Card = ({ post }) => {
         postTitle={p_title}
         postContent={p_content}
         close={closePostEditionModal}
+        serverErrorMessage={serverErrorMessage}
       />
     </ModalWrapper>
   );
@@ -120,6 +123,7 @@ const Card = ({ post }) => {
         message={"Vous allez supprimer ce post, souhaitez-vous continuer ?"}
         validate={deletePost}
         cancel={closeConfirmationModal}
+        serverErrorMessage={serverErrorMessage}
       />
     </ModalWrapper>
   );

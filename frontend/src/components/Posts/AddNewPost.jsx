@@ -13,6 +13,7 @@ const AddNewPost = () => {
   const [displayPostForm, setDisplayPostForm] = useState(false);
   const [displayValidationModal, setDisplayValidationModal] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState("");
   const [selectedImage, setSelectedImage] = useContext(ThumbImgContext);
   const [, setOldImgUrl] = useContext(OldImgUrlContext);
   const [token] = useContext(TokenContext);
@@ -20,7 +21,6 @@ const AddNewPost = () => {
   const [, setCharCount] = useContext(CharCountContext);
   const openPostForm = () => {
     setOldImgUrl("");
-    // reload(false);
     setDisplayPostForm(true);
   };
   const submit = async (values, actions) => {
@@ -56,6 +56,7 @@ const AddNewPost = () => {
       }
     } catch (err) {
       console.log(err);
+      setServerErrorMessage(err.response.data.message);
     }
   };
   const close = () => {
@@ -85,7 +86,11 @@ const AddNewPost = () => {
         </button>
       ) : (
         <ModalWrapper>
-          <PostForm close={close} submit={submit} />
+          <PostForm
+            close={close}
+            submit={submit}
+            serverErrorMessage={serverErrorMessage}
+          />
         </ModalWrapper>
       )}
     </Fragment>

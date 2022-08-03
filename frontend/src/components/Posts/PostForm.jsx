@@ -8,8 +8,9 @@ import CloseBtn from "../Buttons/CloseBtn";
 import FileInput from "../Form/FileInput";
 import { useContext } from "react";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 
-const PostForm = ({ close, submit, title, content }) => {
+const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
   const [oldImgUrl] = useContext(OldImgUrlContext);
   const postSchema = Yup.object().shape({
     title: Yup.string()
@@ -59,6 +60,7 @@ const PostForm = ({ close, submit, title, content }) => {
             />
             <ErrorMessage name="content" component={CustomError} />
             <br />
+            <ServerErrorMessage message={serverErrorMessage} />
             <button
               type="submit"
               disabled={isSubmitting}
