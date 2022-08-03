@@ -103,6 +103,7 @@ const ProfilBodyForm = ({
                 component={TextInput}
                 type="text"
                 className="profil-body-form-username"
+                autoFocus={true}
               />
               <ErrorMessage name="username" component={CustomError} />
               <Field

@@ -64,6 +64,7 @@ const CommentsByPost = ({ postUid }) => {
             className="fa-regular fa-comment-dots"
             title="Afficher"
             onClick={() => setDisplayComment(!displayComment)}
+            tabIndex={0}
           ></i>
         </p>
       </div>

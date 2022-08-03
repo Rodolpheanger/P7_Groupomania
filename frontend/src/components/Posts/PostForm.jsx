@@ -45,6 +45,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
               component={TextInput}
               type="text"
               className="post-form-title"
+              autoFocus={true}
             />
             <ErrorMessage name="title" component={CustomError} />
             <FileInput />

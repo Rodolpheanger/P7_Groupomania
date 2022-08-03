@@ -26,6 +26,7 @@ const CommentsBodyButtons = ({
           onClick={() => {
             setDisplayCommentEditionModal(true);
           }}
+          tabIndex={0}
         ></i>
       )}
       {canDelete && (
@@ -35,6 +36,7 @@ const CommentsBodyButtons = ({
           onClick={() => {
             setDisplayCommentDeleteModal(true);
           }}
+          tabIndex={0}
         ></i>
       )}
     </div>

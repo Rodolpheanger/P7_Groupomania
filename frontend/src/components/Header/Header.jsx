@@ -50,6 +50,7 @@ const Header = () => {
           </Link>
           <i
             role="link"
+            tabIndex={0}
             className="fa-solid fa-arrow-right-from-bracket"
             onClick={logout}
             title="Déconnexion"

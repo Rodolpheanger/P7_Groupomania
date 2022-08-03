@@ -28,6 +28,7 @@ const PostHeaderButtons = ({
             setDisplayPostEditionModal(true);
             setOldImgUrl(postImgUrl);
           }}
+          tabIndex={0}
         ></i>
       )}
       {canDelete && (
@@ -37,6 +38,7 @@ const PostHeaderButtons = ({
           onClick={() => {
             setDisplayConfirmationModal(true);
           }}
+          tabIndex={0}
         ></i>
       )}
     </div>

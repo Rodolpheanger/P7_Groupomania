@@ -80,6 +80,7 @@ const PasswordEditionForm = ({ close }) => {
               displayname="Mot de passe actuel"
               component={TextInput}
               type="password"
+              autoFocus={true}
             />
             <ErrorMessage name="oldPassword" component={CustomError} />
             <br />

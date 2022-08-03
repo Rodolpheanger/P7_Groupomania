@@ -36,6 +36,7 @@ const CommentsForm = ({ submit, oldComment, label, serverErrorMessage }) => {
                 component={TextArea}
                 rows="1"
                 className="comment-form-textarea"
+                autoFocus={true}
               />
               <ErrorMessage name="content" component={CustomError} />
               <ServerErrorMessage message={serverErrorMessage} />

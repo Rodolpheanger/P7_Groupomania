@@ -86,6 +86,7 @@ const Likes = ({ postUid }) => {
         onClick={() => {
           submit(grrr);
         }}
+        tabIndex={0}
       ></i>
       <p className="grrr-count">{grrrCount}</p>
       <i
@@ -96,6 +97,7 @@ const Likes = ({ postUid }) => {
         onClick={() => {
           submit(like);
         }}
+        tabIndex={0}
       ></i>
       <p className="like-count">{likeCount}</p>
       <i
@@ -106,6 +108,7 @@ const Likes = ({ postUid }) => {
         onClick={() => {
           submit(mdr);
         }}
+        tabIndex={0}
       ></i>
       <p className="mdr-count">{mdrCount}</p>
       <ServerErrorMessage message={serverErrorMessage} />
