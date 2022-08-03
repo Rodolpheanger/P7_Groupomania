@@ -29,7 +29,6 @@ const errorResponse = (err, res) => {
         return validationErrors(err.message, res);
     if (err.message.includes("query"))
         return queryError(err.message, res);
-    console.log("erreur: ", err.message);
     if (err.message.includes("email") ||
         err.message.includes("username") ||
         err.message.includes("password"))
@@ -60,7 +59,7 @@ const multerErrors = (err, errField, res) => {
     if (err.includes("File too large") && errField.includes("image"))
         new ErrorToSend(400, "Fichier trop volumineux (taille maximum autorisée: 2 Mo)").sendError(res);
     if (err.includes("unexpected file"))
-        new ErrorToSend(400, "Type de fichier non pris en charge (jpg, jpeg et png uniquement").sendError(res);
+        new ErrorToSend(400, "Type de fichier non pris en charge (jpg, jpeg et png uniquement)").sendError(res);
 };
 const fileErrors = (err, res) => {
     if (err.includes("no file"))

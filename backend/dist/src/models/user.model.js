@@ -46,7 +46,7 @@ exports.userSchema = yup.object().shape({
         .string()
         .matches(/[a-zA-Z]+/i, "Caractères alphabétiques uniquement")
         .max(50, "Nom trop long (50 caractères max)"),
-    bio: yup.string().max(500, "Bio trop longue (500 caractères max)"),
+    bio: yup.string().max(255, "Bio trop longue (255 caractères max)"),
     role: yup
         .string()
         .matches(/user|admin/i, "Role non autorisé")

@@ -1,20 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceUpdatePassword = exports.serviceGetOneUser = exports.serviceGetAllUsers = void 0;
+exports.serviceDeleteUser = exports.serviceUpdateUser = exports.serviceUpdatePassword = exports.serviceGetOneUser = void 0;
 const database_1 = require("../../config/database");
 const password_utils_1 = require("../utils/password.utils");
 const uploads_utils_1 = require("../utils/uploads.utils");
 const user_role_utils_1 = require("../utils/user-role.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceGetAllUsers = () => {
-    return new Promise((resolve, reject) => {
-        const sql = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
-        database_1.db.query(sql, (err, rows) => {
-            err ? (console.log(err), reject(err)) : resolve(rows);
-        });
-    });
-};
-exports.serviceGetAllUsers = serviceGetAllUsers;
+// * INFO: non utilisé
+// export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
+//   return new Promise((resolve, reject) => {
+//     const sql: string =
+//       "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
+//     db.query(sql, (err: QueryError, rows: RowDataPacket[]) => {
+//       err ? (console.log(err), reject(err)) : resolve(rows);
+//     });
+//   });
+// };
 const serviceGetOneUser = async (file, userUid) => {
     const datas = await (0, users_utils_1.checkIfUserExistAndGetDatas)(file, userUid);
     const userId = datas.u_id;
