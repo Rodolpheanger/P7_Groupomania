@@ -14,7 +14,7 @@ const PostHeaderAuthor = ({
         <Link
           to={`/profil/${userUid}`}
           className="italic bold author-username"
-          title="Vers le profil de l'auteur"
+          title={`Vers le profil de ${username}`}
         >
           {username}
         </Link>

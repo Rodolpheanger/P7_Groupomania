@@ -42,6 +42,9 @@ const Header = () => {
           <img src={logo} alt="Logo groupomania" />
         </Link>
         <div className="nav-right-icons">
+          <Link to="/admin">
+            <i className="fas fa-users" title="Tous les utilisateurs"></i>
+          </Link>
           <Link to="/profil">
             <i className="fa-solid fa-user-gear " title="Mon Compte"></i>
           </Link>

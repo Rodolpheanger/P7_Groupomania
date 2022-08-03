@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Fragment, useContext, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
-import { UserUidContext } from "../../contexts/userUid.context";
 import CommentsBodyButtons from "./CommentsBodyButtons";
 import dateParser from "../../utils/date.utils";
 import { Link } from "react-router-dom";
@@ -20,7 +19,6 @@ const Comment = ({ comment, refresh, displayComment, setRefresh }) => {
   const [displayCommentDeleteModal, setDisplayCommentDeleteModal] =
     useState(false);
   const [token] = useContext(TokenContext);
-  const [userUid] = useContext(UserUidContext);
   const {
     c_uid,
     c_content,
@@ -116,7 +114,7 @@ const Comment = ({ comment, refresh, displayComment, setRefresh }) => {
           <div className="comment-header">
             <p className="comment-header-username">
               <Link
-                to={`/profil/${userUid}`}
+                to={`/profil/${u_uid}`}
                 className="italic bold author-username"
                 title="Vers le profil de l'auteur"
               >

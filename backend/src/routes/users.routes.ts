@@ -5,8 +5,7 @@ import { uploadAvatar } from "./../middleware/multer.middleware";
 import { setAvatar } from "../controllers/uploads.controllers";
 import { signup, signin } from "../controllers/sign.controllers";
 import {
-  // * info: non utilisé
-  // getUsers,
+  getUsers,
   getUser,
   updateUser,
   deleteUser,
@@ -26,8 +25,7 @@ router.put("/upload", auth, uploadAvatar, setAvatar);
 router.put("/password", auth, updatePassword);
 
 // * Routes users *
-//  * INFO: non utilisé
-// router.get("/", auth, getUsers);
+router.get("/", auth, getUsers);
 router.get("/:id", auth, getUser);
 router.put("/:id", auth, userValidation, updateUser);
 router.delete("/:id", auth, deleteUser);

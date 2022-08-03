@@ -8,16 +8,15 @@ import {
   checkIfUserIsUserOwner,
 } from "../utils/users.utils";
 
-// * INFO: non utilisé
-// export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
-//   return new Promise((resolve, reject) => {
-//     const sql: string =
-//       "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
-//     db.query(sql, (err: QueryError, rows: RowDataPacket[]) => {
-//       err ? (console.log(err), reject(err)) : resolve(rows);
-//     });
-//   });
-// };
+export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
+  return new Promise((resolve, reject) => {
+    const sql: string =
+      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
+    db.query(sql, (err: QueryError, rows: RowDataPacket[]) => {
+      err ? (console.log(err), reject(err)) : resolve(rows);
+    });
+  });
+};
 
 export const serviceGetOneUser = async (
   file: any,

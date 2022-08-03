@@ -51,6 +51,7 @@ const Card = ({ post }) => {
       setDisplayConfirmationModal(false);
       setDisplayValidationModal(true);
     } catch (err) {
+      // TODO: rajouter le message d'erreur dans la modal de confirmation notament...
       console.log(err);
     }
   };

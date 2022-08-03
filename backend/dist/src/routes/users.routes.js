@@ -19,8 +19,7 @@ router.put("/upload", auth_middleware_1.default, multer_middleware_1.uploadAvata
 // * Route password *
 router.put("/password", auth_middleware_1.default, users_controllers_1.updatePassword);
 // * Routes users *
-//  * INFO: non utilisé
-// router.get("/", auth, getUsers);
+router.get("/", auth_middleware_1.default, users_controllers_1.getUsers);
 router.get("/:id", auth_middleware_1.default, users_controllers_1.getUser);
 router.put("/:id", auth_middleware_1.default, user_validation_middleware_1.userValidation, users_controllers_1.updateUser);
 router.delete("/:id", auth_middleware_1.default, users_controllers_1.deleteUser);

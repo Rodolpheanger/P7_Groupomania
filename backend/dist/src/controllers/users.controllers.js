@@ -1,17 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.updatePassword = exports.getUser = void 0;
+exports.deleteUser = exports.updateUser = exports.updatePassword = exports.getUser = exports.getUsers = void 0;
 const errors_utils_1 = require("../utils/errors.utils");
 const users_services_1 = require("./users.services");
-// * INFO: non utilisé
-// export const getUsers = async (_req: Request, res: Response): Promise<void> => {
-//   try {
-//     const data = await serviceGetAllUsers();
-//     if (data) res.status(200).json(data);
-//   } catch (err) {
-//     errorResponse(err, res);
-//   }
-// };
+const getUsers = async (_req, res) => {
+    try {
+        const data = await (0, users_services_1.serviceGetAllUsers)();
+        if (data)
+            res.status(200).json(data);
+    }
+    catch (err) {
+        (0, errors_utils_1.errorResponse)(err, res);
+    }
+};
+exports.getUsers = getUsers;
 const getUser = async (req, res) => {
     const file = req.file;
     const userUid = req.params.id;
