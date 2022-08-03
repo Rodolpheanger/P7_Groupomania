@@ -3,7 +3,8 @@ import {
   deletePost,
   getAllPosts,
   getOnePost,
-  getPostsByAuthor,
+  // * INFO: non utilisé
+  // getPostsByAuthor,
   updatePost,
 } from "../controllers/posts.controllers";
 import express from "express";
@@ -14,7 +15,8 @@ import { postValidation } from "../middleware/post-validation.middleware";
 
 router.post("/", auth, uploadPostImage, postValidation, createPost);
 router.get("/", auth, getAllPosts);
-router.get("/author/:id", auth, postValidation, getPostsByAuthor);
+// * INFO: non utilisé
+// router.get("/author/:id", auth, postValidation, getPostsByAuthor);
 router.get("/:id", auth, getOnePost);
 router.put("/:id", auth, uploadPostImage, postValidation, updatePost);
 router.delete("/:id", auth, deletePost);

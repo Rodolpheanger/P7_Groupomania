@@ -1,18 +1,17 @@
 import { Request, Response } from "express";
 import { errorResponse } from "../utils/errors.utils";
-import { serviceSetLike, serviceGetLikeByPost } from "./likes.services";
+import { serviceSetLike, serviceGetLikesByPost } from "./likes.services";
 
-export const getLikeByPost = async (
+export const getLikesByPost = async (
   req: Request | any,
   res: Response
 ): Promise<void> => {
   const file = req.file;
   const postUid: string = req.params.id;
   try {
-    const result = await serviceGetLikeByPost(file, postUid);
+    const result = await serviceGetLikesByPost(file, postUid);
     res.status(200).json(result);
   } catch (err) {
-    console.log("GetLikes error :", err);
     errorResponse(err, res);
   }
 };

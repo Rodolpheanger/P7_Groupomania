@@ -3,19 +3,21 @@ import { errorResponse } from "../utils/errors.utils";
 import {
   serviceDeleteUser,
   serviceGetOneUser,
-  serviceGetAllUsers,
+  // * INFO: non utilisé
+  // serviceGetAllUsers,
   serviceUpdateUser,
   serviceUpdatePassword,
 } from "./users.services";
 
-export const getUsers = async (_req: Request, res: Response): Promise<void> => {
-  try {
-    const data = await serviceGetAllUsers();
-    if (data) res.status(200).json(data);
-  } catch (err) {
-    errorResponse(err, res);
-  }
-};
+// * INFO: non utilisé
+// export const getUsers = async (_req: Request, res: Response): Promise<void> => {
+//   try {
+//     const data = await serviceGetAllUsers();
+//     if (data) res.status(200).json(data);
+//   } catch (err) {
+//     errorResponse(err, res);
+//   }
+// };
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   const file: any = req.file;

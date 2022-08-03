@@ -4,7 +4,7 @@ import { checkIfLikeExistAndGetDatas } from "../utils/likes.utils";
 import { checkIfPostExistAndGetDatas } from "../utils/posts.utils";
 import { checkIfUserExistAndGetDatas } from "../utils/users.utils";
 
-export const serviceGetLikeByPost = async (
+export const serviceGetLikesByPost = async (
   file: any,
   postUid: string
 ): Promise<QueryError | RowDataPacket[]> => {

@@ -34,7 +34,7 @@ export const errorResponse = (err: any, res: Response) => {
     return validationErrors(err.message, res);
 
   if (err.message.includes("query")) return queryError(err.message, res);
-  console.log("erreur: ", err.message);
+
   if (
     err.message.includes("email") ||
     err.message.includes("username") ||
@@ -81,7 +81,7 @@ const multerErrors = (err: any, errField: any, res: Response) => {
   if (err.includes("unexpected file"))
     new ErrorToSend(
       400,
-      "Type de fichier non pris en charge (jpg, jpeg et png uniquement"
+      "Type de fichier non pris en charge (jpg, jpeg et png uniquement)"
     ).sendError(res);
 };
 

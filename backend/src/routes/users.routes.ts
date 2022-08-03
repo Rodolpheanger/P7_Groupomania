@@ -5,26 +5,29 @@ import { uploadAvatar } from "./../middleware/multer.middleware";
 import { setAvatar } from "../controllers/uploads.controllers";
 import { signup, signin } from "../controllers/sign.controllers";
 import {
-  getUsers,
+  // * info: non utilisé
+  // getUsers,
   getUser,
   updateUser,
   deleteUser,
   updatePassword,
 } from "../controllers/users.controllers";
+
 const router = express.Router();
 
-// sign
+// * Routes sign *
 router.post("/signup", userValidation, signup);
 router.post("/signin", userValidation, signin);
 
-//upload
+// * Route upload *
 router.put("/upload", auth, uploadAvatar, setAvatar);
 
-// password
+// * Route password *
 router.put("/password", auth, updatePassword);
 
-// users
-router.get("/", auth, getUsers);
+// * Routes users *
+//  * INFO: non utilisé
+// router.get("/", auth, getUsers);
 router.get("/:id", auth, getUser);
 router.put("/:id", auth, userValidation, updateUser);
 router.delete("/:id", auth, deleteUser);

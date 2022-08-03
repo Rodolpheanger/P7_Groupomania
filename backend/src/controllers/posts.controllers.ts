@@ -5,7 +5,8 @@ import {
   serviceDeletePost,
   serviceGetAllPosts,
   serviceGetOnePost,
-  serviceGetPostsByAuthor,
+  // * INFO:  non utilisé
+  // serviceGetPostsByAuthor,
   serviceUpdatePost,
 } from "./posts.services";
 
@@ -65,18 +66,19 @@ export const getOnePost = async (
   }
 };
 
-export const getPostsByAuthor = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const authorUid = req.params.id;
-  try {
-    const data = await serviceGetPostsByAuthor(authorUid);
-    if (data) res.status(200).json(data);
-  } catch (err) {
-    errorResponse(err, res);
-  }
-};
+// * INFO: non utilisé
+// export const getPostsByAuthor = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   const authorUid = req.params.id;
+//   try {
+//     const data = await serviceGetPostsByAuthor(authorUid);
+//     if (data) res.status(200).json(data);
+//   } catch (err) {
+//     errorResponse(err, res);
+//   }
+// };
 
 export const updatePost = async (
   req: Request | any,

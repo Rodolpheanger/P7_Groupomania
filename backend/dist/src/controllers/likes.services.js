@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.serviceSetLike = exports.serviceGetLikeByPost = void 0;
+exports.serviceSetLike = exports.serviceGetLikesByPost = void 0;
 const database_1 = require("../../config/database");
 const likes_utils_1 = require("../utils/likes.utils");
 const posts_utils_1 = require("../utils/posts.utils");
 const users_utils_1 = require("../utils/users.utils");
-const serviceGetLikeByPost = async (file, postUid) => {
+const serviceGetLikesByPost = async (file, postUid) => {
     const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;
     return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ const serviceGetLikeByPost = async (file, postUid) => {
         });
     });
 };
-exports.serviceGetLikeByPost = serviceGetLikeByPost;
+exports.serviceGetLikesByPost = serviceGetLikesByPost;
 const serviceSetLike = async (file, requestUserUid, postUid, likeValue) => {
     const postDatas = await (0, posts_utils_1.checkIfPostExistAndGetDatas)(file, postUid);
     const postId = postDatas.p_id;

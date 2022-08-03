@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.updatePost = exports.getPostsByAuthor = exports.getOnePost = exports.getAllPosts = exports.createPost = void 0;
+exports.deletePost = exports.updatePost = exports.getOnePost = exports.getAllPosts = exports.createPost = void 0;
 const errors_utils_1 = require("../utils/errors.utils");
 const posts_services_1 = require("./posts.services");
 const createPost = async (req, res) => {
@@ -48,18 +48,19 @@ const getOnePost = async (req, res) => {
     }
 };
 exports.getOnePost = getOnePost;
-const getPostsByAuthor = async (req, res) => {
-    const authorUid = req.params.id;
-    try {
-        const data = await (0, posts_services_1.serviceGetPostsByAuthor)(authorUid);
-        if (data)
-            res.status(200).json(data);
-    }
-    catch (err) {
-        (0, errors_utils_1.errorResponse)(err, res);
-    }
-};
-exports.getPostsByAuthor = getPostsByAuthor;
+// * INFO: non utilisé
+// export const getPostsByAuthor = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   const authorUid = req.params.id;
+//   try {
+//     const data = await serviceGetPostsByAuthor(authorUid);
+//     if (data) res.status(200).json(data);
+//   } catch (err) {
+//     errorResponse(err, res);
+//   }
+// };
 const updatePost = async (req, res) => {
     const file = req.file;
     const postUid = req.params.id;
