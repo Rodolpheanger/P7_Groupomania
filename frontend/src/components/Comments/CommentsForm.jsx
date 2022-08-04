@@ -4,7 +4,13 @@ import CustomError from "../Form/ErrorMessage";
 import TextArea from "../Form/TexteArea";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
 
-const CommentsForm = ({ submit, oldComment, label, serverErrorMessage }) => {
+const CommentsForm = ({
+  submit,
+  oldComment,
+  label,
+  serverErrorMessage,
+  modal,
+}) => {
   const commentSchema = Yup.object().shape({
     content: Yup.string()
       .max(
@@ -36,7 +42,7 @@ const CommentsForm = ({ submit, oldComment, label, serverErrorMessage }) => {
                 component={TextArea}
                 rows="1"
                 className="comment-form-textarea"
-                autoFocus={true}
+                autoFocus={modal && true}
               />
               <ErrorMessage name="content" component={CustomError} />
               <ServerErrorMessage message={serverErrorMessage} />

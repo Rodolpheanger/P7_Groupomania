@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { useLocation } from "react-router-dom";
 import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
@@ -9,6 +9,7 @@ const FileInput = () => {
   const [, setSelectedImage] = useContext(ThumbImgContext);
   const [, setNewImgUrl] = useContext(NewImgUrlContext);
   const { setFieldValue } = useFormikContext();
+  const inputFile = useRef(null);
   const location = useLocation();
   const { pathname } = location;
   const checkFile = (file) => {
@@ -30,6 +31,7 @@ const FileInput = () => {
       setSelectedImage(false);
     }
   };
+
   const getFieldValueName = () => {
     if (pathname.includes("/profil")) {
       return "avatar";
@@ -40,11 +42,20 @@ const FileInput = () => {
   return (
     <div className="input-file-wrapper">
       <label htmlFor={`${fieldValueName}`} className="btn input-file-label">
-        Sélectionner une image
+        <span
+          role="button"
+          aria-controls={fieldValueName}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            e.key === "Enter" && inputFile.current.click();
+          }}
+        >
+          Sélectionner une image
+        </span>
       </label>
       <input
-        tabIndex={0}
         id={fieldValueName}
+        ref={inputFile}
         className="input-file-input"
         type="file"
         name={fieldValueName}

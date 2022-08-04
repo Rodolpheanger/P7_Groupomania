@@ -39,7 +39,7 @@ const Header = () => {
       {confirmationModal}
       <nav className="header-nav">
         <Link to="/posts" className="header-logo">
-          <img src={logo} alt="Logo groupomania" />
+          <img src={logo} alt="Logo groupomania" autoFocus={true} />
         </Link>
         <div className="nav-right-icons">
           <Link to="/admin">

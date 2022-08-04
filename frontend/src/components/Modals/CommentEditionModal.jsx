@@ -14,6 +14,7 @@ const CommentEditionModal = ({
         oldComment={oldComment}
         label={"Editer le commentaire"}
         serverErrorMessage={serverErrorMessage}
+        modal={true}
       />
       <CloseBtn close={close} />
     </div>
