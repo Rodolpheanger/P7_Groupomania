@@ -48,13 +48,12 @@ const Header = () => {
           <Link to="/profil">
             <i className="fa-solid fa-user-gear " title="Mon Compte"></i>
           </Link>
-          <i
-            role="link"
+          <button
             tabIndex={0}
             className="fa-solid fa-arrow-right-from-bracket"
             onClick={logout}
             title="Déconnexion"
-          ></i>
+          ></button>
         </div>
       </nav>
     </header>

@@ -21,7 +21,7 @@ const PostHeaderButtons = ({
   return (
     <div className="btn-post-header">
       {canUpdate && (
-        <i
+        <button
           className="fa-solid fa-pen"
           title="Modifier"
           onClick={() => {
@@ -29,17 +29,17 @@ const PostHeaderButtons = ({
             setOldImgUrl(postImgUrl);
           }}
           tabIndex={0}
-        ></i>
+        ></button>
       )}
       {canDelete && (
-        <i
+        <button
           className="fa-solid fa-trash-can"
           title="Supprimer"
           onClick={() => {
             setDisplayConfirmationModal(true);
           }}
           tabIndex={0}
-        ></i>
+        ></button>
       )}
     </div>
   );

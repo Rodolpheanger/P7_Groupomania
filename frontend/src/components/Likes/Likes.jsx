@@ -78,7 +78,7 @@ const Likes = ({ postUid }) => {
 
   return (
     <div className={`like `}>
-      <i
+      <button
         className={`fa-regular fa-face-angry ${
           likeTypeSelected === "grrr" && likeTypeSelected
         }`}
@@ -87,9 +87,9 @@ const Likes = ({ postUid }) => {
           submit(grrr);
         }}
         tabIndex={0}
-      ></i>
+      ></button>
       <p className="grrr-count">{grrrCount}</p>
-      <i
+      <button
         className={`fa-regular fa-heart ${
           likeTypeSelected === "like" && likeTypeSelected
         }`}
@@ -98,9 +98,9 @@ const Likes = ({ postUid }) => {
           submit(like);
         }}
         tabIndex={0}
-      ></i>
+      ></button>
       <p className="like-count">{likeCount}</p>
-      <i
+      <button
         className={`fa-regular fa-face-grin-squint-tears ${
           likeTypeSelected === "mdr" && likeTypeSelected
         }`}
@@ -109,7 +109,7 @@ const Likes = ({ postUid }) => {
           submit(mdr);
         }}
         tabIndex={0}
-      ></i>
+      ></button>
       <p className="mdr-count">{mdrCount}</p>
       <ServerErrorMessage message={serverErrorMessage} />
     </div>

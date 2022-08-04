@@ -20,24 +20,24 @@ const CommentsBodyButtons = ({
   return (
     <div className="btn-post-header">
       {canUpdate && (
-        <i
+        <button
           className="fa-solid fa-pen"
           title="Modifier"
           onClick={() => {
             setDisplayCommentEditionModal(true);
           }}
           tabIndex={0}
-        ></i>
+        ></button>
       )}
       {canDelete && (
-        <i
+        <button
           className="fa-solid fa-trash-can"
           title="Supprimer"
           onClick={() => {
             setDisplayCommentDeleteModal(true);
           }}
           tabIndex={0}
-        ></i>
+        ></button>
       )}
     </div>
   );

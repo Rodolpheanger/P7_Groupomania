@@ -60,12 +60,12 @@ const CommentsByPost = ({ postUid }) => {
       <div className="comment-count">
         <p>
           {commentsCount}
-          <i
+          <button
             className="fa-regular fa-comment-dots"
             title="Afficher"
             onClick={() => setDisplayComment(!displayComment)}
             tabIndex={0}
-          ></i>
+          ></button>
         </p>
       </div>
 

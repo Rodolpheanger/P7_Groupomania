@@ -43,6 +43,7 @@ const FileInput = () => {
         Sélectionner une image
       </label>
       <input
+        tabIndex={0}
         id={fieldValueName}
         className="input-file-input"
         type="file"
