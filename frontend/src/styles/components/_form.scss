@@ -57,8 +57,6 @@ input {
   }
   // * INFO cacher l'input file de base:
   &-input {
-    // position: absolute;
-    // opacity: 0;
     display: none;
   }
   &-error {

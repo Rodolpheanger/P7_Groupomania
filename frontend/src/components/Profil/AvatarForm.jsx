@@ -19,8 +19,11 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
   const [, setNewImgUrl] = useContext(NewImgUrlContext);
 
   const setAvatar = async (values) => {
+    console.log(values.avatar);
     try {
-      if (typeof values.avatar === "string") {
+      if (values.avatar === oldImgUrl) {
+        closeValidationModal();
+      } else if (typeof values.avatar === "string") {
         const datasToSend = {
           avatarOwnerUid: avatarOwnerUid,
           avatar: "",
@@ -80,7 +83,12 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
             <FileInput />
             <Thumbnail className="thumbnail-avatar" />
             <ServerErrorMessage message={serverErrorMessage} />
-            <button type="submit" className="btn" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className="btn"
+              disabled={isSubmitting}
+              autoFocus={true}
+            >
               Valider
             </button>
           </Form>
