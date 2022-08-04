@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import PostForm from "./PostForm";
-import axios from "axios";
+import * as axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";

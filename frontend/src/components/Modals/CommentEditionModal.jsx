@@ -8,7 +8,7 @@ const CommentEditionModal = ({
   serverErrorMessage,
 }) => {
   return (
-    <div className="modal comment-edition-modal">
+    <article className="modal comment-edition-modal">
       <CommentsForm
         submit={submit}
         oldComment={oldComment}
@@ -17,7 +17,7 @@ const CommentEditionModal = ({
         modal={true}
       />
       <CloseBtn close={close} />
-    </div>
+    </article>
   );
 };
 

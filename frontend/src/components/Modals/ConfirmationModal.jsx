@@ -9,7 +9,7 @@ const ConfirmationModal = ({
   serverErrorMessage,
 }) => {
   return (
-    <div className={`modal confirmation-modal`}>
+    <article className={`modal confirmation-modal`}>
       <i className="fa-solid fa-triangle-exclamation"></i>
       <span className="modal-message">{message}</span>
       <ServerErrorMessage message={serverErrorMessage} />
@@ -17,7 +17,7 @@ const ConfirmationModal = ({
         <ValidateBtn validate={validate} />
         <CancelBtn cancel={cancel} />
       </div>
-    </div>
+    </article>
   );
 };
 

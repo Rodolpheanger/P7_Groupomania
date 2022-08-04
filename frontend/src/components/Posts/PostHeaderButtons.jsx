@@ -19,7 +19,7 @@ const PostHeaderButtons = ({
   }, [userRole, userUid, postUserUid]);
 
   return (
-    <div className="btn-post-header">
+    <section className="btn-post-header">
       {canUpdate && (
         <button
           className="fa-solid fa-pen"
@@ -41,7 +41,7 @@ const PostHeaderButtons = ({
           tabIndex={0}
         ></button>
       )}
-    </div>
+    </section>
   );
 };
 

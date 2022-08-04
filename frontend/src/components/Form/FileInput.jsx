@@ -13,22 +13,24 @@ const FileInput = () => {
   const location = useLocation();
   const { pathname } = location;
   const checkFile = (file) => {
-    if (
-      file.type === "image/jpeg" ||
-      file.type === "image/jpg" ||
-      file.type === "image/png"
-    ) {
-      if (file.size <= 2000000) {
-        return true;
+    if (file) {
+      if (
+        file.type === "image/jpeg" ||
+        file.type === "image/jpg" ||
+        file.type === "image/png"
+      ) {
+        if (file.size <= 2000000) {
+          return true;
+        } else {
+          setFileErrorMsg("Fichier trop volumineux (2 Mo max)");
+          setSelectedImage(false);
+        }
       } else {
-        setFileErrorMsg("Fichier trop volumineux (2 Mo max)");
+        setFileErrorMsg(
+          "Type de fichier non accepté (jpg, jpeg, png uniquement)"
+        );
         setSelectedImage(false);
       }
-    } else {
-      setFileErrorMsg(
-        "Type de fichier non accepté (jpg, jpeg, png uniquement)"
-      );
-      setSelectedImage(false);
     }
   };
 

@@ -83,7 +83,7 @@ const ProfilBodyForm = ({
   return (
     <Fragment>
       {validationModal}
-      <div className="profil-body-form">
+      <article className="profil-body-form">
         <Formik
           onSubmit={submit}
           initialValues={{
@@ -151,7 +151,7 @@ const ProfilBodyForm = ({
             </Form>
           )}
         </Formik>
-      </div>
+      </article>
     </Fragment>
   );
 };

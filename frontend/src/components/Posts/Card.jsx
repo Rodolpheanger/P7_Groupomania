@@ -148,7 +148,7 @@ const Card = ({ post }) => {
       {validationModal}
       {confirmationModal}
       {postEditionModal}
-      <div className="post-card-header">
+      <header className="post-card-header">
         <Avatar
           avatarUrl={u_avatar_url}
           username={u_username}
@@ -168,8 +168,8 @@ const Card = ({ post }) => {
           setDisplayPostEditionModal={setDisplayPostEditionModal}
           setDisplayConfirmationModal={setDisplayConfirmationModal}
         />
-      </div>
-      <p className="post-title">{p_title}</p>
+      </header>
+      <h2 className="post-title">{p_title}</h2>
       {p_post_img_url && (
         <img
           src={p_post_img_url}
@@ -177,7 +177,7 @@ const Card = ({ post }) => {
           className="post-img"
         />
       )}
-      <p className="post-content">{p_content}</p>
+      <section className="post-content">{p_content}</section>
       <Likes postUid={p_uid} reload={reload} />
       <CommentsByPost postUid={p_uid} />
     </article>

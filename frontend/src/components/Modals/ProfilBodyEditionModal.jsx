@@ -11,7 +11,7 @@ const ProfilBodyEditionModal = ({
   closeProfilEditionModal,
 }) => {
   return (
-    <div className="modal profil-body-edition-modal">
+    <article className="modal profil-body-edition-modal">
       <ProfilBodyForm
         userUid={userUid}
         username={username}
@@ -22,7 +22,7 @@ const ProfilBodyEditionModal = ({
         close={closeProfilEditionModal}
       />
       <CloseBtn close={closeProfilEditionModal} />
-    </div>
+    </article>
   );
 };
 

@@ -3,9 +3,9 @@ import { Avatar } from "../Avatar/Avatar";
 
 const AllUsers = ({ users }) => {
   return (
-    <div className="all-users-wrapper">
+    <main className="all-users-wrapper">
       {users.map((user) => (
-        <div className="user-card" key={user.u_uid}>
+        <article className="user-card" key={user.u_uid}>
           <Avatar
             avatarUrl={user.u_avatar_url}
             username={user.u_username}
@@ -22,9 +22,9 @@ const AllUsers = ({ users }) => {
             {user.u_role === "admin" && "Administrateur"}
             {user.u_role === "user" && "Utilisateur"}
           </p>
-        </div>
+        </article>
       ))}
-    </div>
+    </main>
   );
 };
 

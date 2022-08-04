@@ -13,8 +13,8 @@ const CommentsBodyButtons = ({
   const [userUid] = useContext(UserUidContext);
 
   useEffect(() => {
-    if (userRole === "admin" || userUid === commentUserUid) setCanDelete(true);
     if (userUid === commentUserUid) setCanUpdate(true);
+    if (userRole === "admin" || userUid === commentUserUid) setCanDelete(true);
   }, [userRole, userUid, commentUserUid]);
 
   return (

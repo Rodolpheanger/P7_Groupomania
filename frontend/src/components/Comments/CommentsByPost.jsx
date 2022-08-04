@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import * as axios from "axios";
 
 import { TokenContext } from "../../contexts/token.context";
 import Comment from "./Comment";
 import CommentsForm from "./CommentsForm";
 import { CharCountContext } from "../../contexts/charCount.context";
+import Loader from "../Loader/Loader";
 
 const CommentsByPost = ({ postUid }) => {
   const [commentsCount, setCommentsCount] = useState(0);
@@ -12,6 +13,7 @@ const CommentsByPost = ({ postUid }) => {
   const [comments, setComments] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [oldComment, setOldComment] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [token] = useContext(TokenContext);
   const [, setCharCount] = useContext(CharCountContext);
 
@@ -46,12 +48,16 @@ const CommentsByPost = ({ postUid }) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getComments();
+    setIsLoading(false);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh]);
 
   return (
     <div className="comment-box">
+      {isLoading && <Loader />}
       <CommentsForm
         submit={addComment}
         oldComment={oldComment}

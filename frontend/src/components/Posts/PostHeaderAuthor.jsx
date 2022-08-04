@@ -8,7 +8,7 @@ const PostHeaderAuthor = ({
   modificationDate,
 }) => {
   return (
-    <div className="author">
+    <section className="author">
       <p>
         Publié par{" "}
         <Link
@@ -27,7 +27,7 @@ const PostHeaderAuthor = ({
           <span className="italic"> {modificationDate} </span>
         </p>
       )}
-    </div>
+    </section>
   );
 };
 

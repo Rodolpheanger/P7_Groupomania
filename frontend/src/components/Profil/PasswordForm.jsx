@@ -5,7 +5,7 @@ import TextInput from "../Form/TextInput";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
 import { useContext, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
-import axios from "axios";
+import * as axios from "axios";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
 

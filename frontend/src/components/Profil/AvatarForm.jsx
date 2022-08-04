@@ -3,7 +3,7 @@ import FileInput from "../Form/FileInput";
 import Thumbnail from "../Form/Thumbnail";
 import { Form, Formik } from "formik";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
-import axios from "axios";
+import * as axios from "axios";
 import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";

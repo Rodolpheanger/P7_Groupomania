@@ -1,4 +1,4 @@
-import axios from "axios";
+import * as axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
 import { UserUidContext } from "../../contexts/userUid.context";

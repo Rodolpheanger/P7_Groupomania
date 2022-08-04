@@ -18,12 +18,14 @@ const NotFound = () => {
     }
   }, [count, navigate]);
   return (
-    <div className="page-not-found">
-      <h1>Ouuuuuppppss - On dirait que vous vous êtes égaré !!!</h1>
+    <main className="page-not-found">
+      <h1 className="page-not-found-message">
+        La page que vous recherchez n'existe pas !!!
+      </h1>
       <p className="page-not-found-redirection">
         redirection dans {count} secondes...
       </p>
-    </div>
+    </main>
   );
 };
 

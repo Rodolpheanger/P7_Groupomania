@@ -19,7 +19,7 @@ const Log = ({ signup, signin }) => {
   };
 
   return (
-    <div className="auth-box">
+    <article className="auth-box">
       <ul className="auth-select-box">
         <button
           onClick={handleCards}
@@ -45,7 +45,7 @@ const Log = ({ signup, signin }) => {
       )}
       {signInCard && <SignInForm />}
       {forgetPassword && <p id="forgetpassword">Mot de passe oublié ?</p>}
-    </div>
+    </article>
   );
 };
 

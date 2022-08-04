@@ -1,4 +1,4 @@
-import axios from "axios";
+import * as axios from "axios";
 import { Fragment, useContext, useState } from "react";
 import { TokenContext } from "../../contexts/token.context";
 import CommentsBodyButtons from "./CommentsBodyButtons";

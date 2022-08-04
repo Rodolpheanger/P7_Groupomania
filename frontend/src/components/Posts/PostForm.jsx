@@ -27,7 +27,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
   // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   return (
-    <div className="post-form">
+    <article className="post-form">
       <Formik
         onSubmit={submit}
         initialValues={{
@@ -73,7 +73,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
         )}
       </Formik>
       <CloseBtn close={close} />
-    </div>
+    </article>
   );
 };
 

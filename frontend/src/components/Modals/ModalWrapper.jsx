@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 const ModalWrapper = ({ children }) => {
   const modalPortal = document.getElementById("modal-root");
   return ReactDOM.createPortal(
-    <div className="modal-wrapper">{children}</div>,
+    <main className="modal-wrapper">{children}</main>,
 
     modalPortal
   );
