@@ -84,9 +84,8 @@ const Profil = () => {
       setResponseMessage(response.data.message);
       setDisplayDeleteAccountModal(false);
       setDisplayDeleteValidationModal(true);
-    } catch (error) {
-      console.log(error);
-      setServerErrorMessage(error.response.data.message);
+    } catch (err) {
+      setServerErrorMessage(err.response.data.message);
     }
   };
   const closeDeleteValidationModal = () => {

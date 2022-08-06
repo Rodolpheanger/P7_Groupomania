@@ -38,8 +38,7 @@ const SignInForm = () => {
       .required("Ce champ est obligatoire"),
   });
 
-  const submit = async (values, actions) => {
-    actions.setSubmitting(false);
+  const submit = async (values) => {
     try {
       const response = await axios.post("api/users/signin", values);
       const { userUid, userRole, token, message } = response.data;
@@ -76,7 +75,7 @@ const SignInForm = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={UserSchema}
         >
-          {({ isSubmitting }) => (
+          {() => (
             <Form>
               <Field
                 name="email"
@@ -95,11 +94,7 @@ const SignInForm = () => {
               <ErrorMessage name="password" component={CustomError} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
-              <button
-                className="btn btn-submit"
-                type="submit"
-                disabled={isSubmitting}
-              >
+              <button className="btn btn-submit" type="submit">
                 Connexion
               </button>
             </Form>

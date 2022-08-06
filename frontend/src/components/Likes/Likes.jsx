@@ -19,8 +19,7 @@ const Likes = ({ postUid }) => {
 
   const submit = async (value) => {
     try {
-      console.log(value);
-      const response = await axios.post(
+      await axios.post(
         `api/likes/${postUid}`,
         { value: value },
         {
@@ -30,7 +29,6 @@ const Likes = ({ postUid }) => {
         }
       );
       setRefresh(!refresh);
-      console.log(response.data.message);
     } catch (err) {
       console.log(err);
       setServerErrorMessage(err.response.data.message);

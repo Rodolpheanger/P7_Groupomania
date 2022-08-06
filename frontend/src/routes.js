@@ -16,7 +16,7 @@ const AppRoutes = () => {
         <Route path="/profil" element={<Profil />} />
         <Route path="/profil/:uid" element={<Profil />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="/admin" element={<Users />} />
+        <Route path="/users" element={<Users />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

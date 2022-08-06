@@ -48,11 +48,9 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
       .required("Ce champ est obligatoire"),
   });
 
-  const submit = async (values, actions) => {
-    actions.setSubmitting(true);
+  const submit = async (values) => {
     try {
       const response = await axios.post("/api/users/signup", values);
-      console.log(response);
       const message = response.data.message;
       setMessage(message);
       openModal();
@@ -87,7 +85,7 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
           initialValues={{ username: "", email: "", password: "" }}
           validationSchema={UserSchema}
         >
-          {({ isSubmitting }) => (
+          {() => (
             <Form>
               <Field
                 name="username"
@@ -114,11 +112,7 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
               <ErrorMessage name="password" component={CustomError} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
-              <button
-                className="btn btn-submit"
-                type="submit"
-                disabled={isSubmitting}
-              >
+              <button className="btn btn-submit" type="submit">
                 Inscription
               </button>
             </Form>

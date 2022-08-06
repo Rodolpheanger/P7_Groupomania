@@ -6,7 +6,7 @@ const Log = ({ signup, signin }) => {
   const [signUpCard, setSignUpCard] = useState(signup);
   const [signInCard, setSignInCard] = useState(signin);
   const [forgetPassword, setForgetPassword] = useState(true);
-  const handleCards = (e) => {
+  const selectSignCard = (e) => {
     if (e.target.id === "signup") {
       setSignInCard(false);
       setSignUpCard(true);
@@ -22,14 +22,14 @@ const Log = ({ signup, signin }) => {
     <article className="auth-box">
       <ul className="auth-select-box">
         <button
-          onClick={handleCards}
+          onClick={selectSignCard}
           id="signup"
           className={signUpCard ? "btn active-btn" : "btn"}
         >
           S'incrire
         </button>
         <button
-          onClick={handleCards}
+          onClick={selectSignCard}
           id="signin"
           className={signInCard ? "btn active-btn" : "btn"}
         >

@@ -37,7 +37,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
         }}
         validationSchema={postSchema}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <Form className="post-form-card">
             <Field
               name="title"
@@ -62,11 +62,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
             <ErrorMessage name="content" component={CustomError} />
             <br />
             <ServerErrorMessage message={serverErrorMessage} />
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="btn post-form-button"
-            >
+            <button type="submit" className="btn post-form-button">
               Publier
             </button>
           </Form>

@@ -5,7 +5,7 @@ import Loader from "../components/Loader/Loader";
 import { TokenContext } from "../contexts/token.context";
 import AllUsers from "../components/Users/AllUsers";
 
-const Admin = () => {
+const Users = () => {
   const [isLoading, setIsloading] = useState(false);
   const [users, setUsers] = useState([]);
   const [token] = useContext(TokenContext);
@@ -39,4 +39,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Users;

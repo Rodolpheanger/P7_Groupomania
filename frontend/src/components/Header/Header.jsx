@@ -42,7 +42,7 @@ const Header = () => {
           <img src={logo} alt="Logo groupomania" autoFocus={true} />
         </Link>
         <div className="nav-right-icons">
-          <Link to="/admin">
+          <Link to="/users">
             <i className="fas fa-users" title="Tous les utilisateurs"></i>
           </Link>
           <Link to="/profil">

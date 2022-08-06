@@ -23,8 +23,7 @@ const AddNewPost = () => {
     setOldImgUrl("");
     setDisplayPostForm(true);
   };
-  const submit = async (values, actions) => {
-    actions.setSubmitting(false);
+  const submit = async (values) => {
     try {
       if (!values.post_image || !selectedImage) {
         const { title, content } = values;
@@ -34,12 +33,9 @@ const AddNewPost = () => {
             Authorization: `BEARER ${token}`,
           },
         });
-        const { message, error } = response.data;
         setCharCount(0);
-        setResponseMessage(message);
+        setResponseMessage(response.data.message);
         setDisplayValidationModal(true);
-
-        return error ? alert(error) : console.log(message);
       } else {
         const response = await axios.post("api/posts", values, {
           headers: {
@@ -47,12 +43,10 @@ const AddNewPost = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        const { message, error } = response.data;
         setCharCount(0);
-        setResponseMessage(message);
+        setResponseMessage(response.data.message);
         setDisplayValidationModal(true);
         setSelectedImage("");
-        return error ? alert(error) : console.log(message);
       }
     } catch (err) {
       console.log(err);

@@ -49,14 +49,12 @@ const ProfilBodyForm = ({
   });
 
   const submit = async (values) => {
-    console.log(values);
     try {
       const response = await axios.put(`/api/users/${userUid}`, values, {
         headers: {
           Authorization: `BEARER ${token}`,
         },
       });
-      console.log(response);
       setResponseMessage(response.data.message);
       setDisplayValidationModal(true);
     } catch (err) {
@@ -95,7 +93,7 @@ const ProfilBodyForm = ({
           }}
           validationSchema={ProfilBodySchema}
         >
-          {({ isSubmitting }) => (
+          {() => (
             <Form className="profil-body-form-card">
               <Field
                 name="username"
@@ -141,11 +139,7 @@ const ProfilBodyForm = ({
               <ErrorMessage name="bio" component={CustomError} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn profil-body-form-button"
-              >
+              <button type="submit" className="btn profil-body-form-button">
                 Valider
               </button>
             </Form>

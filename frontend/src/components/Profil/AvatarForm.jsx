@@ -19,7 +19,6 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
   const [, setNewImgUrl] = useContext(NewImgUrlContext);
 
   const setAvatar = async (values) => {
-    console.log(values.avatar);
     try {
       if (values.avatar === oldImgUrl) {
         closeValidationModal();
@@ -78,17 +77,12 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
     <Fragment>
       {validationModal}
       <Formik onSubmit={setAvatar} initialValues={{ avatar: oldImgUrl }}>
-        {({ isSubmitting }) => (
+        {() => (
           <Form className="avatar-form-card">
             <FileInput />
             <Thumbnail className="thumbnail-avatar" />
             <ServerErrorMessage message={serverErrorMessage} />
-            <button
-              type="submit"
-              className="btn"
-              disabled={isSubmitting}
-              autoFocus={true}
-            >
+            <button type="submit" className="btn" autoFocus={true}>
               Valider
             </button>
           </Form>

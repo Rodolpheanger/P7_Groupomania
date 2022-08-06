@@ -57,35 +57,26 @@ const Card = ({ post }) => {
     }
   };
 
-  const updatePost = async (values, actions) => {
-    console.log(values);
-    actions.setSubmitting(false);
+  const updatePost = async (values) => {
     try {
       if (typeof values.post_image === "string") {
-        console.log("test");
         const response = await axios.put(`api/posts/${p_uid}`, values, {
           headers: {
             Authorization: `BEARER ${token}`,
           },
         });
-        const { message, error } = response.data;
-        setResponseMessage(message);
+        setResponseMessage(response.data.message);
         setDisplayValidationModal(true);
-
-        return error ? alert(error) : console.log(message);
       } else {
-        console.log("test 2");
         const response = await axios.put(`api/posts/${p_uid}`, values, {
           headers: {
             Authorization: `BEARER ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
-        const { message, error } = response.data;
-        setResponseMessage(message);
+        setResponseMessage(response.data.message);
         setDisplayValidationModal(true);
         setSelectedImage("");
-        return error ? alert(error) : console.log(message);
       }
     } catch (err) {
       console.log(err);

@@ -32,7 +32,7 @@ const CommentsForm = ({
         }}
         validationSchema={commentSchema}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <Form className="comment-form-card">
             <div className="comment-form-body">
               <Field
@@ -47,11 +47,7 @@ const CommentsForm = ({
               <ErrorMessage name="content" component={CustomError} />
               <ServerErrorMessage message={serverErrorMessage} />
             </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="btn comment-form-button"
-            >
+            <button type="submit" className="btn comment-form-button">
               Commenter
             </button>
           </Form>

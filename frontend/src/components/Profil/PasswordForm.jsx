@@ -53,7 +53,6 @@ const PasswordEditionForm = ({ close }) => {
           Authorization: `BEARER ${token}`,
         },
       });
-      console.log(response);
       setDisplayValidationModal(true);
       setResponseMessage(response.data.message);
     } catch (err) {
@@ -73,7 +72,7 @@ const PasswordEditionForm = ({ close }) => {
         }}
         validationSchema={PasswordSchema}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <Form>
             <Field
               name="oldPassword"
@@ -101,11 +100,7 @@ const PasswordEditionForm = ({ close }) => {
             <ErrorMessage name="confirmPassword" component={CustomError} />
             <ServerErrorMessage message={serverErrorMessage} />
             <br />
-            <button
-              className="btn btn-submit"
-              type="submit"
-              disabled={isSubmitting}
-            >
+            <button className="btn btn-submit" type="submit">
               Modifier
             </button>
           </Form>
