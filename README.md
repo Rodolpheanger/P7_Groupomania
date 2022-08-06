@@ -91,7 +91,7 @@ _note: seul **l'administrateur de la base de donnée** peut attribuer et modifie
 
 ---
 
-# 🎈 Présentation des fonctionnalités : <a name = "built_using"></a>
+# 🎈 Présentation des fonctionnalités : <a name = "features"></a>
 
 1. Utilisateurs :
 
