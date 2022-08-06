@@ -16,6 +16,7 @@
     .author {
       @include flex-center(column);
       width: 79%;
+      text-align: center;
       @include tablet {
         width: 75%;
       }

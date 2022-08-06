@@ -8,7 +8,7 @@ const user_role_utils_1 = require("../utils/user-role.utils");
 const users_utils_1 = require("../utils/users.utils");
 const serviceGetAllUsers = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
+        const sql = "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users ORDER BY u_role, u_username ASC";
         database_1.db.query(sql, (err, rows) => {
             err ? (console.log(err), reject(err)) : resolve(rows);
         });

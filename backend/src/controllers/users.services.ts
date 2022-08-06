@@ -11,7 +11,7 @@ import {
 export const serviceGetAllUsers = (): Promise<QueryError | RowDataPacket[]> => {
   return new Promise((resolve, reject) => {
     const sql: string =
-      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users";
+      "SELECT u_uid, u_username, u_email, u_firstname, u_lastname, u_bio, u_avatar_url, u_inscription_date, u_role FROM users ORDER BY u_role, u_username ASC";
     db.query(sql, (err: QueryError, rows: RowDataPacket[]) => {
       err ? (console.log(err), reject(err)) : resolve(rows);
     });
