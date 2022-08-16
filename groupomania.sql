@@ -51,7 +51,7 @@ CREATE TABLE
 CREATE TABLE
   `posts` (
     `p_id` int(11) NOT NULL,
-    `p_uid` text NOT NULL DEFAULT 'UUID()',
+    `p_uid` text NOT NULL,
     `p_content` text DEFAULT NULL,
     `p_post_img_url` varchar(255) DEFAULT NULL,
     `p_creation_date` datetime DEFAULT current_timestamp(),
@@ -164,11 +164,11 @@ ALTER TABLE
 ADD
   PRIMARY KEY (`u_id`),
 ADD
+  UNIQUE KEY `uid` (`u_uid`) USING HASH,
+ADD
   UNIQUE KEY `username` (`u_username`),
 ADD
-  UNIQUE KEY `email` (`u_email`),
-ADD
-  KEY `uid` (`u_uid`(768));
+  UNIQUE KEY `email` (`u_email`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées

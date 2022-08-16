@@ -32,7 +32,7 @@ Le but de ce projet est la réalisation d'un réseau social d'entreprise avec di
 Les contraintes techniques pour ce projet sont les suivantes :
 
 - utilisation obligatoire d'une base de donnée SQL
-- utilsation obligatoire d'un framework Frontend
+- utilisation obligatoire d'un framework Frontend
 - dévellopement du projet en javascript uniquement (y compris pour le backend)
 
 <br/>

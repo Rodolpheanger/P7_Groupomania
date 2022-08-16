@@ -25,4 +25,5 @@ yarn-error.log*
 
 notes_perso
 
-uploads
+/avatars/
+/posts_images/
