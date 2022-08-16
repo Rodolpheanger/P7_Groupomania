@@ -63,15 +63,15 @@ _note: seul **l'administrateur de la base de donnée** peut attribuer et modifie
 
 - ### Dans le dossier **`backend`** :
 
-  1. Créer un dossier nommé **`uploads`** à la racine puis y créer 2 sous-dossiers: **`avatars`** et **`posts_images`**
+  - Créer un dossier nommé **`uploads`** à la racine puis y créer 2 sous-dossiers: **`avatars`** et **`posts_images`**
 
-  2. Créer un fichier **`.env`** **à la racine de `backend`**, et le compléter suivant le modèle fourni (**`.env.example`**)
+  - Créer un fichier **`.env`** **à la racine de `backend`**, et le compléter suivant le modèle fourni (**`.env.example`**)
 
 - ### Dans le terminal :
 
-  1. Se placer sur le dossier **`backend`** _(avec la commande **cd backend**)_, éxécuter la commande **`npm install`** et attendre la fin de l'installation des dépendances.
+  - Se placer sur le dossier **`backend`** _(avec la commande **cd backend**)_, éxécuter la commande **`npm install`** et attendre la fin de l'installation des dépendances.
 
-  2. Exécuter la commande **`npm run dev`** pour lancer le serveur en local
+  - Exécuter la commande **`npm run dev`** pour lancer le serveur en local
 
 <br/>
 
