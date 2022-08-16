@@ -20,7 +20,7 @@ const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
 
   const setAvatar = async (values) => {
     try {
-      if (values.avatar === oldImgUrl) {
+      if (values.avatar === oldImgUrl && values.avatar) {
         closeValidationModal();
       } else if (typeof values.avatar === "string") {
         const datasToSend = {
