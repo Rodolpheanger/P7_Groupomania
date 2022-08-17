@@ -1,13 +1,13 @@
-import { ErrorMessage, Formik, Field, Form } from "formik";
+import { useContext, useState } from "react";
+import * as axios from "axios";
 import * as Yup from "yup";
-import CustomError from "../Form/ErrorMessage";
+import { ErrorMessage, Formik, Field, Form } from "formik";
+import ClientErrorMessage from "../Form/ClientErrorMessage";
 import TextInput from "../Form/TextInput";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
-import { useContext, useState } from "react";
-import { TokenContext } from "../../contexts/token.context";
-import * as axios from "axios";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
+import { TokenContext } from "../../contexts/token.context";
 
 const PasswordEditionForm = ({ close }) => {
   const [serverErrorMessage, setServerErrorMessage] = useState("");
@@ -91,7 +91,7 @@ const PasswordEditionForm = ({ close }) => {
               type="password"
               autoFocus={true}
             />
-            <ErrorMessage name="oldPassword" component={CustomError} />
+            <ErrorMessage name="oldPassword" component={ClientErrorMessage} />
             <br />
             <Field
               name="newPassword"
@@ -99,7 +99,7 @@ const PasswordEditionForm = ({ close }) => {
               component={TextInput}
               type="password"
             />
-            <ErrorMessage name="newPassword" component={CustomError} />
+            <ErrorMessage name="newPassword" component={ClientErrorMessage} />
             <br />
             <Field
               name="confirmPassword"
@@ -107,7 +107,10 @@ const PasswordEditionForm = ({ close }) => {
               component={TextInput}
               type="password"
             />
-            <ErrorMessage name="confirmPassword" component={CustomError} />
+            <ErrorMessage
+              name="confirmPassword"
+              component={ClientErrorMessage}
+            />
             <ServerErrorMessage message={serverErrorMessage} />
             <br />
             <button className="btn btn-submit" type="submit">

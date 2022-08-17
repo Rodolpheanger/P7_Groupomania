@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
 
-export const Avatar = ({ avatarUrl, username, className }) => {
+const Avatar = ({ avatarUrl, username, className }) => {
   return (
     <Fragment>
       <img
@@ -12,3 +12,5 @@ export const Avatar = ({ avatarUrl, username, className }) => {
     </Fragment>
   );
 };
+
+export default Avatar;

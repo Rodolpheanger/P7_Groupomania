@@ -1,15 +1,15 @@
-import * as Yup from "yup";
+import { Fragment, useContext, useState } from "react";
 import * as axios from "axios";
+import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import CustomError from "../Form/ErrorMessage";
 import TextInput from "../Form/TextInput";
 import TextArea from "../Form/TexteArea";
+import ClientErrorMessage from "../Form/ClientErrorMessage";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
-import { Fragment, useContext, useState } from "react";
-import { TokenContext } from "../../contexts/token.context";
-import { ReloadContext } from "../../contexts/reload.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
+import { TokenContext } from "../../contexts/token.context";
+import { ReloadContext } from "../../contexts/reload.context";
 
 const ProfilBodyForm = ({
   userUid,
@@ -103,7 +103,7 @@ const ProfilBodyForm = ({
                 className="profil-body-form-username"
                 autoFocus={true}
               />
-              <ErrorMessage name="username" component={CustomError} />
+              <ErrorMessage name="username" component={ClientErrorMessage} />
               <Field
                 name="email"
                 displayname="Email"
@@ -111,7 +111,7 @@ const ProfilBodyForm = ({
                 type="text"
                 className="profil-body-form-email"
               />
-              <ErrorMessage name="email" component={CustomError} />
+              <ErrorMessage name="email" component={ClientErrorMessage} />
               <Field
                 name="firstname"
                 displayname="Prénom"
@@ -119,7 +119,7 @@ const ProfilBodyForm = ({
                 type="text"
                 className="profil-body-form-firstname"
               />
-              <ErrorMessage name="firstname" component={CustomError} />
+              <ErrorMessage name="firstname" component={ClientErrorMessage} />
               <Field
                 name="lastname"
                 displayname="Nom"
@@ -127,7 +127,7 @@ const ProfilBodyForm = ({
                 type="text"
                 className="profil-body-form-lastname"
               />
-              <ErrorMessage name="lastname" component={CustomError} />
+              <ErrorMessage name="lastname" component={ClientErrorMessage} />
               <br />
               <Field
                 name="bio"
@@ -136,7 +136,7 @@ const ProfilBodyForm = ({
                 component={TextArea}
                 rows="10"
               />
-              <ErrorMessage name="bio" component={CustomError} />
+              <ErrorMessage name="bio" component={ClientErrorMessage} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
               <button type="submit" className="btn profil-body-form-button">

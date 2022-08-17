@@ -1,14 +1,14 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useContext } from "react";
 import * as Yup from "yup";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import TextInput from "../Form/TextInput";
-import CustomError from "../Form/ErrorMessage";
 import TextArea from "../Form/TexteArea";
+import FileInput from "../Form/FileInput";
 import Thumbnail from "../Form/Thumbnail";
 import CloseBtn from "../Buttons/CloseBtn";
-import FileInput from "../Form/FileInput";
-import { useContext } from "react";
-import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
+import ClientErrorMessage from "../Form/ClientErrorMessage";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
+import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 
 const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
   const [oldImgUrl] = useContext(OldImgUrlContext);
@@ -42,7 +42,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
               className="post-form-title"
               autoFocus={true}
             />
-            <ErrorMessage name="title" component={CustomError} />
+            <ErrorMessage name="title" component={ClientErrorMessage} />
             <FileInput />
             <Thumbnail className="thumbnail-post" />
 
@@ -54,7 +54,7 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
               component={TextArea}
               rows="8"
             />
-            <ErrorMessage name="content" component={CustomError} />
+            <ErrorMessage name="content" component={ClientErrorMessage} />
             <br />
             <ServerErrorMessage message={serverErrorMessage} />
             <button type="submit" className="btn post-form-button">

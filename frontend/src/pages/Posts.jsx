@@ -1,16 +1,17 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import AllPosts from "../components/Posts/AllPosts";
-import AddNewPost from "../components/Posts/AddNewPost";
 import * as axios from "axios";
+import Loader from "../components/Loader/Loader";
 import Header from "../components/Header/Header";
+import AddNewPost from "../components/Posts/AddNewPost";
+import AllPosts from "../components/Posts/AllPosts";
+import ScrollBtn from "../components/Buttons/ScrollBtn";
 import { TokenContext } from "../contexts/token.context";
 import { ThumbImgContext } from "../contexts/thumbnailImg.context";
 import { OldImgUrlContext } from "../contexts/oldImgUrl.context";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
 import { ReloadContext } from "../contexts/reload.context";
-import Loader from "../components/Loader/Loader";
-import ScrollBtn from "../components/Buttons/ScrollBtn";
 import { CharCountContext } from "../contexts/charCount.context";
+
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [reload, setReload] = useState(false);
@@ -20,6 +21,10 @@ const Posts = () => {
   const [isLoading, setIsloading] = useState(false);
   const [charCount, setCharCount] = useState(0);
   const [token] = useContext(TokenContext);
+
+  useEffect(() => {
+    document.title = "Quoi de neuf chez Groupomania ?";
+  }, []);
 
   useEffect(() => {
     const getPosts = async () => {

@@ -1,14 +1,18 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import * as axios from "axios";
-import Header from "../components/Header/Header";
 import Loader from "../components/Loader/Loader";
-import { TokenContext } from "../contexts/token.context";
+import Header from "../components/Header/Header";
 import AllUsers from "../components/Users/AllUsers";
+import { TokenContext } from "../contexts/token.context";
 
 const Users = () => {
   const [isLoading, setIsloading] = useState(false);
   const [users, setUsers] = useState([]);
   const [token] = useContext(TokenContext);
+
+  useEffect(() => {
+    document.title = `Tous les utilisateurs de Groupomania`;
+  }, []);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -27,6 +31,7 @@ const Users = () => {
     };
     getUsers();
   }, [token]);
+
   return (
     <Fragment>
       <Header />

@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import * as axios from "axios";
-
-import { TokenContext } from "../../contexts/token.context";
+import Loader from "../Loader/Loader";
 import Comment from "./Comment";
 import CommentsForm from "./CommentsForm";
+import { TokenContext } from "../../contexts/token.context";
 import { CharCountContext } from "../../contexts/charCount.context";
-import Loader from "../Loader/Loader";
 
 const CommentsByPost = ({ postUid }) => {
   const [commentsCount, setCommentsCount] = useState(0);

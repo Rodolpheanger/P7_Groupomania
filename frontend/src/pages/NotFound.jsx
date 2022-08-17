@@ -6,6 +6,10 @@ const NotFound = () => {
   const [count, setCount] = useState(5);
 
   useEffect(() => {
+    document.title = "Page non trouvé";
+  }, []);
+
+  useEffect(() => {
     const timeLeft = () => {
       setInterval(() => {
         setCount(count - 1);

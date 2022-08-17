@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 
 const PostHeaderButtons = ({

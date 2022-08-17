@@ -1,5 +1,5 @@
-import { useFormikContext } from "formik";
 import { useContext, useEffect, useState } from "react";
+import { useFormikContext } from "formik";
 import { CharCountContext } from "../../contexts/charCount.context";
 
 const TextArea = ({ field, form, currentCharCount, ...props }) => {

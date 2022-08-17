@@ -2,22 +2,22 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import dateParser from "../utils/date.utils";
+import Loader from "../components/Loader/Loader";
 import Header from "../components/Header/Header";
 import ProfilAvatar from "../components/Profil/ProfilAvatar";
 import ModalWrapper from "../components/Modals/ModalWrapper";
+import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
+import ProfilBodyEditionModal from "../components/Modals/ProfilBodyEditionModal";
 import PasswordEditionModal from "../components/Modals/PasswordEditionModal";
 import ConfirmationModal from "../components/Modals/ConfirmationModal";
 import ValidationModal from "../components/Modals/ValidationModal";
 import { TokenContext } from "../contexts/token.context";
 import { UserUidContext } from "../contexts/userUid.context";
 import { UserRoleContext } from "../contexts/userRole.context";
-import { ThumbImgContext } from "../contexts/thumbnailImg.context.jsx";
-import { OldImgUrlContext } from "../contexts/oldImgUrl.context.jsx";
-import AvatarEditionModal from "../components/Modals/AvatarEditionModal";
+import { ThumbImgContext } from "../contexts/thumbnailImg.context";
+import { OldImgUrlContext } from "../contexts/oldImgUrl.context";
 import { NewImgUrlContext } from "../contexts/newImageUrl.context";
-import ProfilBodyEditionModal from "../components/Modals/ProfilBodyEditionModal";
 import { ReloadContext } from "../contexts/reload.context";
-import Loader from "../components/Loader/Loader";
 import { CharCountContext } from "../contexts/charCount.context";
 
 const Profil = () => {
@@ -167,6 +167,10 @@ const Profil = () => {
       ></ValidationModal>
     </ModalWrapper>
   );
+
+  useEffect(() => {
+    document.title = `Profil de ${username}`;
+  }, [username]);
 
   useEffect(() => {
     setIsloading(true);

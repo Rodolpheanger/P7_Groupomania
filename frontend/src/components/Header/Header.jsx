@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../styles/assets/img/icons/icon-left-font-monochrome-black.png";
-import ConfirmationModal from "../Modals/ConfirmationModal";
 import ModalWrapper from "../Modals/ModalWrapper";
+import ConfirmationModal from "../Modals/ConfirmationModal";
 
 const Header = () => {
   const navigate = useNavigate();

@@ -1,13 +1,12 @@
-import React, { Fragment, useState } from "react";
-import { Formik, Field, ErrorMessage, Form } from "formik";
-import CustomError from "../Form/ErrorMessage";
-import * as Yup from "yup";
-import "../../config/axios-config.js";
+import { Fragment, useState } from "react";
 import * as axios from "axios";
+import * as Yup from "yup";
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import TextInput from "../Form/TextInput.jsx";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
+import ClientErrorMessage from "../Form/ClientErrorMessage";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
-import TextInput from "../Form/TextInput";
 
 const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
   const [displayModal, setDisplayModal] = useState(false);
@@ -89,7 +88,7 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
                 component={TextInput}
                 type="text"
               />
-              <ErrorMessage name="username" component={CustomError} />
+              <ErrorMessage name="username" component={ClientErrorMessage} />
               <br />
               <Field
                 name="email"
@@ -97,7 +96,7 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
                 component={TextInput}
                 type="email"
               />
-              <ErrorMessage name="email" component={CustomError} />
+              <ErrorMessage name="email" component={ClientErrorMessage} />
               <br />
               <Field
                 name="password"
@@ -105,7 +104,7 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
                 component={TextInput}
                 type="password"
               />
-              <ErrorMessage name="password" component={CustomError} />
+              <ErrorMessage name="password" component={ClientErrorMessage} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
               <button className="btn btn-submit" type="submit">

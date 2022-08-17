@@ -1,14 +1,14 @@
 import { Fragment, useContext, useState } from "react";
+import * as axios from "axios";
+import { Form, Formik } from "formik";
 import FileInput from "../Form/FileInput";
 import Thumbnail from "../Form/Thumbnail";
-import { Form, Formik } from "formik";
-import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
-import * as axios from "axios";
-import { TokenContext } from "../../contexts/token.context";
 import ModalWrapper from "../Modals/ModalWrapper";
 import ValidationModal from "../Modals/ValidationModal";
-import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
+import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
+import { TokenContext } from "../../contexts/token.context";
+import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
 
 const AvatarForm = ({ avatarOwnerUid, closeAvatarEditionModal }) => {
   const [displayValidationModal, setDisplayValidationModal] = useState(false);

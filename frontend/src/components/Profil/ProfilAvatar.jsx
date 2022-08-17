@@ -1,6 +1,6 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment, useContext } from "react";
+import Avatar from "../Avatar/Avatar";
 import { UserUidContext } from "../../contexts/userUid.context";
-import { Avatar } from "../Avatar/Avatar";
 
 const ProfilAvatar = ({ avatarUrl, username, uid, setAvatar }) => {
   const [userUid] = useContext(UserUidContext);

@@ -1,14 +1,14 @@
-import * as axios from "axios";
 import { Fragment, useContext, useState } from "react";
-import { TokenContext } from "../../contexts/token.context";
-import CommentsBodyButtons from "./CommentsBodyButtons";
-import dateParser from "../../utils/date.utils";
+import * as axios from "axios";
 import { Link } from "react-router-dom";
-import { Avatar } from "../Avatar/Avatar";
+import dateParser from "../../utils/date.utils";
+import Avatar from "../Avatar/Avatar";
+import CommentsBodyButtons from "./CommentsBodyButtons";
 import ModalWrapper from "../Modals/ModalWrapper";
 import CommentEditionModal from "../Modals/CommentEditionModal";
 import ValidationModal from "../Modals/ValidationModal";
 import ConfirmationModal from "../Modals/ConfirmationModal";
+import { TokenContext } from "../../contexts/token.context";
 
 const Comment = ({ comment, refresh, displayComment, setRefresh }) => {
   const [displayCommentEditionModal, setDisplayCommentEditionModal] =

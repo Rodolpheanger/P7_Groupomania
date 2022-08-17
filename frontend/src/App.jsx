@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import "./config/axios-config.js";
 import AppRoutes from "./routes";
 import { localAuthDatas } from "./utils/auth.utils";
 import { TokenContext } from "./contexts/token.context";

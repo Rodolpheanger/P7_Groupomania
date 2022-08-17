@@ -1,8 +1,8 @@
+import { useContext, useEffect, useState } from "react";
 import * as axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 import { TokenContext } from "../../contexts/token.context";
 import { UserUidContext } from "../../contexts/userUid.context";
-import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const Likes = ({ postUid }) => {
   const grrr = 0;

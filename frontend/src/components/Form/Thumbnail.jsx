@@ -1,11 +1,11 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useFormikContext } from "formik";
+import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
+import CloseBtn from "../Buttons/CloseBtn";
 import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
 import { OldImgUrlContext } from "../../contexts/oldImgUrl.context";
 import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
-import CloseBtn from "../Buttons/CloseBtn";
-import defaultAvatar from "../../styles/assets/img/icons/abstract-user-flat-4.png";
-import { useFormikContext } from "formik";
-import { useLocation } from "react-router-dom";
 
 const Thumbnail = ({ className }) => {
   const [imageToDisplay, setImageToDisplay] = useState("");

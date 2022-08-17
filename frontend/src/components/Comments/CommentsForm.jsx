@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import CustomError from "../Form/ErrorMessage";
 import TextArea from "../Form/TexteArea";
+import ClientErrorMessage from "../Form/ClientErrorMessage";
 import ServerErrorMessage from "../Form/ServerErrorMessage";
 
 const CommentsForm = ({
@@ -44,7 +44,7 @@ const CommentsForm = ({
                 className="comment-form-textarea"
                 autoFocus={modal && true}
               />
-              <ErrorMessage name="content" component={CustomError} />
+              <ErrorMessage name="content" component={ClientErrorMessage} />
               <ServerErrorMessage message={serverErrorMessage} />
             </div>
             <button type="submit" className="btn comment-form-button">

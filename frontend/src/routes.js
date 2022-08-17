@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Users from "./pages/Users.jsx";
+import Home from "./pages/Home";
+import Users from "./pages/Users";
 import Auth from "./pages/Auth";
 import Profil from "./pages/Profil";
-import Posts from "./pages/Posts.jsx";
-import NotFound from "./pages/NotFound.jsx";
-import AuthenticatedRoute from "./components/ProtectedRoutes/AuthenticatedRoute.jsx";
+import Posts from "./pages/Posts";
+import NotFound from "./pages/NotFound";
+import AuthenticatedRoute from "./components/ProtectedRoutes/AuthenticatedRoute";
 
 const AppRoutes = () => {
   return (

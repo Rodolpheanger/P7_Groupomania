@@ -1,8 +1,8 @@
 import { useContext, useRef, useState } from "react";
-import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
 import { useLocation } from "react-router-dom";
-import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
 import { useFormikContext } from "formik";
+import { ThumbImgContext } from "../../contexts/thumbnailImg.context";
+import { NewImgUrlContext } from "../../contexts/newImageUrl.context";
 
 const FileInput = () => {
   const [fileErrorMsg, setFileErrorMsg] = useState(false);

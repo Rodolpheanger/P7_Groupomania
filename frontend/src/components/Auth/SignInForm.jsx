@@ -1,16 +1,16 @@
-import React, { Fragment, useContext, useState } from "react";
-import { Formik, Field, ErrorMessage, Form } from "formik";
-import CustomError from "../Form/ErrorMessage";
-import * as Yup from "yup";
+import { Fragment, useContext, useState } from "react";
 import * as axios from "axios";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import TextInput from "../Form/TextInput";
+import ModalWrapper from "../Modals/ModalWrapper";
+import ValidationModal from "../Modals/ValidationModal";
+import ClientErrorMessage from "../Form/ClientErrorMessage";
+import ServerErrorMessage from "../Form/ServerErrorMessage";
 import { TokenContext } from "../../contexts/token.context";
 import { UserRoleContext } from "../../contexts/userRole.context";
 import { UserUidContext } from "../../contexts/userUid.context";
-import { useNavigate } from "react-router-dom";
-import ServerErrorMessage from "../Form/ServerErrorMessage";
-import ModalWrapper from "../Modals/ModalWrapper";
-import ValidationModal from "../Modals/ValidationModal";
-import TextInput from "../Form/TextInput";
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ const SignInForm = () => {
                 component={TextInput}
                 type="email"
               />
-              <ErrorMessage name="email" component={CustomError} />
+              <ErrorMessage name="email" component={ClientErrorMessage} />
               <br />
               <Field
                 name="password"
@@ -93,7 +93,7 @@ const SignInForm = () => {
                 component={TextInput}
                 type="password"
               />
-              <ErrorMessage name="password" component={CustomError} />
+              <ErrorMessage name="password" component={ClientErrorMessage} />
               <br />
               <ServerErrorMessage message={serverErrorMessage} />
               <button className="btn btn-submit" type="submit">
