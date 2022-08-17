@@ -48,19 +48,6 @@ const getOnePost = async (req, res) => {
     }
 };
 exports.getOnePost = getOnePost;
-// * INFO: non utilisé
-// export const getPostsByAuthor = async (
-//   req: Request,
-//   res: Response
-// ): Promise<void> => {
-//   const authorUid = req.params.id;
-//   try {
-//     const data = await serviceGetPostsByAuthor(authorUid);
-//     if (data) res.status(200).json(data);
-//   } catch (err) {
-//     errorResponse(err, res);
-//   }
-// };
 const updatePost = async (req, res) => {
     const file = req.file;
     const postUid = req.params.id;

@@ -21,11 +21,6 @@ const PostForm = ({ close, submit, title, content, serverErrorMessage }) => {
       .required("Ce champ est obligatoire"),
   });
 
-  // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
-  // ! FIXME: si ajout image puis retrait au clic sur le bouton fermer du thumbnail, impossible d'ajouter la même image à nouveau (une autre image fonctionne) !!!
-  // ??? Fonctionne sur Firefox uniquement ????
-  // ! ------------------------------------------------------------------------------------------------------------------------------------------------------------
-
   return (
     <article className="post-form">
       <Formik

@@ -11,8 +11,6 @@ const multer_middleware_1 = require("../middleware/multer.middleware");
 const post_validation_middleware_1 = require("../middleware/post-validation.middleware");
 router.post("/", auth_middleware_1.default, multer_middleware_1.uploadPostImage, post_validation_middleware_1.postValidation, posts_controllers_1.createPost);
 router.get("/", auth_middleware_1.default, posts_controllers_1.getAllPosts);
-// * INFO: non utilisé
-// router.get("/author/:id", auth, postValidation, getPostsByAuthor);
 router.get("/:id", auth_middleware_1.default, posts_controllers_1.getOnePost);
 router.put("/:id", auth_middleware_1.default, multer_middleware_1.uploadPostImage, post_validation_middleware_1.postValidation, posts_controllers_1.updatePost);
 router.delete("/:id", auth_middleware_1.default, posts_controllers_1.deletePost);

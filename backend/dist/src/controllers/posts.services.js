@@ -38,19 +38,6 @@ const serviceGetOnePost = (postUid) => {
     });
 };
 exports.serviceGetOnePost = serviceGetOnePost;
-// * INFO: non utilisé
-// export const serviceGetPostsByAuthor = (
-//   authorUid: string
-// ): Promise<QueryError | RowDataPacket[]> => {
-//   return new Promise((resolve, reject) => {
-//     const sql: string =
-//       "SELECT p_uid, p_content, p_post_img_url, p_creation_date, p_title, p_modification_date, u_username FROM users INNER JOIN posts ON u_id = p_fk_user_id WHERE u_uid = ?";
-//     const value: any = [authorUid];
-//     db.execute(sql, value, (err: QueryError | null, rows: RowDataPacket[]) => {
-//       err ? (console.log(err), reject(Error("query error"))) : resolve(rows);
-//     });
-//   });
-// };
 const serviceUpdatePost = async (file, postUid, content, title, post_image, requestUserUid, protocol, host) => {
     const datas = await (0, posts_utils_1.checkIfUserIsPostOwnerAndGetDatas)(file, postUid);
     const { postOwner, postId, postImgUrl } = datas;
