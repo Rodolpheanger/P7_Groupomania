@@ -17,19 +17,29 @@ const PasswordEditionForm = ({ close }) => {
   const [token] = useContext(TokenContext);
   const PasswordSchema = Yup.object().shape({
     oldPassword: Yup.string()
-      .min(8, "Votre mot de passe doit comporter au moins 8 caractères")
-      .max(50, "Votre mot de passe ne doit pas comporter plus de 50 caractères")
-      .required("Ce champ est obligatoire"),
+      .required("Ce champ est obligatoire")
+      .matches(
+        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        "Doit contenir entre 8 et 15 caractères, avec au moins une majuscule, une minuscule, un chiffre et un caractère spécial"
+      ),
+
     newPassword: Yup.string()
-      .min(8, "Votre mot de passe doit comporter au moins 8 caractères")
-      .max(50, "Votre mot de passe ne doit pas comporter plus de 50 caractères")
-      .required("Ce champ est obligatoire"),
+      .required("Ce champ est obligatoire")
+      .matches(
+        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        "Doit contenir entre 8 et 15 caractères, avec au moins une majuscule, une minuscule, un chiffre et un caractère spécial"
+      ),
+
     confirmPassword: Yup.string()
       .oneOf(
         [Yup.ref("newPassword"), null],
         "Les mots de passe ne correspondent pas"
       )
-      .required("Ce champ est obligatoire"),
+      .required("Ce champ est obligatoire")
+      .matches(
+        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        "Doit contenir entre 8 et 15 caractères, avec au moins une majuscule, une minuscule, un chiffre et un caractère spécial"
+      ),
   });
 
   const closeValidationModal = () => {

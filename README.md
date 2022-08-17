@@ -53,7 +53,7 @@ Les contraintes techniques pour ce projet sont les suivantes :
 - Pour se connecter avec ce compte, utilser les identifiants suivants :
 
   - _Email:_ **`admin@test.fr`**
-  - _Mot de passe:_ **`123456789`**
+  - _Mot de passe:_ **`Test123$`**
 
 _note: seul **l'administrateur de la base de donnée** peut attribuer et modifier les droits des utilisateurs, cette action n'est pas possible via l'application, y compris avec le compte administrateur_
 
@@ -62,8 +62,6 @@ _note: seul **l'administrateur de la base de donnée** peut attribuer et modifie
 ## 3. Backend : <a name = "backend"></a>
 
 - ### Dans le dossier **`backend`** :
-
-  - Créer un dossier nommé **`uploads`** à la racine puis y créer 2 sous-dossiers: **`avatars`** et **`posts_images`**
 
   - Créer un fichier **`.env`** **à la racine de `backend`**, et le compléter suivant le modèle fourni (**`.env.example`**)
 

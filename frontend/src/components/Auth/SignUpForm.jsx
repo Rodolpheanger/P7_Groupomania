@@ -37,15 +37,11 @@ const SignupForm = ({ setSignInCard, setSignUpCard, setForgetPassword }) => {
       .email("Format de l'email invalide")
       .required("Ce champ est obligatoire"),
     password: Yup.string()
-      .min(
-        8,
-        "Votre mot de passe doit comporter au moins 8 caractères (max 50)"
-      )
-      .max(
-        50,
-        "Votre mot de passe ne doit pas comporter plus de 50 caractères (min 8)"
-      )
-      .required("Ce champ est obligatoire"),
+      .required("Ce champ est obligatoire")
+      .matches(
+        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        "Doit contenir entre 8 et 15 caractères, avec au moins une majuscule, une minuscule, un chiffre et un caractère spécial"
+      ),
   });
 
   const submit = async (values) => {

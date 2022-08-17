@@ -36,7 +36,7 @@ SET
 CREATE TABLE
   `comments` (
     `c_id` int(11) NOT NULL,
-    `c_uid` text NOT NULL,
+    `c_uid` varchar(100) NOT NULL,
     `c_content` varchar(255) NOT NULL,
     `c_creation_date` datetime NOT NULL DEFAULT current_timestamp(),
     `c_modification_date` datetime DEFAULT NULL ON UPDATE current_timestamp(),
@@ -51,7 +51,7 @@ CREATE TABLE
 CREATE TABLE
   `posts` (
     `p_id` int(11) NOT NULL,
-    `p_uid` text NOT NULL,
+    `p_uid` varchar(100) NOT NULL,
     `p_content` text DEFAULT NULL,
     `p_post_img_url` varchar(255) DEFAULT NULL,
     `p_creation_date` datetime DEFAULT current_timestamp(),
@@ -79,7 +79,7 @@ CREATE TABLE
 CREATE TABLE
   `users` (
     `u_id` int(11) NOT NULL,
-    `u_uid` text NOT NULL,
+    `u_uid` varchar(100) NOT NULL,
     `u_username` varchar(50) NOT NULL,
     `u_email` varchar(150) NOT NULL,
     `u_password` varchar(255) DEFAULT NULL,
@@ -110,7 +110,7 @@ VALUES
     UUID(),
     'Admin',
     'admin@test.fr',
-    '$2b$10$JO4QL5CL1i73tkqSEYPiCOX0EwioC9aTejqOFzTqD2uuydObH10Fi',
+    '$2b$10$GYVtTnxrL1O.PpPrzqSqHOXNGrXOCZ0oduLxSW1f.2yb.IO8WIHle',
     NOW(),
     'admin'
   );

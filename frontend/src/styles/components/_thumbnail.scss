@@ -1,17 +1,15 @@
 .thumbnail-wrapper {
   position: relative;
   margin: 15px 0;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .thumbnail {
-  width: 100%;
+  width: auto;
   -o-object-fit: cover;
   object-fit: cover;
   border-radius: 15px;
   box-shadow: $small-shadow;
-}
-.thumbnail-post {
-  width: 45%;
-}
-.thumbnail-avatar {
-  width: 75%;
+  max-height: 200px;
 }
