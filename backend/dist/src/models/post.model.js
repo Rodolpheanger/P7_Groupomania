@@ -27,7 +27,7 @@ exports.postSchema = void 0;
 const yup = __importStar(require("yup"));
 exports.postSchema = yup.object().shape({
     uid: yup.string().uuid(),
-    content: yup.string().max(500, "Contenu trop long (500 caractères max)"),
+    content: yup.string().max(500, "Contenu trop long (255 caractères max)"),
     title: yup.string().max(255, "Titre trop long (255 caractères max"),
     author: yup.string().uuid(),
 });
